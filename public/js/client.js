@@ -15,7 +15,7 @@
  * @license For commercial use or closed source, contact us at license.mirotalk@gmail.com or purchase directly from CodeCanyon
  * @license CodeCanyon: https://codecanyon.net/item/mirotalk-p2p-webrtc-realtime-video-conferences/38376661
  * @author  Miroslav Pejic - miroslav.pejic.85@gmail.com
- * @version 1.7.31
+ * @version 1.7.32
  *
  */
 
@@ -2209,7 +2209,7 @@ async function changeLocalMicrophone(deviceId) {
             logStreamSettingsInfo('Success attached local microphone stream', micStream);
             getMicrophoneVolumeIndicator(micStream);
 
-            if (lsSettings.mic_noise_suppression) {
+            if (lsSettings.mic_noise_suppression && buttons.settings.customNoiseSuppression) {
                 const ok = await enableNoiseSuppression();
                 if (!ok) {
                     await refreshMyStreamToPeers(micStream, true);
@@ -6795,31 +6795,35 @@ function setupMySettings() {
         refreshLsDevices();
     });
     // audio options
-    switchNoiseSuppression.onchange = async (e) => {
-        if (!buttons.settings.customNoiseSuppression) return;
-        const desired = e.currentTarget.checked;
+    if (!buttons.settings.customNoiseSuppression) {
+        elemDisplay(switchNoiseSuppression, false);
+    } else {
+        switchNoiseSuppression.onchange = async (e) => {
+            if (!buttons.settings.customNoiseSuppression) return;
+            const desired = e.currentTarget.checked;
 
-        if (desired) {
-            lsSettings.mic_noise_suppression = true;
-            lS.setSettings(lsSettings);
+            if (desired) {
+                lsSettings.mic_noise_suppression = true;
+                lS.setSettings(lsSettings);
 
-            const ok = await enableNoiseSuppression();
-            if (!ok) {
+                const ok = await enableNoiseSuppression();
+                if (!ok) {
+                    lsSettings.mic_noise_suppression = false;
+                    lS.setSettings(lsSettings);
+                    e.currentTarget.checked = false;
+                    toastMessage('warning', 'Noise suppression unavailable');
+                } else {
+                    toastMessage('success', 'Noise suppression enabled');
+                }
+            } else {
                 lsSettings.mic_noise_suppression = false;
                 lS.setSettings(lsSettings);
-                e.currentTarget.checked = false;
-                toastMessage('warning', 'Noise suppression unavailable');
-            } else {
-                toastMessage('success', 'Noise suppression enabled');
+                await disableNoiseSuppression(true);
+                toastMessage('info', 'Noise suppression disabled');
             }
-        } else {
-            lsSettings.mic_noise_suppression = false;
-            lS.setSettings(lsSettings);
-            await disableNoiseSuppression(true);
-            toastMessage('info', 'Noise suppression disabled');
-        }
-        e.target.blur();
-    };
+            e.target.blur();
+        };
+    }
     // select audio output
     audioOutputSelect.addEventListener('change', async () => {
         await changeAudioDestination();
@@ -7290,7 +7294,7 @@ function getAudioConstraints(deviceId = null) {
     const audioConstraints = {
         echoCancellation: true, // Prevents echo/feedback
         autoGainControl: true, // Automatically adjusts microphone volume
-        noiseSuppression: false, // Use RNNoise instead
+        noiseSuppression: !buttons.settings.customNoiseSuppression, // Use RNNoise instead
     };
     /* 
     deviceId handling is platform-dependent:
@@ -13660,7 +13664,7 @@ function showAbout() {
     Swal.fire({
         background: swBg,
         position: 'center',
-        title: brand.about?.title && brand.about.title.trim() !== '' ? brand.about.title : 'WebRTC P2P v1.7.31',
+        title: brand.about?.title && brand.about.title.trim() !== '' ? brand.about.title : 'WebRTC P2P v1.7.32',
         imageUrl: brand.about?.imageUrl && brand.about.imageUrl.trim() !== '' ? brand.about.imageUrl : images.about,
         customClass: { image: 'img-about' },
         html: `
