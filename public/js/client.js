@@ -15,7 +15,7 @@
  * @license For commercial use or closed source, contact us at license.mirotalk@gmail.com or purchase directly from CodeCanyon
  * @license CodeCanyon: https://codecanyon.net/item/mirotalk-p2p-webrtc-realtime-video-conferences/38376661
  * @author  Miroslav Pejic - miroslav.pejic.85@gmail.com
- * @version 1.7.32
+ * @version 1.7.33
  *
  */
 
@@ -581,6 +581,7 @@ let allPeers = {}; // keep track of all peers in the room, indexed by peer_id ==
 let lastStats = null;
 
 // stream
+let isRNNoiseSupported = true; // Built in noise supression
 let initStream; // initial webcam stream
 let localVideoMediaStream; // my webcam
 let localScreenMediaStream; // my screen share
@@ -1617,7 +1618,7 @@ function handleButtonsRule() {
         { element: tabRoomParticipants, display: buttons.settings.showTabRoomParticipants },
         { element: tabRoomSecurity, display: buttons.settings.showTabRoomSecurity },
         { element: tabEmailInvitation, display: buttons.settings.showTabEmailInvitation },
-        { element: noiseSuppressionBtn, display: buttons.settings.customNoiseSuppression },
+        { element: noiseSuppressionBtn, display: buttons.settings.customNoiseSuppression && isRNNoiseSupported },
     ]);
 
     // Whiteboard
@@ -2248,33 +2249,87 @@ function checkPeerAudioVideo() {
 }
 
 /**
- * Enable RNNoise audio processing for noise suppression
+ * Initialize RNNoise suppression: check availability early and mark
+ * the feature as unsupported when the processor class is missing or
+ * the browser lacks AudioWorklet / WebAssembly.
+ * Call once during startup, before any audio stream is created.
+ */
+function initRNNoiseSuppression() {
+    if (typeof RNNoiseProcessor === 'undefined') {
+        console.warn('RNNoiseProcessor class is not available (script not loaded).');
+        handleRNNoiseNotSupported();
+        return;
+    }
+
+    if (!RNNoiseProcessor.isSupported()) {
+        console.warn('RNNoise: AudioWorklet or WebAssembly not supported on this device, skipping.');
+        handleRNNoiseNotSupported();
+        return;
+    }
+
+    // Tear down any leftover processor from a previous session / hot-reload.
+    stopNoiseSuppressionPipeline();
+
+    console.log('RNNoise suppression initialized — ready to activate.');
+}
+
+/**
+ * Noise suppression not supported — hide the UI toggle and flag it.
+ */
+function handleRNNoiseNotSupported() {
+    isRNNoiseSupported = false;
+    // Uncheck the toggle so localStorage stays consistent
+    if (switchNoiseSuppression) switchNoiseSuppression.checked = false;
+    lsSettings.mic_noise_suppression = false;
+    lS.setSettings(lsSettings);
+    // Hide the custom noise suppression toggle in audio settings
+    elemDisplay(noiseSuppressionBtn, false);
+}
+
+/**
+ * Enable RNNoise audio processing for noise suppression.
+ * Returns true on success, false on failure.
  */
 async function enableNoiseSuppression() {
     if (!localAudioMediaStream || localAudioMediaStream.getAudioTracks().length === 0) {
-        userLog('error', 'No local audio stream available for noise suppression.');
+        console.warn('enableNoiseSuppression: no local audio stream available.');
+        return false;
+    }
+
+    // Guard: processor class must exist and be supported
+    if (typeof RNNoiseProcessor === 'undefined' || !RNNoiseProcessor.isSupported()) {
+        console.warn('RNNoise: not available or not supported on this device, skipping.');
+        handleRNNoiseNotSupported();
         return false;
     }
 
     // Reset any existing pipeline to avoid keeping stale/ended streams.
     stopNoiseSuppressionPipeline();
 
-    noiseProcessor = new RNNoiseProcessor();
-    // Keep a reference to the raw microphone stream for safe restore.
-    noiseProcessor.originalStream = localAudioMediaStream;
+    try {
+        noiseProcessor = new RNNoiseProcessor();
+        // Keep a reference to the raw microphone stream for safe restore.
+        noiseProcessor.originalStream = localAudioMediaStream;
 
-    const processedStream = await noiseProcessor.startProcessing(localAudioMediaStream);
-    if (!processedStream || processedStream.getAudioTracks().length === 0) {
-        userLog('warning', 'Noise suppression unavailable, using raw microphone.');
+        const processedStream = await noiseProcessor.startProcessing(localAudioMediaStream);
+
+        if (!processedStream || processedStream.getAudioTracks().length === 0) {
+            console.warn('Noise suppression returned no usable stream, falling back to raw mic.');
+            stopNoiseSuppressionPipeline();
+            await refreshMyStreamToPeers(localAudioMediaStream, true);
+            return false;
+        }
+
+        noiseProcessor.toggleNoiseSuppression();
+        localAudioMediaStream = processedStream;
+        await refreshMyStreamToPeers(localAudioMediaStream, true);
+        return true;
+    } catch (err) {
+        console.error('enableNoiseSuppression error:', err);
         stopNoiseSuppressionPipeline();
         await refreshMyStreamToPeers(localAudioMediaStream, true);
         return false;
     }
-
-    noiseProcessor.toggleNoiseSuppression();
-    localAudioMediaStream = processedStream;
-    await refreshMyStreamToPeers(localAudioMediaStream, true);
-    return true;
 }
 
 /**
@@ -2294,15 +2349,17 @@ async function disableNoiseSuppression(restoreOriginalStream = true) {
 }
 
 /**
- * Stop RNNoise audio processing pipeline
+ * Stop RNNoise audio processing pipeline and release all references.
  */
 function stopNoiseSuppressionPipeline() {
     if (!noiseProcessor) return;
     try {
         noiseProcessor.stopProcessing();
     } catch (err) {
-        // ignore
+        console.warn('stopNoiseSuppressionPipeline: cleanup error ignored', err);
     }
+    // Drop the reference to the original mic stream so it can be GC'd.
+    noiseProcessor.originalStream = null;
     noiseProcessor = null;
 }
 
@@ -3563,6 +3620,9 @@ async function setupLocalAudioMedia() {
 
     console.log('Requesting access to audio inputs');
 
+    // Check RNNoise support early, before audio streams are created.
+    initRNNoiseSuppression();
+
     const audioConstraints = useAudio ? getAudioConstraints() : { audio: false };
 
     try {
@@ -3572,6 +3632,14 @@ async function setupLocalAudioMedia() {
             if (useAudio) {
                 localAudioMediaStream = stream;
                 console.log('10. Access granted to audio device');
+
+                // Auto-enable noise suppression if the user had it active in a previous session.
+                if (lsSettings.mic_noise_suppression && isRNNoiseSupported && buttons.settings.customNoiseSuppression) {
+                    const ok = await enableNoiseSuppression();
+                    if (!ok) {
+                        console.warn('Auto noise-suppression failed on startup, continuing with raw mic.');
+                    }
+                }
             }
         }
     } catch (err) {
@@ -6794,36 +6862,34 @@ function setupMySettings() {
         await changeLocalMicrophone(audioInputSelect.value);
         refreshLsDevices();
     });
+
     // audio options
-    if (!buttons.settings.customNoiseSuppression) {
-        elemDisplay(switchNoiseSuppression, false);
-    } else {
-        switchNoiseSuppression.onchange = async (e) => {
-            if (!buttons.settings.customNoiseSuppression) return;
-            const desired = e.currentTarget.checked;
+    switchNoiseSuppression.onchange = async (e) => {
+        if (!buttons.settings.customNoiseSuppression) return;
+        const desired = e.currentTarget.checked;
 
-            if (desired) {
-                lsSettings.mic_noise_suppression = true;
-                lS.setSettings(lsSettings);
+        if (desired) {
+            lsSettings.mic_noise_suppression = true;
+            lS.setSettings(lsSettings);
 
-                const ok = await enableNoiseSuppression();
-                if (!ok) {
-                    lsSettings.mic_noise_suppression = false;
-                    lS.setSettings(lsSettings);
-                    e.currentTarget.checked = false;
-                    toastMessage('warning', 'Noise suppression unavailable');
-                } else {
-                    toastMessage('success', 'Noise suppression enabled');
-                }
-            } else {
+            const ok = await enableNoiseSuppression();
+            if (!ok) {
                 lsSettings.mic_noise_suppression = false;
                 lS.setSettings(lsSettings);
-                await disableNoiseSuppression(true);
-                toastMessage('info', 'Noise suppression disabled');
+                e.currentTarget.checked = false;
+                toastMessage('warning', 'Noise suppression unavailable');
+            } else {
+                toastMessage('success', 'Noise suppression enabled');
             }
-            e.target.blur();
-        };
-    }
+        } else {
+            lsSettings.mic_noise_suppression = false;
+            lS.setSettings(lsSettings);
+            await disableNoiseSuppression(true);
+            toastMessage('info', 'Noise suppression disabled');
+        }
+        e.target.blur();
+    };
+
     // select audio output
     audioOutputSelect.addEventListener('change', async () => {
         await changeAudioDestination();
@@ -7290,11 +7356,14 @@ function getVideoConstraints(videoQuality) {
  * @returns {object} audio constraints
  */
 function getAudioConstraints(deviceId = null) {
+    // If custom RNNoise is enabled but not supported, fall back to built-in WebRTC noise suppression
+    const useBuiltInNoiseSuppression = !buttons.settings.customNoiseSuppression || !isRNNoiseSupported;
+
     // Enhanced audio constraints for better quality and volume on all devices
     const audioConstraints = {
         echoCancellation: true, // Prevents echo/feedback
         autoGainControl: true, // Automatically adjusts microphone volume
-        noiseSuppression: !buttons.settings.customNoiseSuppression, // Use RNNoise instead
+        noiseSuppression: useBuiltInNoiseSuppression, // Use RNNoise instead
     };
     /* 
     deviceId handling is platform-dependent:
@@ -13664,7 +13733,7 @@ function showAbout() {
     Swal.fire({
         background: swBg,
         position: 'center',
-        title: brand.about?.title && brand.about.title.trim() !== '' ? brand.about.title : 'WebRTC P2P v1.7.32',
+        title: brand.about?.title && brand.about.title.trim() !== '' ? brand.about.title : 'WebRTC P2P v1.7.33',
         imageUrl: brand.about?.imageUrl && brand.about.imageUrl.trim() !== '' ? brand.about.imageUrl : images.about,
         customClass: { image: 'img-about' },
         html: `
