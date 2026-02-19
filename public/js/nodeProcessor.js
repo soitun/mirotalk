@@ -156,16 +156,9 @@ class RNNoiseProcessor {
                 return null;
             }
 
-            this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            this.audioContext = new (window.AudioContext || window.webkitAudioContext)({ sampleRate: 48000 });
             const sampleRate = this.audioContext.sampleRate;
             this.uiManager.updateStatus(`🎵 Audio context created with sample rate: ${sampleRate}Hz`, 'info');
-
-            if (sampleRate !== 48000) {
-                this.uiManager.updateStatus(
-                    `⚠️ Sample rate ${sampleRate}Hz differs from RNNoise expected 48000Hz, quality may be affected`,
-                    'warning'
-                );
-            }
 
             if (this.audioContext.state === 'suspended') {
                 try {
