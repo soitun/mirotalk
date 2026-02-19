@@ -15,7 +15,7 @@
  * @license For commercial use or closed source, contact us at license.mirotalk@gmail.com or purchase directly from CodeCanyon
  * @license CodeCanyon: https://codecanyon.net/item/mirotalk-p2p-webrtc-realtime-video-conferences/38376661
  * @author  Miroslav Pejic - miroslav.pejic.85@gmail.com
- * @version 1.7.34
+ * @version 1.7.35
  *
  */
 
@@ -1976,9 +1976,14 @@ async function loadLocalStorage() {
         await changeInitCamera(initVideoSelect.value);
         await handleLocalCameraMirror();
     }
-    // Refresh audio
+    // Refresh audio — skip if the current mic already matches the stored device
+    // to avoid tearing down and rebuilding the noise-suppression pipeline unnecessarily.
     if (useAudio && audioInputSelect.value) {
-        await changeLocalMicrophone(audioInputSelect.value);
+        const currentMicStream = noiseProcessor?.originalStream || localAudioMediaStream;
+        const currentMicDeviceId = getAudioTrack(currentMicStream)?.getSettings?.()?.deviceId;
+        if (currentMicDeviceId !== audioInputSelect.value) {
+            await changeLocalMicrophone(audioInputSelect.value);
+        }
     }
     // Refresh speaker
     if (audioOutputSelect.value) await changeAudioDestination();
@@ -13733,7 +13738,7 @@ function showAbout() {
     Swal.fire({
         background: swBg,
         position: 'center',
-        title: brand.about?.title && brand.about.title.trim() !== '' ? brand.about.title : 'WebRTC P2P v1.7.34',
+        title: brand.about?.title && brand.about.title.trim() !== '' ? brand.about.title : 'WebRTC P2P v1.7.35',
         imageUrl: brand.about?.imageUrl && brand.about.imageUrl.trim() !== '' ? brand.about.imageUrl : images.about,
         customClass: { image: 'img-about' },
         html: `
