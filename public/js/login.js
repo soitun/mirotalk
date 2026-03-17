@@ -4,6 +4,7 @@ console.log(window.location);
 
 const usernameInput = document.getElementById('username');
 const passwordInput = document.getElementById('password');
+const togglePassword = document.getElementById('togglePassword');
 const loginBtn = document.getElementById('loginButton');
 const joinRoomForm = document.getElementById('joinRoomForm');
 const roomNameInput = document.getElementById('roomName');
@@ -25,6 +26,13 @@ passwordInput.onkeyup = (e) => {
 
 loginBtn.onclick = (e) => {
     login();
+};
+
+togglePassword.onclick = () => {
+    const isPassword = passwordInput.type === 'password';
+    passwordInput.type = isPassword ? 'text' : 'password';
+    togglePassword.classList.toggle('fa-eye', !isPassword);
+    togglePassword.classList.toggle('fa-eye-slash', isPassword);
 };
 
 function login() {

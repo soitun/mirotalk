@@ -92,7 +92,7 @@
     position: relative;
     margin-bottom: 16px;
 }
-.login-input-group i {
+.login-input-group i:not(.toggle-password) {
     position: absolute;
     left: 14px;
     top: 50%;
@@ -105,8 +105,29 @@
 .login-input-group .form-input {
     padding-left: 42px;
 }
-.login-input-group:focus-within i {
+.login-input-group:focus-within i:not(.toggle-password) {
     color: #4678f9;
+}
+
+/* Toggle password visibility */
+.login-input-group .toggle-password {
+    position: absolute;
+    right: 14px;
+    left: auto;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #6b7a85;
+    font-size: 14px;
+    cursor: pointer;
+    pointer-events: all;
+    z-index: 2;
+    transition: color 0.2s ease;
+}
+.toggle-password:hover {
+    color: #4678f9;
+}
+.login-input-group .form-input:has(~ .toggle-password) {
+    padding-right: 42px;
 }
 
 /* Login button */
