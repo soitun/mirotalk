@@ -76,73 +76,75 @@
                             <div class="split-wrap invert-mobile">
                                 <div class="split-item">
                                     <div class="hero-content split-item-content center-content-mobile">
-                                        <div class="login-card reveal-from-bottom" data-reveal-delay="150">
-                                            <div id="loginForm">
-                                                <div class="login-icon">
-                                                    <i class="fa-solid fa-lock"></i>
-                                                </div>
-                                                <h2 class="login-title">Welcome back</h2>
-                                                <p class="login-description">Enter your credentials to continue.</p>
+                                        <div
+                                            id="loginForm"
+                                            class="login-card reveal-from-bottom"
+                                            data-reveal-delay="150"
+                                        >
+                                            <div class="login-icon">
+                                                <i class="fa-solid fa-lock"></i>
+                                            </div>
+                                            <h2 class="login-title">Welcome back</h2>
+                                            <p class="login-description">Enter your credentials to continue.</p>
+                                            <div class="login-input-group">
+                                                <i class="fa-solid fa-user"></i>
+                                                <input
+                                                    id="username"
+                                                    class="form-input"
+                                                    type="name"
+                                                    placeholder="Username"
+                                                    maxlength="254"
+                                                    required
+                                                />
+                                            </div>
+                                            <div class="login-input-group">
+                                                <i class="fa-solid fa-key"></i>
+                                                <input
+                                                    id="password"
+                                                    class="form-input"
+                                                    type="password"
+                                                    maxlength="32"
+                                                    placeholder="Password"
+                                                    required
+                                                />
+                                            </div>
+                                            <button id="loginButton" class="login-btn pulse">
+                                                <i class="fa-solid fa-right-to-bracket"></i>&nbsp; Login
+                                            </button>
+                                        </div>
+                                        <!-- Join Room Section hidden -->
+                                        <div id="joinRoomForm" class="login-card" style="display: none">
+                                            <div class="login-icon">
+                                                <i class="fa-solid fa-video"></i>
+                                            </div>
+                                            <h2 class="join-room-title">
+                                                Pick name.<br />
+                                                Share URL.<br />
+                                                Start conference.
+                                            </h2>
+                                            <div class="room-input-row">
                                                 <div class="login-input-group">
-                                                    <i class="fa-solid fa-user"></i>
+                                                    <i class="fa-solid fa-door-open"></i>
                                                     <input
-                                                        id="username"
+                                                        id="roomName"
                                                         class="form-input"
-                                                        type="name"
-                                                        placeholder="Username"
-                                                        maxlength="254"
-                                                        required
-                                                    />
-                                                </div>
-                                                <div class="login-input-group">
-                                                    <i class="fa-solid fa-key"></i>
-                                                    <input
-                                                        id="password"
-                                                        class="form-input"
-                                                        type="password"
+                                                        type="text"
+                                                        placeholder="Enter room name"
                                                         maxlength="32"
-                                                        placeholder="Password"
                                                         required
                                                     />
                                                 </div>
-                                                <button id="loginButton" class="login-btn pulse">
-                                                    <i class="fa-solid fa-right-to-bracket"></i>&nbsp; Login
+                                                <button
+                                                    id="randomRoomButton"
+                                                    class="random-room-btn"
+                                                    title="Generate random room name"
+                                                >
+                                                    <i class="fa-solid fa-arrows-rotate" aria-hidden="true"></i>
                                                 </button>
                                             </div>
-                                            <!-- Join Room Section hidden -->
-                                            <div id="joinRoomForm" style="display: none">
-                                                <div class="login-icon">
-                                                    <i class="fa-solid fa-video"></i>
-                                                </div>
-                                                <h2 class="join-room-title">
-                                                    Pick name.<br />
-                                                    Share URL.<br />
-                                                    Start conference.
-                                                </h2>
-                                                <div class="room-input-row">
-                                                    <div class="login-input-group">
-                                                        <i class="fa-solid fa-door-open"></i>
-                                                        <input
-                                                            id="roomName"
-                                                            class="form-input"
-                                                            type="text"
-                                                            placeholder="Enter room name"
-                                                            maxlength="32"
-                                                            required
-                                                        />
-                                                    </div>
-                                                    <button
-                                                        id="randomRoomButton"
-                                                        class="random-room-btn"
-                                                        title="Generate random room name"
-                                                    >
-                                                        <i class="fa-solid fa-arrows-rotate" aria-hidden="true"></i>
-                                                    </button>
-                                                </div>
-                                                <button id="joinSelectRoomButton" class="join-room-btn">
-                                                    <i class="fa-solid fa-right-to-bracket"></i>&nbsp; JOIN ROOM
-                                                </button>
-                                            </div>
+                                            <button id="joinSelectRoomButton" class="join-room-btn">
+                                                <i class="fa-solid fa-right-to-bracket"></i>&nbsp; JOIN ROOM
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
