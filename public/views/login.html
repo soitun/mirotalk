@@ -84,8 +84,10 @@
                                             <div class="login-icon">
                                                 <i class="fa-solid fa-lock"></i>
                                             </div>
-                                            <h2 class="login-title">Welcome back</h2>
-                                            <p class="login-description">Enter your credentials to continue.</p>
+                                            <h2 id="loginHeading" class="login-title">Welcome back</h2>
+                                            <p id="loginDescription" class="login-description">
+                                                Enter your credentials to continue.
+                                            </p>
                                             <div class="login-input-group">
                                                 <i class="fa-solid fa-user"></i>
                                                 <input
@@ -109,7 +111,8 @@
                                                 />
                                             </div>
                                             <button id="loginButton" class="login-btn pulse">
-                                                <i class="fa-solid fa-right-to-bracket"></i>&nbsp; Login
+                                                <i class="fa-solid fa-right-to-bracket"></i>&nbsp;
+                                                <span id="loginButtonLabel">Login</span>
                                             </button>
                                         </div>
                                         <!-- Join Room Section hidden -->
@@ -117,7 +120,7 @@
                                             <div class="login-icon">
                                                 <i class="fa-solid fa-video"></i>
                                             </div>
-                                            <h2 class="join-room-title">
+                                            <h2 id="joinRoomTitle" class="join-room-title">
                                                 Pick name.<br />
                                                 Share URL.<br />
                                                 Start conference.
@@ -143,7 +146,8 @@
                                                 </button>
                                             </div>
                                             <button id="joinSelectRoomButton" class="join-room-btn">
-                                                <i class="fa-solid fa-right-to-bracket"></i>&nbsp; JOIN ROOM
+                                                <i class="fa-solid fa-right-to-bracket"></i>&nbsp;
+                                                <span id="joinRoomButtonLabel">JOIN ROOM</span>
                                             </button>
                                         </div>
                                     </div>

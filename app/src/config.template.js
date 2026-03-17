@@ -2,7 +2,7 @@
 
 /**
  * ==============================================
- * MiroTalk P2P v.1.7.49 - Configuration File
+ * MiroTalk P2P v.1.7.50 - Configuration File
  * ==============================================
  *
  * This file is the central configuration source.
@@ -282,6 +282,11 @@ module.exports = {
             newCallRoomDescription:
                 "Each room has its disposable URL. Just pick a room name and share your custom URL. It's that easy.",
             loginTitle: 'MiroTalk - Host Protected login required.',
+            loginHeading: 'Welcome back',
+            loginDescription: 'Enter your credentials to continue.',
+            loginButtonLabel: 'Login',
+            joinRoomTitle: 'Pick name.<br />Share URL.<br />Start conference.',
+            joinRoomButtonLabel: 'JOIN ROOM',
             clientTitle: 'MiroTalk WebRTC Video call, Chat Room & Screen Sharing.',
             privacyPolicyTitle: 'MiroTalk - privacy and policy.',
             stunTurnTitle: 'Test Stun/Turn Servers.',

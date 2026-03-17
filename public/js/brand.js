@@ -10,6 +10,11 @@ const newCallTitle = document.getElementById('newCallTitle');
 const newCallRoomTitle = document.getElementById('newCallRoomTitle');
 const newCallRoomDescription = document.getElementById('newCallRoomDescription');
 const loginTitle = document.getElementById('loginTitle');
+const loginHeading = document.getElementById('loginHeading');
+const loginDescription = document.getElementById('loginDescription');
+const loginButtonLabel = document.getElementById('loginButtonLabel');
+const joinRoomTitle = document.getElementById('joinRoomTitle');
+const joinRoomButtonLabel = document.getElementById('joinRoomButtonLabel');
 const waitingRoomTitle = document.getElementById('waitingRoomTitle');
 const waitingRoomHeading = document.getElementById('waitingRoomHeading');
 const waitingRoomDescription = document.getElementById('waitingRoomDescription');
@@ -66,6 +71,11 @@ let brand = {
         newCallRoomDescription:
             "Each room has its disposable URL. Just pick a room name and share your custom URL. It's that easy.",
         loginTitle: 'MiroTalk - Host Protected login required.',
+        loginHeading: 'Welcome back',
+        loginDescription: 'Enter your credentials to continue.',
+        loginButtonLabel: 'Login',
+        joinRoomTitle: 'Pick name.<br />Share URL.<br />Start conference.',
+        joinRoomButtonLabel: 'JOIN ROOM',
         clientTitle: 'MiroTalk WebRTC Video call, Chat Room & Screen Sharing.',
         privacyPolicyTitle: 'MiroTalk - privacy and policy.',
         stunTurnTitle: 'Test Stun/Turn Servers.',
@@ -94,7 +104,7 @@ let brand = {
     },
     about: {
         imageUrl: '../images/mirotalk-logo.gif',
-        title: 'WebRTC P2P v1.7.49',
+        title: 'WebRTC P2P v1.7.50',
         html: `
             <button 
                 id="support-button" 
@@ -239,6 +249,12 @@ function handleBrand() {
         newCallRoomDescription.textContent = brand.site.newCallRoomDescription;
 
     if (loginTitle && brand.site?.loginTitle) loginTitle.textContent = brand.site.loginTitle;
+    if (loginHeading && brand.site?.loginHeading) loginHeading.textContent = brand.site.loginHeading;
+    if (loginDescription && brand.site?.loginDescription) loginDescription.textContent = brand.site.loginDescription;
+    if (loginButtonLabel && brand.site?.loginButtonLabel) loginButtonLabel.textContent = brand.site.loginButtonLabel;
+    if (joinRoomTitle && brand.site?.joinRoomTitle) joinRoomTitle.innerHTML = brand.site.joinRoomTitle;
+    if (joinRoomButtonLabel && brand.site?.joinRoomButtonLabel)
+        joinRoomButtonLabel.textContent = brand.site.joinRoomButtonLabel;
     if (privacyPolicyTitle && brand.site?.privacyPolicyTitle)
         privacyPolicyTitle.textContent = brand.site.privacyPolicyTitle;
     if (stunTurnTitle && brand.site?.stunTurnTitle) stunTurnTitle.textContent = brand.site.stunTurnTitle;
