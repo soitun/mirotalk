@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en" class="no-js">
+    <head>
+        <!-- Title and Icon -->
+
+        <title id="waitingRoomTitle">MiroTalk - Waiting for host to start the meeting</title>
+        <link id="shortcutIcon" rel="shortcut icon" href="../images/logo.svg" />
+        <link id="appleTouchIcon" rel="apple-touch-icon" href="../images/logo.svg" />
+
+        <!-- Meta Information -->
+
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+        <meta
+            name="description"
+            content="MiroTalk powered by WebRTC, Real-time Simple Secure Fast video calls, chat and screen sharing capabilities in the browser, from your mobile or desktop."
+        />
+
+        <!-- https://ogp.me -->
+
+        <meta property="og:type" content="{{OG_TYPE}}" />
+        <meta property="og:site_name" content="{{OG_SITE_NAME}}" />
+        <meta property="og:title" content="{{OG_TITLE}}" />
+        <meta property="og:description" content="{{OG_DESCRIPTION}}" />
+        <meta property="og:image" content="{{OG_IMAGE}}" />
+        <meta property="og:url" content="{{OG_URL}}" />
+
+        <!-- StyleSheet -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans:400,600" />
+        <link rel="stylesheet" href="../css/landing.css" />
+        <link rel="stylesheet" href="../css/newcall.css" />
+
+        <!-- Js scripts -->
+        <script async src="../js/stats.js"></script>
+        <script defer src="../js/Brand.js"></script>
+
+        <!-- xss -->
+        <script src="https://cdn.jsdelivr.net/npm/xss/dist/xss.min.js"></script>
+
+        <!-- axios -->
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+        <link rel="stylesheet" href="../css/waitingRoom.css" />
+    </head>
+    <body class="has-animations">
+        <div class="body-wrap">
+            <header class="site-header reveal-from-top">
+                <div class="container">
+                    <div class="site-header-inner">
+                        <div class="brand">
+                            <div class="m-0">
+                                <a href="/">
+                                    <img src="../images/logo.svg" alt="MiroTalk P2P" width="32" height="32" />
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+            <main class="site-content">
+                <section class="hero section illustration-section-01">
+                    <div class="container">
+                        <div class="hero-inner section-inner">
+                            <div class="split-wrap invert-mobile">
+                                <div class="split-item">
+                                    <div class="hero-content split-item-content center-content-mobile">
+                                        <div class="waiting-card reveal-from-bottom" data-reveal-delay="150">
+                                            <div class="waiting-icon">
+                                                <i class="fa-solid fa-users"></i>
+                                            </div>
+                                            <h2 class="waiting-title">Waiting for host...</h2>
+                                            <p class="waiting-description">
+                                                The meeting hasn't started yet.<br />
+                                                You'll join automatically when the host opens the room.
+                                            </p>
+                                            <div class="waiting-spinner">
+                                                <div class="waiting-spinner-dot"></div>
+                                                <div class="waiting-spinner-dot"></div>
+                                                <div class="waiting-spinner-dot"></div>
+                                            </div>
+                                            <p class="waiting-status" id="waitingStatus">Checking room status...</p>
+                                            <hr class="waiting-divider" />
+                                            <p class="host-login-link" id="hostLoginLink">
+                                                Are you the host?
+                                                <a id="loginLink" href="/login">Login here</a>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </main>
+        </div>
+
+        <script src="https://unpkg.com/scrollreveal@4.0.0/dist/scrollreveal.min.js"></script>
+        <script defer src="../js/landing.js"></script>
+        <script defer src="../js/waitingRoom.js"></script>
+        <script defer src="../js/Brand.js"></script>
+        <script async src="../js/Translate.js"></script>
+    </body>
+</html>

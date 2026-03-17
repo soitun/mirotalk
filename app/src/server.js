@@ -45,7 +45,7 @@ dependencies: {
  * @license For commercial use or closed source, contact us at license.mirotalk@gmail.com or purchase directly from CodeCanyon
  * @license CodeCanyon: https://codecanyon.net/item/mirotalk-p2p-webrtc-realtime-video-conferences/38376661
  * @author  Miroslav Pejic - miroslav.pejic.85@gmail.com
- * @version 1.7.45
+ * @version 1.7.46
  *
  */
 
@@ -354,13 +354,22 @@ const views = {
     activeRooms: path.join(__dirname, '../../', 'public/views/activeRooms.html'),
     customizeRoom: path.join(__dirname, '../../', 'public/views/customizeRoom.html'),
     stunTurn: path.join(__dirname, '../../', 'public/views/testStunTurn.html'),
+    waitingRoom: path.join(__dirname, '../../', 'public/views/waitingRoom.html'),
 };
 
 // Branding configuration
 const brandHtmlInjection = config.brand?.htmlInjection ?? true;
 
 // File to cache and inject custom HTML data like OG tags and any other elements.
-const filesPath = [views.landing, views.newCall, views.client, views.login, views.activeRooms, views.customizeRoom];
+const filesPath = [
+    views.landing,
+    views.newCall,
+    views.client,
+    views.login,
+    views.activeRooms,
+    views.customizeRoom,
+    views.waitingRoom,
+];
 const htmlInjector = new HtmlInjector(filesPath, config.brand || null);
 
 const channels = {}; // collect channels
@@ -682,10 +691,11 @@ app.get('/join/:roomId', function (req, res) {
 
     if (allowRoomAccess) {
         htmlInjector.injectHtml(views.client, res);
+    } else if (!OIDC.enabled && hostCfg.protected) {
+        // Guest arrived before host opened the room — show waiting page
+        htmlInjector.injectHtml(views.waitingRoom, res);
     } else {
-        !OIDC.enabled && hostCfg.protected
-            ? res.redirect('/login?room=' + encodeURIComponent(roomId))
-            : res.redirect('/');
+        res.redirect('/');
     }
 });
 
