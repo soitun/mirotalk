@@ -73,7 +73,13 @@ function login() {
             })
             .catch(function (error) {
                 console.error(error);
-                popup('warning', 'Invalid credentials. Please try again.');
+                const status = error.response ? error.response.status : 0;
+                const serverMsg = error.response && error.response.data ? error.response.data.message : '';
+                if (status === 429 && serverMsg) {
+                    popup('warning', serverMsg);
+                } else {
+                    popup('warning', 'Invalid credentials. Please try again.');
+                }
             });
         return;
     }

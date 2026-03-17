@@ -45,7 +45,7 @@ dependencies: {
  * @license For commercial use or closed source, contact us at license.mirotalk@gmail.com or purchase directly from CodeCanyon
  * @license CodeCanyon: https://codecanyon.net/item/mirotalk-p2p-webrtc-realtime-video-conferences/38376661
  * @author  Miroslav Pejic - miroslav.pejic.85@gmail.com
- * @version 1.7.50
+ * @version 1.7.51
  *
  */
 
@@ -87,7 +87,9 @@ const minBlockTime = config.host.minLoginBlockTime; // in minutes
 const loginLimiter = rateLimit({
     windowMs: minBlockTime * 60 * 1000, // 15 minutes default
     max: maxAttempts,
-    message: 'Too many login attempts, please try again later.',
+    message: {
+        message: `Too many login attempts. Please try again after ${minBlockTime} minute${minBlockTime == 1 ? '' : 's'}.`,
+    },
     keyGenerator: (req) => req.body?.username || getIP(req),
 });
 
