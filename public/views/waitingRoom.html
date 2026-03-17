@@ -72,8 +72,8 @@
                                             <div class="waiting-icon">
                                                 <i class="fa-solid fa-users"></i>
                                             </div>
-                                            <h2 class="waiting-title">Waiting for host...</h2>
-                                            <p class="waiting-description">
+                                            <h2 id="waitingRoomHeading" class="waiting-title">Waiting for host...</h2>
+                                            <p id="waitingRoomDescription" class="waiting-description">
                                                 The meeting hasn't started yet.<br />
                                                 You'll join automatically when the host opens the room.
                                             </p>
@@ -85,8 +85,10 @@
                                             <p class="waiting-status" id="waitingStatus">Checking room status...</p>
                                             <hr class="waiting-divider" />
                                             <p class="host-login-link" id="hostLoginLink">
-                                                Are you the host?
-                                                <a id="loginLink" href="/login">Login here</a>
+                                                <span id="waitingRoomHostLink">Are you the host?</span>
+                                                <a id="loginLink" href="/login"
+                                                    ><span id="waitingRoomLoginLink">Login here</span></a
+                                                >
                                             </p>
                                         </div>
                                     </div>

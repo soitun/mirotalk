@@ -2,7 +2,7 @@
 
 /**
  * ==============================================
- * MiroTalk P2P v.1.7.46 - Configuration File
+ * MiroTalk P2P v.1.7.47 - Configuration File
  * ==============================================
  *
  * This file is the central configuration source.
@@ -286,6 +286,15 @@ module.exports = {
             privacyPolicyTitle: 'MiroTalk - privacy and policy.',
             stunTurnTitle: 'Test Stun/Turn Servers.',
             notFoundTitle: 'MiroTalk - 404 Page not found.',
+            waitingRoomTitle: 'MiroTalk - Waiting for host to start the meeting',
+            waitingRoomHeading: 'Waiting for host...',
+            waitingRoomDescription:
+                "The meeting hasn't started yet.<br />You'll join automatically when the host opens the room.",
+            waitingRoomStatus: 'Checking room status...',
+            waitingRoomReady: 'Room is ready! Joining...',
+            waitingRoomWaiting: 'Waiting for host to start the meeting...',
+            waitingRoomHostLink: 'Are you the host?',
+            waitingRoomLoginLink: 'Login here',
         },
         html: {
             topSponsors: true,
