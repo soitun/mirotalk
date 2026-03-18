@@ -213,6 +213,24 @@
     background-color: rgba(255, 255, 255, 0.1);
 }
 
+.login-card .share-room-btn {
+    padding: 0 14px;
+    font-size: 16px;
+    color: #f9faff;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition:
+        border-color 0.2s ease,
+        background-color 0.2s ease;
+}
+.login-card .share-room-btn:hover {
+    border-color: rgba(70, 120, 249, 0.4);
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
 .login-card .join-room-btn {
     width: 100%;
     padding: 12px 24px;

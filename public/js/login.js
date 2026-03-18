@@ -10,6 +10,7 @@ const joinRoomForm = document.getElementById('joinRoomForm');
 const roomNameInput = document.getElementById('roomName');
 const joinSelectRoomButton = document.getElementById('joinSelectRoomButton');
 const randomRoomButton = document.getElementById('randomRoomButton');
+const shareRoomButton = document.getElementById('shareRoomButton');
 
 usernameInput.onkeyup = (e) => {
     if (e.keyCode === 13) {
@@ -120,6 +121,15 @@ function highlightEmpty(input) {
         },
         { once: true }
     );
+    document.addEventListener(
+        'mousedown',
+        function (e) {
+            if (e.target !== input) {
+                input.classList.remove('input-error');
+            }
+        },
+        { once: true }
+    );
 }
 
 function showLoginError(msg) {
@@ -149,7 +159,7 @@ function showJoinRoomForm() {
         const room = roomNameInput ? filterXSS(roomNameInput.value.trim()) : '';
         const name = filterXSS(document.getElementById('username').value).trim();
         if (!room) {
-            popup('warning', 'Room Name required');
+            highlightEmpty(roomNameInput);
             return;
         }
         window.location.href =
@@ -174,6 +184,29 @@ function showJoinRoomForm() {
         randomRoomButton.onclick = (e) => {
             e.preventDefault();
             if (roomNameInput) roomNameInput.value = getUUID4();
+        };
+    }
+    if (shareRoomButton) {
+        shareRoomButton.onclick = (e) => {
+            e.preventDefault();
+            const room = roomNameInput ? filterXSS(roomNameInput.value.trim()) : '';
+            if (!room) {
+                highlightEmpty(roomNameInput);
+                return;
+            }
+            const shareUrl = window.location.origin + '/join/' + encodeURIComponent(room);
+            if (navigator.share) {
+                navigator.share({ title: 'MiroTalk Room', url: shareUrl }).catch(() => {});
+            } else {
+                navigator.clipboard
+                    .writeText(shareUrl)
+                    .then(() => {
+                        popup('success', 'Room link copied to clipboard');
+                    })
+                    .catch(() => {
+                        popup('error', 'Failed to copy link');
+                    });
+            }
         };
     }
     if (joinSelectRoomButton) {
