@@ -15,6 +15,11 @@
     text-align: center;
 }
 
+/* Join Room Section hidden by default */
+#joinRoomForm {
+    display: none;
+}
+
 /* Ensure joinRoomForm is fully visible (not affected by ScrollReveal) */
 #joinRoomForm.login-card {
     opacity: 1 !important;
