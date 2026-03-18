@@ -68,7 +68,12 @@
                             <div class="split-wrap invert-mobile">
                                 <div class="split-item">
                                     <div class="hero-content split-item-content center-content-mobile">
-                                        <div class="waiting-card reveal-from-bottom" data-reveal-delay="150">
+                                        <div
+                                            class="waiting-card reveal-from-bottom"
+                                            data-reveal-delay="150"
+                                            role="status"
+                                            aria-live="polite"
+                                        >
                                             <div class="waiting-icon">
                                                 <i class="fa-solid fa-users"></i>
                                             </div>
@@ -77,13 +82,42 @@
                                                 The meeting hasn't started yet.<br />
                                                 You'll join automatically when the host opens the room.
                                             </p>
+                                            <div id="waitingRoomName" class="waiting-room-name" style="display: none">
+                                                <i class="fa-solid fa-door-open"></i>
+                                                <span id="waitingRoomNameText"></span>
+                                            </div>
                                             <div class="waiting-spinner">
                                                 <div class="waiting-spinner-dot"></div>
                                                 <div class="waiting-spinner-dot"></div>
                                                 <div class="waiting-spinner-dot"></div>
                                             </div>
-                                            <p class="waiting-status" id="waitingStatus">Checking room status...</p>
+                                            <p class="waiting-status" id="waitingStatus" aria-live="assertive">
+                                                Checking room status...
+                                            </p>
+                                            <p class="waiting-elapsed" id="waitingElapsed">
+                                                <i class="fa-regular fa-clock"></i>
+                                                <span id="waitingElapsedText">Just started waiting</span>
+                                            </p>
                                             <hr class="waiting-divider" />
+                                            <div
+                                                id="waitingAudioPlayer"
+                                                class="waiting-audio-player"
+                                                style="display: none"
+                                            >
+                                                <button
+                                                    id="waitingAudioBtn"
+                                                    class="waiting-audio-btn"
+                                                    title="Play music"
+                                                >
+                                                    <i id="waitingAudioIcon" class="fa-solid fa-play"></i>
+                                                </button>
+                                                <div class="waiting-audio-bar">
+                                                    <div id="waitingAudioProgress" class="waiting-audio-progress"></div>
+                                                </div>
+                                                <button id="waitingAudioMute" class="waiting-audio-btn" title="Mute">
+                                                    <i id="waitingAudioMuteIcon" class="fa-solid fa-volume-high"></i>
+                                                </button>
+                                            </div>
                                             <p class="host-login-link" id="hostLoginLink">
                                                 <span id="waitingRoomHostLink">Are you the host?</span>
                                                 <a id="loginLink" href="/login"
@@ -103,7 +137,6 @@
         <script src="https://unpkg.com/scrollreveal@4.0.0/dist/scrollreveal.min.js"></script>
         <script defer src="../js/landing.js"></script>
         <script defer src="../js/waitingRoom.js"></script>
-        <script defer src="../js/Brand.js"></script>
         <script async src="../js/Translate.js"></script>
     </body>
 </html>

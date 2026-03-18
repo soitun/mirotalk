@@ -2,7 +2,7 @@
 
 /**
  * ==============================================
- * MiroTalk P2P v.1.7.53 - Configuration File
+ * MiroTalk P2P v.1.7.54 - Configuration File
  * ==============================================
  *
  * This file is the central configuration source.
@@ -300,6 +300,9 @@ module.exports = {
             waitingRoomWaiting: 'Waiting for host to start the meeting...',
             waitingRoomHostLink: 'Are you the host?',
             waitingRoomLoginLink: 'Login here',
+            waitingRoomElapsedJust: 'Just started waiting',
+            waitingRoomElapsedMinutes: 'Waiting for {minutes}',
+            waitingRoomSongUrl: '../sounds/waiting-music.mp3',
         },
         html: {
             topSponsors: true,

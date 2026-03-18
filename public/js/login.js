@@ -84,25 +84,60 @@ function login() {
                 const status = error.response ? error.response.status : 0;
                 const serverMsg = error.response && error.response.data ? error.response.data.message : '';
                 if (status === 429 && serverMsg) {
-                    popup('warning', serverMsg);
+                    showLoginError(serverMsg);
                 } else {
-                    popup('warning', 'Invalid credentials. Please try again.');
+                    showLoginError('Invalid credentials. Please try again.');
                 }
             });
         return;
     }
     if (!username && !password) {
-        popup('warning', 'Username and Password required');
+        highlightEmpty(usernameInput);
+        highlightEmpty(passwordInput);
+        showLoginError('Username and Password required');
         return;
     }
     if (!username) {
-        popup('warning', 'Username required');
+        highlightEmpty(usernameInput);
+        showLoginError('Username required');
         return;
     }
     if (!password) {
-        popup('warning', 'Password required');
+        highlightEmpty(passwordInput);
+        showLoginError('Password required');
         return;
     }
+}
+
+function highlightEmpty(input) {
+    if (!input) return;
+    input.classList.add('input-error');
+    input.addEventListener(
+        'input',
+        function () {
+            input.classList.remove('input-error');
+            hideLoginError();
+        },
+        { once: true }
+    );
+}
+
+function showLoginError(msg) {
+    let el = document.getElementById('loginError');
+    if (!el) {
+        el = document.createElement('p');
+        el.id = 'loginError';
+        el.className = 'login-error';
+        const loginBtn = document.getElementById('loginButton');
+        if (loginBtn) loginBtn.parentNode.insertBefore(el, loginBtn);
+    }
+    el.textContent = msg;
+    el.style.display = 'block';
+}
+
+function hideLoginError() {
+    const el = document.getElementById('loginError');
+    if (el) el.style.display = 'none';
 }
 
 function showJoinRoomForm() {

@@ -54,10 +54,11 @@
 
 /* Description */
 .login-description {
-    color: #9ca9b3;
     font-size: 15px;
-    line-height: 1.6;
-    margin: 0 0 28px;
+    color: rgba(255, 255, 255, 0.65);
+    line-height: 1.7;
+    margin-bottom: 32px;
+    max-width: 400px;
 }
 
 /* Form inputs inside card */
@@ -239,4 +240,34 @@
     .hero .split-wrap .split-item {
         min-height: 492px;
     }
+}
+
+/* Input error highlight */
+.form-input.input-error {
+    border-color: #f5365c !important;
+    box-shadow: 0 0 0 3px rgba(245, 54, 92, 0.18) !important;
+}
+
+/* Inline login error message */
+.login-error {
+    color: #f5365c;
+    font-size: 13px;
+    margin: 0 0 8px;
+    text-align: center;
+}
+
+/* Select inputs */
+.login-input-group select.form-input {
+    appearance: none;
+    -webkit-appearance: none;
+    background: rgba(255, 255, 255, 0.06)
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23ffffff50' d='M6 8L1 3h10z'/%3E%3C/svg%3E")
+        no-repeat right 4px center;
+    padding-right: 24px;
+    cursor: pointer;
+    color: #fff;
+}
+.login-input-group select.form-input option {
+    background: #1a1a2e;
+    color: #fff;
 }
