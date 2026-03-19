@@ -45,7 +45,7 @@ dependencies: {
  * @license For commercial use or closed source, contact us at license.mirotalk@gmail.com or purchase directly from CodeCanyon
  * @license CodeCanyon: https://codecanyon.net/item/mirotalk-p2p-webrtc-realtime-video-conferences/38376661
  * @author  Miroslav Pejic - miroslav.pejic.85@gmail.com
- * @version 1.7.55
+ * @version 1.7.56
  *
  */
 
@@ -378,6 +378,13 @@ const channels = {}; // collect channels
 const sockets = {}; // collect sockets
 const peers = {}; // collect peers info grp by channels
 const presenters = {}; // collect presenters grp by channels
+
+const roomMetaKeys = new Set(['lock', 'password']);
+
+function getPeerCount(roomId) {
+    if (!peers[roomId]) return 0;
+    return Object.keys(peers[roomId]).filter((k) => !roomMetaKeys.has(k)).length;
+}
 
 app.set('trust proxy', trustProxy); // Enables trust for proxy headers (e.g., X-Forwarded-For) based on the trustProxy setting
 app.use(helmet.noSniff()); // Enable content type sniffing prevention
@@ -1442,7 +1449,7 @@ io.sockets.on('connect', async (socket) => {
         channels[channel][socket.id] = socket;
         socket.channels[channel] = channel;
 
-        const peerCounts = Object.keys(peers[channel]).length;
+        const peerCounts = getPeerCount(channel);
 
         // Send some server info to joined peer
         await sendToPeer(socket.id, sockets, 'serverInfo', {
@@ -1996,21 +2003,10 @@ io.sockets.on('connect', async (socket) => {
             delete channels[channel][socket.id];
             delete peers[channel][socket.id]; // delete peer data from the room
 
-            switch (Object.keys(peers[channel]).length) {
-                case 0: // last peer disconnected from the room without room lock & password set
-                    delete peers[channel];
-                    delete presenters[channel];
-                    delete channels[channel]; // Clean up channels to prevent memory leak
-                    break;
-                case 2: // last peer disconnected from the room having room lock & password set
-                    if (peers[channel]['lock'] && peers[channel]['password']) {
-                        delete peers[channel]; // clean lock and password value from the room
-                        delete presenters[channel]; // clean the presenter from the channel
-                        delete channels[channel]; // Clean up channels to prevent memory leak
-                    }
-                    break;
-                default:
-                    break;
+            if (getPeerCount(channel) === 0) {
+                delete peers[channel];
+                delete presenters[channel];
+                delete channels[channel]; // Clean up channels to prevent memory leak
             }
         } catch (err) {
             log.error('Remove Peer', toJson(err));
@@ -2245,7 +2241,7 @@ function getActiveRooms() {
     for (const roomId in peers) {
         if (peers.hasOwnProperty(roomId)) {
             // Get the count of peers in the current room
-            const peersCount = Object.keys(peers[roomId]).length;
+            const peersCount = getPeerCount(roomId);
             roomPeersArray.push({
                 roomId: roomId,
                 peersCount: peersCount,
