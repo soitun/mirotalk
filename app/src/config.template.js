@@ -2,7 +2,7 @@
 
 /**
  * ==============================================
- * MiroTalk P2P v.1.7.58 - Configuration File
+ * MiroTalk P2P v.1.7.59 - Configuration File
  * ==============================================
  *
  * This file is the central configuration source.
@@ -435,7 +435,7 @@ module.exports = {
             showLockRoomBtn: true,
             showUnlockRoomBtn: true,
             showShortcutsBtn: true,
-            customNoiseSuppression: true,
+            customNoiseSuppression: getEnvBoolean(process.env.CUSTOM_NOISE_SUPPRESSION_ENABLED, true),
         },
         remote: {
             showAudioVolume: true,
