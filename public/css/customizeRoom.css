@@ -171,6 +171,13 @@ body::before {
 .cr-input::placeholder {
     color: rgba(255, 255, 255, 0.4);
 }
+.cr-input:-webkit-autofill,
+.cr-input:-webkit-autofill:hover,
+.cr-input:-webkit-autofill:focus {
+    -webkit-box-shadow: 0 0 0 1000px #06070a inset !important;
+    -webkit-text-fill-color: rgba(255, 255, 255, 0.92) !important;
+    transition: background-color 5000s ease-in-out 0s;
+}
 
 .cr-input:focus {
     border-color: var(--cr-input-border-focus);
