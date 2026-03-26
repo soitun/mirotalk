@@ -2165,6 +2165,16 @@ input:checked + .slider:before {
     background-color: #1d8ecd !important;
 }
 
+.swal2-input:-webkit-autofill,
+.swal2-input:-webkit-autofill:hover,
+.swal2-input:-webkit-autofill:focus,
+.swal2-input:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 1000px #000000 inset !important;
+    -webkit-text-fill-color: #fff !important;
+    transition: background-color 5000s ease-in-out 0s;
+    caret-color: #fff;
+}
+
 .img-about {
     margin: 0 !important;
 }

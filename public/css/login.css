@@ -92,13 +92,6 @@
 .login-card .form-input::placeholder {
     color: #6b7a85;
 }
-.login-card .form-input:-webkit-autofill,
-.login-card .form-input:-webkit-autofill:hover,
-.login-card .form-input:-webkit-autofill:focus {
-    -webkit-box-shadow: 0 0 0 1000px rgba(255, 255, 255, 0.06) inset !important;
-    -webkit-text-fill-color: #f9faff !important;
-    transition: background-color 5000s ease-in-out 0s;
-}
 
 /* Input group with icon */
 .login-input-group {
