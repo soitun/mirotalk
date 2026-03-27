@@ -192,17 +192,47 @@ access to use this app.
                         class="dropdown-menu text-start hidden"
                         aria-labelledby="settingsExtraToggle"
                     >
-                        <!-- https://fontawesome.com/icons?d=gallery -->
+                        <!-- SHARING -->
+                        <div class="device-menu-header extra-menu-group" data-buttons="shareRoomBtn,fileShareBtn">
+                            SHARING
+                        </div>
                         <button id="shareRoomBtn"><i class="fas fa-share-alt"></i> Share Room</button>
-                        <button id="hideMeBtn"><i class="fas fa-user"></i> Hide Me</button>
-                        <button id="recordStreamBtn"><i class="fas fa-record-vinyl"></i> Recording</button>
-                        <button id="fullScreenBtn"><i class="fas fa-expand-alt"></i> Full screen</button>
-                        <button id="roomEmojiPickerBtn"><i class="fas fa-face-smile"></i> Room Emoji</button>
-                        <button id="captionBtn"><i class="fas fa-closed-captioning"></i> Caption</button>
-                        <button id="whiteboardBtn"><i class="fas fa-chalkboard-teacher"></i> Whiteboard</button>
+                        <button id="fileShareBtn"><i class="fas fa-folder-open"></i> File sharing</button>
+
+                        <div class="device-menu-divider extra-menu-divider" data-group="sharing"></div>
+
+                        <!-- RECORDING & CAPTURE -->
+                        <div class="device-menu-header extra-menu-group" data-buttons="recordStreamBtn,snapshotRoomBtn">
+                            RECORDING & CAPTURE
+                        </div>
+                        <button id="recordStreamBtn"><i class="fas fa-record-vinyl"></i> Start Recording</button>
                         <button id="snapshotRoomBtn"><i class="fas fa-camera-retro"></i> Snapshot</button>
-                        <button id="fileShareBtn"><i class="fas fa-folder-open"></i> File Share</button>
+
+                        <div class="device-menu-divider extra-menu-divider" data-group="recording"></div>
+
+                        <!-- TOOLS -->
+                        <div
+                            class="device-menu-header extra-menu-group"
+                            data-buttons="captionBtn,whiteboardBtn,documentPiPBtn,roomEmojiPickerBtn"
+                        >
+                            TOOLS
+                        </div>
+                        <button id="captionBtn"><i class="fas fa-closed-captioning"></i> Transcription</button>
+                        <button id="whiteboardBtn"><i class="fas fa-chalkboard-teacher"></i> Whiteboard</button>
                         <button id="documentPiPBtn"><i class="fas fa-images"></i> Document PiP</button>
+                        <button id="roomEmojiPickerBtn"><i class="fas fa-face-smile"></i> Room Emoji</button>
+
+                        <div class="device-menu-divider extra-menu-divider" data-group="tools"></div>
+
+                        <!-- VIEW & SETTINGS -->
+                        <div
+                            class="device-menu-header extra-menu-group"
+                            data-buttons="hideMeBtn,fullScreenBtn,aboutBtn"
+                        >
+                            VIEW & SETTINGS
+                        </div>
+                        <button id="hideMeBtn"><i class="fas fa-user"></i> Hide Me</button>
+                        <button id="fullScreenBtn"><i class="fas fa-expand-alt"></i> Full Screen</button>
                         <button id="aboutBtn"><i class="fas fa-question"></i> About</button>
                     </div>
                 </div>

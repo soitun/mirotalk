@@ -15,7 +15,7 @@
  * @license For commercial use or closed source, contact us at license.mirotalk@gmail.com or purchase directly from CodeCanyon
  * @license CodeCanyon: https://codecanyon.net/item/mirotalk-p2p-webrtc-realtime-video-conferences/38376661
  * @author  Miroslav Pejic - miroslav.pejic.85@gmail.com
- * @version 1.7.62
+ * @version 1.7.63
  *
  */
 
@@ -6729,6 +6729,7 @@ function setMySettingsExtraBtns() {
         let hideTimeout;
         function showMenu() {
             clearTimeout(hideTimeout);
+            updateSettingsExtraGroups();
             settingsExtraMenu.classList.remove('hidden');
             settingsExtraMenu.classList.add('show');
         }
@@ -6772,6 +6773,30 @@ function setMySettingsExtraBtns() {
             }
         });
     }
+}
+
+function updateSettingsExtraGroups() {
+    settingsExtraMenu.querySelectorAll('.extra-menu-group').forEach((header) => {
+        const ids = (header.dataset.buttons || '').split(',');
+        const anyVisible = ids.some((id) => {
+            const btn = document.getElementById(id.trim());
+            return btn && !btn.classList.contains('hidden') && btn.style.display !== 'none';
+        });
+        header.style.display = anyVisible ? '' : 'none';
+    });
+    settingsExtraMenu.querySelectorAll('.extra-menu-divider').forEach((div) => {
+        let prev = div.previousElementSibling;
+        while (prev && !prev.classList.contains('extra-menu-group')) {
+            prev = prev.previousElementSibling;
+        }
+        let next = div.nextElementSibling;
+        while (next && !next.classList.contains('extra-menu-group')) {
+            next = next.nextElementSibling;
+        }
+        const prevVisible = prev && prev.style.display !== 'none';
+        const nextVisible = next && next.style.display !== 'none';
+        div.style.display = prevVisible && nextVisible ? '' : 'none';
+    });
 }
 
 /**
@@ -13738,7 +13763,7 @@ function showAbout() {
     Swal.fire({
         background: swBg,
         position: 'center',
-        title: brand.about?.title && brand.about.title.trim() !== '' ? brand.about.title : 'WebRTC P2P v1.7.62',
+        title: brand.about?.title && brand.about.title.trim() !== '' ? brand.about.title : 'WebRTC P2P v1.7.63',
         imageUrl: brand.about?.imageUrl && brand.about.imageUrl.trim() !== '' ? brand.about.imageUrl : images.about,
         customClass: { image: 'img-about' },
         html: `
