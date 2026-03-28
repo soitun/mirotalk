@@ -15,7 +15,7 @@
  * @license For commercial use or closed source, contact us at license.mirotalk@gmail.com or purchase directly from CodeCanyon
  * @license CodeCanyon: https://codecanyon.net/item/mirotalk-p2p-webrtc-realtime-video-conferences/38376661
  * @author  Miroslav Pejic - miroslav.pejic.85@gmail.com
- * @version 1.7.64
+ * @version 1.7.65
  *
  */
 
@@ -3067,178 +3067,179 @@ function setTheme() {
     const theme = mirotalkTheme.value;
     switch (theme) {
         case 'dark':
-            // dark theme
-            swBg = 'radial-gradient(#393939, #000000)';
-            setSP('--body-bg', 'radial-gradient(#393939, #000000)');
-            setSP('--msger-bg', 'radial-gradient(#393939, #000000)');
-            setSP('--msger-private-bg', 'radial-gradient(#393939, #000000)');
-            setSP('--wb-bg', 'radial-gradient(#393939, #000000)');
-            setSP('--elem-border-color', 'none');
-            setSP('--navbar-bg', 'rgba(28, 28, 28, 0.8)');
-            setSP('--select-bg', '#3a3a3a');
-            setSP('--tab-btn-active', '#4f4f4f');
-            setSP('--box-shadow', '0px 8px 16px 0px rgba(0, 0, 0, 0.4)');
-            setSP('--left-msg-bg', '#353535');
-            setSP('--right-msg-bg', '#4a4a4a');
-            setSP('--private-msg-bg', '#2a2a2a');
-            setSP('--btn-bar-bg-color', '#FFFFFF');
-            setSP('--btn-bar-color', '#000000');
-            setSP('--btns-bg-color', 'rgba(0, 0, 0, 0.7)');
-            setSP('--dd-color', '#FFFFFF');
-            document.body.style.background = 'radial-gradient(#393939, #000000)';
+            // dark theme — refined neutral with subtle warm undertone
+            swBg = 'radial-gradient(#2a2a2e, #121214)';
+            setSP('--body-bg', 'radial-gradient(#2a2a2e, #121214)');
+            setSP('--msger-bg', 'radial-gradient(#2a2a2e, #121214)');
+            setSP('--msger-private-bg', 'radial-gradient(#2a2a2e, #121214)');
+            setSP('--wb-bg', 'radial-gradient(#2a2a2e, #121214)');
+            setSP('--elem-border-color', '1px solid rgba(255, 255, 255, 0.08)');
+            setSP('--navbar-bg', 'rgba(18, 18, 20, 0.85)');
+            setSP('--select-bg', '#333338');
+            setSP('--tab-btn-active', '#3d3d42');
+            setSP('--box-shadow', '0px 4px 12px 0px rgba(0, 0, 0, 0.5)');
+            setSP('--left-msg-bg', '#2c2c30');
+            setSP('--right-msg-bg', '#3a3a40');
+            setSP('--private-msg-bg', '#252528');
+            setSP('--btn-bar-bg-color', '#E8E8EC');
+            setSP('--btn-bar-color', '#121214');
+            setSP('--btns-bg-color', 'rgba(18, 18, 20, 0.75)');
+            setSP('--dd-color', '#E8E8EC');
+            document.body.style.background = 'radial-gradient(#2a2a2e, #121214)';
             mirotalkTheme.selectedIndex = 0;
             break;
         case 'grey':
-            // grey theme
-            swBg = 'radial-gradient(#4f4f4f, #1c1c1c)';
-            setSP('--body-bg', 'radial-gradient(#4f4f4f, #1c1c1c)');
-            setSP('--msger-bg', 'radial-gradient(#4f4f4f, #1c1c1c)');
-            setSP('--wb-bg', 'radial-gradient(#5f5f5f, #2c2c2c)');
-            setSP('--elem-border-color', 'none');
-            setSP('--navbar-bg', 'rgba(28, 28, 28, 0.8)');
-            setSP('--select-bg', '#3a3a3a');
-            setSP('--tab-btn-active', '#4f4f4f');
-            setSP('--box-shadow', '0px 8px 16px 0px rgba(0, 0, 0, 0.4)');
-            setSP('--msger-private-bg', 'radial-gradient(#4f4f4f, #1c1c1c)');
-            setSP('--left-msg-bg', '#353535');
-            setSP('--right-msg-bg', '#4a4a4a');
-            setSP('--private-msg-bg', '#616161');
-            setSP('--btn-bar-bg-color', '#FFFFFF');
-            setSP('--btn-bar-color', '#000000');
-            setSP('--btns-bg-color', 'rgba(0, 0, 0, 0.7)');
-            setSP('--dd-color', '#FFFFFF');
-            document.body.style.background = 'radial-gradient(#4f4f4f, #1c1c1c)';
+            // grey theme — modern slate with balanced cool tones
+            swBg = 'radial-gradient(#3b3f47, #1e2028)';
+            setSP('--body-bg', 'radial-gradient(#3b3f47, #1e2028)');
+            setSP('--msger-bg', 'radial-gradient(#3b3f47, #1e2028)');
+            setSP('--wb-bg', 'radial-gradient(#434750, #252830)');
+            setSP('--elem-border-color', '1px solid rgba(255, 255, 255, 0.08)');
+            setSP('--navbar-bg', 'rgba(30, 32, 40, 0.85)');
+            setSP('--select-bg', '#32363e');
+            setSP('--tab-btn-active', '#484c55');
+            setSP('--box-shadow', '0px 4px 12px 0px rgba(0, 0, 0, 0.45)');
+            setSP('--msger-private-bg', 'radial-gradient(#3b3f47, #1e2028)');
+            setSP('--left-msg-bg', '#33373f');
+            setSP('--right-msg-bg', '#434750');
+            setSP('--private-msg-bg', '#2d3038');
+            setSP('--btn-bar-bg-color', '#E8E8EC');
+            setSP('--btn-bar-color', '#1e2028');
+            setSP('--btns-bg-color', 'rgba(30, 32, 40, 0.75)');
+            setSP('--dd-color', '#E0E0E6');
+            document.body.style.background = 'radial-gradient(#3b3f47, #1e2028)';
             mirotalkTheme.selectedIndex = 1;
             break;
         case 'green':
-            // green theme
-            swBg = 'radial-gradient(#004d40, #001f1c)';
-            setSP('--body-bg', 'radial-gradient(#004d40, #001f1c)');
-            setSP('--msger-bg', 'radial-gradient(#004d40, #001f1c)');
-            setSP('--wb-bg', 'radial-gradient(#004d40, #001f1c)');
-            setSP('--elem-border-color', 'none');
-            setSP('--navbar-bg', 'rgba(0, 31, 28, 0.8)');
-            setSP('--select-bg', '#002e2b');
-            setSP('--tab-btn-active', '#004d40');
-            setSP('--box-shadow', '0px 8px 16px 0px rgba(0, 0, 0, 0.4)');
-            setSP('--msger-private-bg', 'radial-gradient(#4f4f4f, #1c1c1c)');
-            setSP('--left-msg-bg', '#004d40');
-            setSP('--right-msg-bg', '#00312c');
-            setSP('--private-msg-bg', '#004a47');
-            setSP('--btn-bar-bg-color', '#FFFFFF');
-            setSP('--btn-bar-color', '#000000');
-            setSP('--btns-bg-color', 'rgba(0, 42, 34, 0.7)');
-            setSP('--dd-color', '#00FF00');
-            document.body.style.background = 'radial-gradient(#004d40, #001f1c)';
+            // green theme — modern emerald with depth
+            swBg = 'radial-gradient(#1a3a32, #0d1f1a)';
+            setSP('--body-bg', 'radial-gradient(#1a3a32, #0d1f1a)');
+            setSP('--msger-bg', 'radial-gradient(#1a3a32, #0d1f1a)');
+            setSP('--wb-bg', 'radial-gradient(#1a3a32, #0d1f1a)');
+            setSP('--elem-border-color', '1px solid rgba(72, 199, 154, 0.15)');
+            setSP('--navbar-bg', 'rgba(13, 31, 26, 0.88)');
+            setSP('--select-bg', '#17332b');
+            setSP('--tab-btn-active', '#22493e');
+            setSP('--box-shadow', '0px 4px 12px 0px rgba(0, 0, 0, 0.5)');
+            setSP('--msger-private-bg', 'radial-gradient(#1a3a32, #0d1f1a)');
+            setSP('--left-msg-bg', '#1e3f36');
+            setSP('--right-msg-bg', '#14302a');
+            setSP('--private-msg-bg', '#153028');
+            setSP('--btn-bar-bg-color', '#E8F5E9');
+            setSP('--btn-bar-color', '#0d1f1a');
+            setSP('--btns-bg-color', 'rgba(13, 31, 26, 0.75)');
+            setSP('--dd-color', '#48C79A');
+            document.body.style.background = 'radial-gradient(#1a3a32, #0d1f1a)';
             mirotalkTheme.selectedIndex = 2;
             break;
         case 'blue':
-            // blue theme
-            swBg = 'radial-gradient(#1a237e, #0d1b34)';
-            setSP('--body-bg', 'radial-gradient(#1a237e, #0d1b34)');
-            setSP('--msger-bg', 'radial-gradient(#1a237e, #0d1b34)');
-            setSP('--wb-bg', 'radial-gradient(#1a237e, #0d1b34)');
-            setSP('--elem-border-color', 'none');
-            setSP('--navbar-bg', 'rgba(13, 27, 52, 0.8)');
-            setSP('--select-bg', '#0d1b34');
-            setSP('--tab-btn-active', '#1a237e');
-            setSP('--box-shadow', '0px 8px 16px 0px rgba(0, 0, 0, 0.4)');
-            setSP('--msger-private-bg', 'radial-gradient(#4f4f4f, #1c1c1c)');
-            setSP('--left-msg-bg', '#1a237e');
-            setSP('--right-msg-bg', '#0d1b34');
-            setSP('--private-msg-bg', '#1a237e');
-            setSP('--btn-bar-bg-color', '#FFFFFF');
-            setSP('--btn-bar-color', '#000000');
-            setSP('--btns-bg-color', 'rgba(0, 39, 77, 0.7)');
-            setSP('--dd-color', '#1E90FF');
-            document.body.style.background = 'radial-gradient(#1a237e, #0d1b34)';
+            // blue theme — modern deep blue with clarity
+            swBg = 'radial-gradient(#1b2a4a, #0f1729)';
+            setSP('--body-bg', 'radial-gradient(#1b2a4a, #0f1729)');
+            setSP('--msger-bg', 'radial-gradient(#1b2a4a, #0f1729)');
+            setSP('--wb-bg', 'radial-gradient(#1b2a4a, #0f1729)');
+            setSP('--elem-border-color', '1px solid rgba(96, 165, 250, 0.15)');
+            setSP('--navbar-bg', 'rgba(15, 23, 41, 0.88)');
+            setSP('--select-bg', '#182440');
+            setSP('--tab-btn-active', '#243656');
+            setSP('--box-shadow', '0px 4px 12px 0px rgba(0, 0, 0, 0.5)');
+            setSP('--msger-private-bg', 'radial-gradient(#1b2a4a, #0f1729)');
+            setSP('--left-msg-bg', '#1e2e50');
+            setSP('--right-msg-bg', '#152038');
+            setSP('--private-msg-bg', '#172545');
+            setSP('--btn-bar-bg-color', '#E3F2FD');
+            setSP('--btn-bar-color', '#0f1729');
+            setSP('--btns-bg-color', 'rgba(15, 23, 41, 0.75)');
+            setSP('--dd-color', '#60A5FA');
+            document.body.style.background = 'radial-gradient(#1b2a4a, #0f1729)';
             mirotalkTheme.selectedIndex = 3;
             break;
         case 'red':
-            // red theme
-            swBg = 'radial-gradient(#8B0000, #320000)';
-            setSP('--body-bg', 'radial-gradient(#8B0000, #320000)');
-            setSP('--msger-bg', 'radial-gradient(#8B0000, #320000)');
-            setSP('--wb-bg', 'radial-gradient(#8B0000, #320000)');
-            setSP('--navbar-bg', 'rgba(50, 0, 0, 0.8)');
-            setSP('--select-bg', '#320000');
-            setSP('--tab-btn-active', '#8B0000');
-            setSP('--box-shadow', '0px 8px 16px 0px rgba(0, 0, 0, 0.4)');
-            setSP('--msger-private-bg', 'radial-gradient(#4f4f4f, #1c1c1c)');
-            setSP('--left-msg-bg', '#8B0000');
-            setSP('--right-msg-bg', '#4B0000');
-            setSP('--private-msg-bg', '#8B0000');
-            setSP('--btn-bar-bg-color', '#FFFFFF');
-            setSP('--btn-bar-color', '#000000');
-            setSP('--btns-bg-color', 'rgba(42, 13, 13, 0.7)');
-            setSP('--dd-color', '#FF4500');
-            document.body.style.background = 'radial-gradient(#8B0000, #320000)';
+            // red theme — modern crimson with warmth
+            swBg = 'radial-gradient(#3d1520, #1c0a10)';
+            setSP('--body-bg', 'radial-gradient(#3d1520, #1c0a10)');
+            setSP('--msger-bg', 'radial-gradient(#3d1520, #1c0a10)');
+            setSP('--wb-bg', 'radial-gradient(#3d1520, #1c0a10)');
+            setSP('--elem-border-color', '1px solid rgba(248, 113, 113, 0.15)');
+            setSP('--navbar-bg', 'rgba(28, 10, 16, 0.88)');
+            setSP('--select-bg', '#35121c');
+            setSP('--tab-btn-active', '#4d1a28');
+            setSP('--box-shadow', '0px 4px 12px 0px rgba(0, 0, 0, 0.5)');
+            setSP('--msger-private-bg', 'radial-gradient(#3d1520, #1c0a10)');
+            setSP('--left-msg-bg', '#421824');
+            setSP('--right-msg-bg', '#2e1018');
+            setSP('--private-msg-bg', '#381420');
+            setSP('--btn-bar-bg-color', '#FDE8E8');
+            setSP('--btn-bar-color', '#1c0a10');
+            setSP('--btns-bg-color', 'rgba(28, 10, 16, 0.75)');
+            setSP('--dd-color', '#F87171');
+            document.body.style.background = 'radial-gradient(#3d1520, #1c0a10)';
             mirotalkTheme.selectedIndex = 4;
             break;
         case 'purple':
-            // purple theme
-            swBg = 'radial-gradient(#4B0082, #2C003E)';
-            setSP('--body-bg', 'radial-gradient(#4B0082, #2C003E)');
-            setSP('--msger-bg', 'radial-gradient(#4B0082, #2C003E)');
-            setSP('--wb-bg', 'radial-gradient(#4B0082, #2C003E)');
-            setSP('--elem-border-color', 'none');
-            setSP('--navbar-bg', 'rgba(44, 0, 62, 0.8)');
-            setSP('--select-bg', '#2C003E');
-            setSP('--tab-btn-active', '#4B0082');
-            setSP('--box-shadow', '0px 8px 16px 0px rgba(0, 0, 0, 0.4)');
-            setSP('--msger-private-bg', 'radial-gradient(#4f4f4f, #1c1c1c)');
-            setSP('--left-msg-bg', '#4B0082');
-            setSP('--right-msg-bg', '#2C003E');
-            setSP('--private-msg-bg', '#4B0082');
-            setSP('--btn-bar-bg-color', '#FFFFFF');
-            setSP('--btn-bar-color', '#000000');
-            setSP('--btns-bg-color', 'rgba(42, 0, 29, 0.7)');
-            setSP('--dd-color', '#BF00FF');
-            document.body.style.background = 'radial-gradient(#4B0082, #2C003E)';
+            // purple theme — modern violet with elegance
+            swBg = 'radial-gradient(#2a1840, #150d24)';
+            setSP('--body-bg', 'radial-gradient(#2a1840, #150d24)');
+            setSP('--msger-bg', 'radial-gradient(#2a1840, #150d24)');
+            setSP('--wb-bg', 'radial-gradient(#2a1840, #150d24)');
+            setSP('--elem-border-color', '1px solid rgba(192, 132, 252, 0.15)');
+            setSP('--navbar-bg', 'rgba(21, 13, 36, 0.88)');
+            setSP('--select-bg', '#241538');
+            setSP('--tab-btn-active', '#351f4e');
+            setSP('--box-shadow', '0px 4px 12px 0px rgba(0, 0, 0, 0.5)');
+            setSP('--msger-private-bg', 'radial-gradient(#2a1840, #150d24)');
+            setSP('--left-msg-bg', '#2e1c45');
+            setSP('--right-msg-bg', '#201230');
+            setSP('--private-msg-bg', '#28163c');
+            setSP('--btn-bar-bg-color', '#F3E8FD');
+            setSP('--btn-bar-color', '#150d24');
+            setSP('--btns-bg-color', 'rgba(21, 13, 36, 0.75)');
+            setSP('--dd-color', '#C084FC');
+            document.body.style.background = 'radial-gradient(#2a1840, #150d24)';
             mirotalkTheme.selectedIndex = 5;
             break;
         case 'orange':
-            // orange theme
-            swBg = 'radial-gradient(#FF8C00, #4B1C00)';
-            setSP('--body-bg', 'radial-gradient(#FF8C00, #4B1C00)');
-            setSP('--msger-bg', 'radial-gradient(#FF8C00, #4B1C00)');
-            setSP('--wb-bg', 'radial-gradient(#FF8C00, #4B1C00)');
-            setSP('--elem-border-color', 'none');
-            setSP('--navbar-bg', 'rgba(75, 28, 0, 0.8)');
-            setSP('--select-bg', '#4B1C00');
-            setSP('--tab-btn-active', '#FF8C00');
-            setSP('--box-shadow', '0px 8px 16px 0px rgba(0, 0, 0, 0.4)');
-            setSP('--msger-private-bg', 'radial-gradient(#4f4f4f, #1c1c1c)');
-            setSP('--left-msg-bg', '#FF8C00');
-            setSP('--right-msg-bg', '#4B1C00');
-            setSP('--private-msg-bg', '#FF8C00');
-            setSP('--btn-bar-bg-color', '#FFFFFF');
-            setSP('--btn-bar-color', '#000000');
-            setSP('--btns-bg-color', 'rgba(61, 26, 0, 0.7)');
-            setSP('--dd-color', '#FFA500');
-            document.body.style.background = 'radial-gradient(#FF8C00, #4B1C00)';
+            // orange theme — modern amber with depth
+            swBg = 'radial-gradient(#3d2410, #1e1208)';
+            setSP('--body-bg', 'radial-gradient(#3d2410, #1e1208)');
+            setSP('--msger-bg', 'radial-gradient(#3d2410, #1e1208)');
+            setSP('--wb-bg', 'radial-gradient(#3d2410, #1e1208)');
+            setSP('--elem-border-color', '1px solid rgba(251, 191, 36, 0.15)');
+            setSP('--navbar-bg', 'rgba(30, 18, 8, 0.88)');
+            setSP('--select-bg', '#352010');
+            setSP('--tab-btn-active', '#4d3018');
+            setSP('--box-shadow', '0px 4px 12px 0px rgba(0, 0, 0, 0.5)');
+            setSP('--msger-private-bg', 'radial-gradient(#3d2410, #1e1208)');
+            setSP('--left-msg-bg', '#422814');
+            setSP('--right-msg-bg', '#2e1c0e');
+            setSP('--private-msg-bg', '#382210');
+            setSP('--btn-bar-bg-color', '#FFF3E0');
+            setSP('--btn-bar-color', '#1e1208');
+            setSP('--btns-bg-color', 'rgba(30, 18, 8, 0.75)');
+            setSP('--dd-color', '#FBBF24');
+            document.body.style.background = 'radial-gradient(#3d2410, #1e1208)';
             mirotalkTheme.selectedIndex = 6;
             break;
         case 'yellow':
-            // yellow theme
-            swBg = 'radial-gradient(#FFD700, #3B3B00)';
-            setSP('--body-bg', 'radial-gradient(#FFD700, #3B3B00)');
-            setSP('--msger-bg', 'radial-gradient(#FFD700, #3B3B00)');
-            setSP('--wb-bg', 'radial-gradient(#FFD700, #3B3B00)');
-            setSP('--elem-border-color', 'none');
-            setSP('--navbar-bg', 'rgba(59, 59, 0, 0.8)');
-            setSP('--select-bg', '#3B3B00');
-            setSP('--tab-btn-active', '#FFD700');
-            setSP('--box-shadow', '0px 8px 16px 0px rgba(0, 0, 0, 0.4)');
-            setSP('--msger-private-bg', 'radial-gradient(#4f4f4f, #1c1c1c)');
-            setSP('--left-msg-bg', '#FFD700');
-            setSP('--right-msg-bg', '#B8860B');
-            setSP('--private-msg-bg', '#FFD700');
-            setSP('--btn-bar-bg-color', '#FFFFFF');
-            setSP('--btn-bar-color', '#000000');
-            setSP('--btns-bg-color', 'rgba(77, 59, 0, 0.7)');
-            setSP('--dd-color', '#FFD700');
-            document.body.style.background = 'radial-gradient(#FFD700, #3B3B00)';
+            // yellow theme — modern gold with sophistication
+            swBg = 'radial-gradient(#3a3418, #1e1c0e)';
+            setSP('--body-bg', 'radial-gradient(#3a3418, #1e1c0e)');
+            setSP('--msger-bg', 'radial-gradient(#3a3418, #1e1c0e)');
+            setSP('--wb-bg', 'radial-gradient(#3a3418, #1e1c0e)');
+            setSP('--elem-border-color', '1px solid rgba(250, 204, 21, 0.15)');
+            setSP('--navbar-bg', 'rgba(30, 28, 14, 0.88)');
+            setSP('--select-bg', '#322e15');
+            setSP('--tab-btn-active', '#4a441e');
+            setSP('--box-shadow', '0px 4px 12px 0px rgba(0, 0, 0, 0.5)');
+            setSP('--msger-private-bg', 'radial-gradient(#3a3418, #1e1c0e)');
+            setSP('--left-msg-bg', '#3e381c');
+            setSP('--right-msg-bg', '#2c2812');
+            setSP('--private-msg-bg', '#363018');
+            setSP('--btn-bar-bg-color', '#FFFDE7');
+            setSP('--btn-bar-color', '#1e1c0e');
+            setSP('--btns-bg-color', 'rgba(30, 28, 14, 0.75)');
+            setSP('--dd-color', '#FACC15');
+            document.body.style.background = 'radial-gradient(#3a3418, #1e1c0e)';
             mirotalkTheme.selectedIndex = 7;
             break;
         // ...
@@ -13763,7 +13764,7 @@ function showAbout() {
     Swal.fire({
         background: swBg,
         position: 'center',
-        title: brand.about?.title && brand.about.title.trim() !== '' ? brand.about.title : 'WebRTC P2P v1.7.64',
+        title: brand.about?.title && brand.about.title.trim() !== '' ? brand.about.title : 'WebRTC P2P v1.7.65',
         imageUrl: brand.about?.imageUrl && brand.about.imageUrl.trim() !== '' ? brand.about.imageUrl : images.about,
         customClass: { image: 'img-about' },
         html: `
