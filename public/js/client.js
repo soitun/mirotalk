@@ -15,7 +15,7 @@
  * @license For commercial use or closed source, contact us at license.mirotalk@gmail.com or purchase directly from CodeCanyon
  * @license CodeCanyon: https://codecanyon.net/item/mirotalk-p2p-webrtc-realtime-video-conferences/38376661
  * @author  Miroslav Pejic - miroslav.pejic.85@gmail.com
- * @version 1.7.65
+ * @version 1.7.66
  *
  */
 
@@ -3757,7 +3757,7 @@ async function loadLocalMedia(stream, kind) {
             // my hand status element
             myHandStatusIcon.setAttribute('id', 'myHandStatusIcon');
             myHandStatusIcon.className = className.handPulsate;
-            myHandStatusIcon.style.setProperty('color', 'rgb(0, 255, 0)');
+            myHandStatusIcon.style.setProperty('color', '#FFD700');
 
             // my privacy button
             myPrivacyBtn.setAttribute('id', 'myPrivacyBtn');
@@ -4201,7 +4201,7 @@ async function loadRemoteMediaStream(stream, peers, peer_id, kind) {
 
             // remote hand status element
             remoteHandStatusIcon.setAttribute('id', peer_id + '_handStatus');
-            remoteHandStatusIcon.style.setProperty('color', 'rgb(0, 255, 0)');
+            remoteHandStatusIcon.style.setProperty('color', '#FFD700');
             remoteHandStatusIcon.className = className.handPulsate;
 
             // remote video status element
@@ -10701,7 +10701,7 @@ function setMyHandStatus() {
     myHandStatus = !myHandStatus;
     if (myHandStatus) {
         // Raise hand
-        setColor(myHandBtn, 'green');
+        setColor(myHandBtn, '#FFD700');
         elemDisplay(myHandStatusIcon, true);
         setTippy(myHandBtn, 'Raise your hand', bottomButtonsPlacement);
         playSound('raiseHand');
@@ -13764,7 +13764,7 @@ function showAbout() {
     Swal.fire({
         background: swBg,
         position: 'center',
-        title: brand.about?.title && brand.about.title.trim() !== '' ? brand.about.title : 'WebRTC P2P v1.7.65',
+        title: brand.about?.title && brand.about.title.trim() !== '' ? brand.about.title : 'WebRTC P2P v1.7.66',
         imageUrl: brand.about?.imageUrl && brand.about.imageUrl.trim() !== '' ? brand.about.imageUrl : images.about,
         customClass: { image: 'img-about' },
         html: `
