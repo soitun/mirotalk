@@ -196,7 +196,7 @@ body {
     background: var(--select-bg) !important;
     color: white;
     border: var(--border);
-    border-radius: 5px;
+    border-radius: 8px;
     box-shadow: none;
     cursor: pointer;
 }
@@ -209,7 +209,7 @@ body {
     font-size: 1.5rem;
     color: white;
     border: var(--border);
-    border-radius: 5px;
+    border-radius: 8px;
     background-color: transparent;
 }
 
@@ -1002,7 +1002,7 @@ body {
 
 .msger-copy-txt {
     border: none;
-    border-radius: 5px;
+    border-radius: 8px;
     color: #fff;
     background: transparent;
 }
@@ -1086,7 +1086,7 @@ button {
 .msger-input-buttons button {
     padding: 5px 6px;
     border: none;
-    border-radius: 5px;
+    border-radius: 8px;
     font-size: 1rem;
     color: #fff;
     background: transparent;
@@ -1142,7 +1142,7 @@ button {
     min-width: 0;
     padding: 6px 8px;
     font-size: 14px;
-    border-radius: 6px;
+    border-radius: 8px;
     border: 1px solid rgba(255, 255, 255, 0.15);
     background: rgba(0, 0, 0, 0.18);
     color: #fff;
@@ -1176,7 +1176,7 @@ button {
     width: 240px;
     min-width: 200px;
     background: var(--body-bg);
-    border-radius: 6px;
+    border-radius: 8px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
     padding: 6px 0;
     margin: 4px 35px 0px 0px;
@@ -1198,7 +1198,7 @@ button {
     align-items: center;
     justify-content: center;
     padding: 0;
-    border-radius: 4px;
+    border-radius: 8px;
 }
 
 .msger-peer-inputarea .msgPrivate {
@@ -1336,7 +1336,7 @@ button {
 .msger-peer-inputarea * {
     padding: 5px;
     border: none;
-    border-radius: 3px;
+    border-radius: 8px;
     font-size: 1rem;
     margin: 1px;
     color: #fff;
@@ -1391,7 +1391,7 @@ button {
     z-index: 9999;
     background: var(--body-bg);
     border: var(--border);
-    border-radius: 5px;
+    border-radius: 8px;
     --rgb-background: var(--body-bg) !important;
     --color-border-over: var(--body-bg) !important;
     --font-family: 'Montserrat';
@@ -1404,7 +1404,7 @@ button {
     left: 10px;
     background: var(--body-bg);
     border: var(--border);
-    border-radius: 5px;
+    border-radius: 8px;
     --rgb-background: var(--body-bg) !important;
     --color-border-over: var(--body-bg) !important;
     --font-family: 'Montserrat';
@@ -1542,7 +1542,7 @@ button {
     color: white;
     background: var(--body-bg);
     border: var(--border);
-    border-radius: 5px;
+    border-radius: 8px;
 }
 
 /*--------------------------------------------------------------
@@ -1690,7 +1690,7 @@ button {
     background: var(--select-bg) !important;
     color: #fff;
     border: var(--border);
-    border-radius: 5px;
+    border-radius: 8px;
     box-shadow: none;
     cursor: pointer;
 }
@@ -1699,7 +1699,7 @@ button {
     font-size: 1.2rem;
     color: #fff;
     border: none;
-    border-radius: 5px;
+    border-radius: 8px;
     float: right;
     background: transparent;
     transition: background 0.23s;
@@ -1735,7 +1735,7 @@ button {
     margin-bottom: 20px;
     width: 130px;
     border: var(--border);
-    border-radius: 5px;
+    border-radius: 8px;
     background: var(--select-bg);
     color: white;
     cursor: pointer;
@@ -1767,7 +1767,7 @@ button {
 
 .extra-info-container {
     margin-top: 15px;
-    border-radius: 5px;
+    border-radius: 8px;
     background: var(--body-bg);
     overflow-x: none;
     overflow-y: auto;
@@ -1789,7 +1789,7 @@ button {
     width: 50%;
     padding: 10px;
     border: var(--border);
-    border-radius: 5px;
+    border-radius: 8px;
     color: #fff;
     background-color: rgba(0, 0, 0, 0.2);
 }
@@ -1811,7 +1811,7 @@ button {
     padding: 10px;
     font-size: 0.9rem;
     border: var(--border);
-    border-radius: 5px;
+    border-radius: 8px;
     color: #fff;
     background-color: transparent;
 }
@@ -1828,7 +1828,7 @@ button {
     padding: 10px;
     font-size: 0.9rem;
     border: var(--border);
-    border-radius: 5px;
+    border-radius: 8px;
     color: #fff;
     background-color: transparent;
 }
@@ -1913,7 +1913,7 @@ button {
 
 #mySettingsTable i {
     border: none;
-    border-radius: 5px;
+    border-radius: 8px;
 }
 
 #mySettingsTable select {
@@ -1957,7 +1957,7 @@ button {
 .tab {
     padding: 10px;
     overflow: hidden;
-    border-radius: 5px;
+    border-radius: 8px;
     width: 35%;
     background-color: var(--body-bg);
     min-height: 480px;
@@ -1997,7 +1997,7 @@ button {
     color: #fff;
     font-size: 1rem;
     border: var(--border);
-    border-radius: 5px;
+    border-radius: 8px;
     background-color: rgba(0, 0, 0, 0.2);
     outline: none;
     cursor: pointer;
@@ -2062,7 +2062,7 @@ button {
     height: 5px;
     margin: 0 2px;
     background-color: #ddd;
-    border-radius: 5px;
+    border-radius: 8px;
     transition: all 0.3s ease;
 }
 
@@ -2140,7 +2140,12 @@ input:checked + .slider:before {
 
 .swal2-popup {
     border: var(--border) !important;
+    border-radius: 20px !important;
     /* box-shadow: var(--box-shadow) !important; */
+}
+
+.swal2-popup .swal2-styled {
+    border-radius: 12px !important;
 }
 
 .swal2-popup .swal2-styled:focus {
@@ -2158,12 +2163,14 @@ input:checked + .slider:before {
 
 .swal2-input {
     border: var(--border) !important;
+    border-radius: 12px !important;
     box-shadow: none !important;
 }
 
 .swal2-file {
     color: white !important;
     background-color: transparent !important;
+    border-radius: 12px !important;
 }
 
 .swal2-html-container {
@@ -2174,11 +2181,13 @@ input:checked + .slider:before {
 .swal2-select {
     background-color: var(--select-bg) !important;
     color: white !important;
-    border-radius: 6px !important;
+    border-radius: 12px !important;
 }
 
 .swal2-timer-progress-bar-container {
     background: var(--body-bg);
+    border-radius: 0 0 20px 20px !important;
+    overflow: hidden !important;
 }
 
 .swal2-timer-progress-bar {
@@ -2299,7 +2308,7 @@ input:checked + .slider:before {
     z-index: 17;
     display: none;
     min-width: 320px;
-    border-radius: 5px;
+    border-radius: 12px;
     margin: auto;
     padding: 10px;
     color: #fff;
@@ -2315,7 +2324,7 @@ input:checked + .slider:before {
     margin-top: 10px;
     padding: 5px;
     border: var(--border);
-    border-radius: 5px;
+    border-radius: 8px;
     font-size: 1rem;
     color: #fff;
     background-color: transparent;
@@ -2366,7 +2375,7 @@ progress {
     height: var(--iframe-height);
     border: var(--border);
     box-shadow: var(--box-shadow);
-    border-radius: 5px;
+    border-radius: 12px;
 }
 
 #videoAudioUrlHeader,
@@ -2378,7 +2387,7 @@ progress {
     top: 0px;
     width: 100%;
     cursor: move;
-    border-radius: 5px;
+    border-radius: 12px;
 }
 
 #videoAudioUrlHeader button,
@@ -2403,13 +2412,13 @@ progress {
 #videoUrlIframe {
     width: var(--iframe-width);
     height: var(--iframe-height);
-    border-radius: 5px;
+    border-radius: 12px;
 }
 
 #videoAudioUrlElement {
     width: var(--iframe-width);
     height: var(--iframe-height) - 20px;
-    border-radius: 5px;
+    border-radius: 12px;
 }
 
 /*--------------------------------------------------------------
@@ -2441,7 +2450,7 @@ progress {
     width: 170px;
     height: 40px;
     font-size: 1.2rem;
-    border-radius: 6px;
+    border-radius: 8px;
     color: #ffffff;
     background: linear-gradient(65deg, #376df9 0, #ff5fa0 100%);
     transition: background 0.23s;
@@ -2496,7 +2505,7 @@ progress {
     color: #ffffff;
     font-size: small;
     max-width: 135px;
-    border-radius: 5px;
+    border-radius: 8px;
 }
 
 /*--------------------------------------------------------------
@@ -2648,7 +2657,7 @@ hr {
     /* padding: 10px 20px; */
     color: #fff;
     border: none;
-    border-radius: 5px;
+    border-radius: 8px;
     background-color: var(--body-bg);
     cursor: pointer;
 }
@@ -2692,7 +2701,7 @@ hr {
     right: 0;
     padding: 10px 0;
     min-width: 240px;
-    border-radius: 5px;
+    border-radius: 12px;
     border: none;
     background: var(--body-bg);
     z-index: 9999;
@@ -2735,7 +2744,7 @@ hr {
     margin: 5px;
     color: #fff;
     border: var(--border);
-    border-radius: 5px;
+    border-radius: 8px;
     background: var(--body-bg);
     cursor: pointer;
 }
@@ -2756,7 +2765,7 @@ hr {
 
 ::-webkit-scrollbar-thumb {
     background: var(--body-bg);
-    border-radius: 5px;
+    border-radius: 8px;
     cursor: pointer;
 }
 

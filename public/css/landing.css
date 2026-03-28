@@ -51,11 +51,11 @@ body {
 }
 #joinRoomForm #randomRoomButton {
     flex: 0 0 auto;
-    border-radius: 5px;
+    border-radius: 8px;
 }
 #joinRoomForm #joinSelectRoomButton {
     flex: 1 1 auto;
-    border-radius: 5px;
+    border-radius: 8px;
 }
 
 article,
@@ -406,7 +406,7 @@ dd {
 }
 
 img {
-    border-radius: 2px;
+    border-radius: 8px;
 }
 
 img,
@@ -884,7 +884,7 @@ strong {
     border-width: 1px;
     border-style: solid;
     border-color: rgba(0, 0, 0, 0);
-    border-radius: 2px;
+    border-radius: 8px;
     cursor: pointer;
     justify-content: center;
     text-align: center;
@@ -981,7 +981,7 @@ strong {
         inset 0 1px 0 rgba(255, 255, 255, 0.05);
     border: none;
     color: rgba(255, 255, 255, 0.88) !important;
-    border-radius: 6px;
+    border-radius: 8px;
     transition:
         background 0.2s ease,
         border-color 0.2s ease,
@@ -1161,7 +1161,7 @@ fieldset {
     letter-spacing: -0.1px;
     padding: 11px 15px;
     height: 48px;
-    border-radius: 6px !important;
+    border-radius: 8px !important;
     color: #16171b;
     box-shadow: none;
     max-width: 100%;
@@ -1299,7 +1299,7 @@ textarea.form-input {
 }
 
 .form-checkbox input {
-    border-radius: 2px;
+    border-radius: 4px;
 }
 
 .form-checkbox input:checked {
@@ -3180,7 +3180,7 @@ ul.pricing-item-features-list li.is-checked::after {
 
 .cta .form-input {
     border-color: transparent;
-    border-radius: 2px;
+    border-radius: 8px;
 }
 
 .cta-inner {
@@ -3320,7 +3320,7 @@ ul.pricing-item-features-list li.is-checked::after {
 }
 
 img.has-shadow {
-    border-radius: 2px;
+    border-radius: 8px;
 }
 
 .has-top-divider {
@@ -3891,7 +3891,7 @@ img.has-shadow {
 /* Target the scrollbar thumb (the draggable part) */
 ::-webkit-scrollbar-thumb {
     background: #4678f9;
-    border-radius: 5px; /* rounded corners for the thumb */
+    border-radius: 8px; /* rounded corners for the thumb */
     cursor: pointer;
 }
 
@@ -3939,7 +3939,7 @@ img.has-shadow {
     text-decoration: none;
     line-height: 16px;
     padding: 8px 8px;
-    border-radius: 5px;
+    border-radius: 8px;
     margin: 4px;
 }
 
