@@ -289,6 +289,18 @@
     padding-right: 24px;
     cursor: pointer;
     color: #fff;
+    transition:
+        border-color 0.2s ease,
+        background-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+.login-input-group select.form-input:hover {
+    border-color: rgba(70, 120, 249, 0.4);
+}
+.login-input-group select.form-input:focus {
+    border-color: #4678f9;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(70, 120, 249, 0.15);
 }
 .login-input-group select.form-input option {
     background: #1a1a2e;

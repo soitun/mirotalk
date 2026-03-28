@@ -37,7 +37,7 @@
 @media (max-width: 768px) {
     #whiteboard {
         padding: 5px;
-        border-radius: 5px;
+        border-radius: 8px;
     }
 
     .whiteboard-header {
@@ -93,7 +93,7 @@
     background: transparent;
     color: #fff;
     border: none !important;
-    border-radius: 5px;
+    border-radius: 8px;
     transition: all 0.3s ease-in-out;
     transition: background 0.23s;
 }
@@ -182,9 +182,10 @@
     top: 100%;
     right: 0;
     display: none;
-    border-radius: 5px;
+    border-radius: 12px;
     background: var(--body-bg);
-    border: none;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
     overflow-y: auto;
     overflow-x: hidden;
     max-height: var(--wb-height) !important;
@@ -200,12 +201,13 @@
     text-align: left;
     padding: 10px;
     border: none;
+    border-radius: 8px;
     background: none;
     cursor: pointer;
 }
 
 .whiteboard-dropdown-menu button:hover {
-    background: var(--select-bg) !important;
+    background: rgba(255, 255, 255, 0.08);
     color: #ffffff;
 }
 

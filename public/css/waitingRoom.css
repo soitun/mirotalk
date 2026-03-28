@@ -155,14 +155,14 @@
     flex: 1;
     height: 4px;
     background: rgba(255, 255, 255, 0.1);
-    border-radius: 2px;
+    border-radius: 4px;
     overflow: hidden;
 }
 .waiting-audio-progress {
     height: 100%;
     width: 0;
     background: #4678f9;
-    border-radius: 2px;
+    border-radius: 4px;
     transition: width 0.3s linear;
 }
 
