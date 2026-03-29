@@ -2171,6 +2171,8 @@ async function changeLocalCamera(deviceId) {
             } catch (fallbackErr) {
                 console.error('Error accessing init video device with default constraints', fallbackErr);
                 printError(err);
+                // Hide loading spinner on error
+                if (spinner) spinner.style.display = 'none';
             }
         });
 
@@ -7989,6 +7991,11 @@ async function swapCamera() {
     camera = camera == 'user' ? 'environment' : 'user';
     camVideo = camera == 'user' ? true : { facingMode: { exact: camera } };
 
+    // Show loading spinner while switching camera
+    const myVideoWrap = getId('myVideoWrap');
+    const spinner = myVideoWrap ? myVideoWrap.querySelector('.video-loading-spinner') : null;
+    if (spinner) spinner.style.display = '';
+
     // some devices can't swap the cam, if have Video Track already in execution.
     await stopLocalVideoTrack();
 
@@ -8006,6 +8013,9 @@ async function swapCamera() {
         console.log('[Error] to swapping camera', err);
         userLog('error', 'Error to swapping the camera ' + err);
         // https://blog.addpipe.com/common-getusermedia-errors/
+    } finally {
+        // Hide loading spinner
+        if (spinner) spinner.style.display = 'none';
     }
 }
 
