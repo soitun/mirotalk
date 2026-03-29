@@ -15,7 +15,7 @@
  * @license For commercial use or closed source, contact us at license.mirotalk@gmail.com or purchase directly from CodeCanyon
  * @license CodeCanyon: https://codecanyon.net/item/mirotalk-p2p-webrtc-realtime-video-conferences/38376661
  * @author  Miroslav Pejic - miroslav.pejic.85@gmail.com
- * @version 1.7.68
+ * @version 1.7.69
  *
  */
 
@@ -2047,6 +2047,10 @@ function detectCameraFacingMode(stream) {
  * @param {string} deviceId
  */
 async function changeInitCamera(deviceId) {
+    // Show the loader spinner while switching camera
+    const initVideoLoader = getId('initVideoLoader');
+    if (initVideoLoader) initVideoLoader.style.display = '';
+
     // Stop media tracks to avoid issue on mobile
     if (initStream) {
         await stopTracks(initStream);
@@ -2133,6 +2137,11 @@ async function changeInitCamera(deviceId) {
  * @param {string} deviceId
  */
 async function changeLocalCamera(deviceId) {
+    // Show loading spinner while switching camera
+    const myVideoWrap = getId('myVideoWrap');
+    let spinner = myVideoWrap ? myVideoWrap.querySelector('.video-loading-spinner') : null;
+    if (spinner) spinner.style.display = '';
+
     if (localVideoMediaStream) {
         await stopVideoTracks(localVideoMediaStream);
     }
@@ -2179,6 +2188,8 @@ async function changeLocalCamera(deviceId) {
             await refreshMyStreamToPeers(camStream);
             setLocalMaxFps(videoMaxFrameRate);
         }
+        // Hide loading spinner
+        if (spinner) spinner.style.display = 'none';
     }
 
     /**
@@ -3873,7 +3884,6 @@ async function loadLocalMedia(stream, kind) {
             myLocalMedia.muted = true;
             myLocalMedia.volume = 0;
             myLocalMedia.controls = false;
-            myLocalMedia.poster = images.poster;
 
             myVideoWrap.className = 'Camera';
             myVideoWrap.setAttribute('id', 'myVideoWrap');
@@ -3884,6 +3894,8 @@ async function loadLocalMedia(stream, kind) {
             myVideoWrap.appendChild(myLocalMedia);
             myVideoWrap.appendChild(myPitchMeter);
             myVideoWrap.appendChild(myVideoPeerName);
+
+            createVideoLoadingSpinner(myVideoWrap, myLocalMedia);
 
             videoMediaContainer.appendChild(myVideoWrap);
             elemDisplay(myVideoWrap, false);
@@ -4035,7 +4047,6 @@ async function loadLocalMedia(stream, kind) {
             myScreenMedia.muted = true;
             myScreenMedia.volume = 0;
             myScreenMedia.controls = false;
-            myScreenMedia.poster = images.poster;
 
             myScreenWrap.className = 'Screen';
             myScreenWrap.setAttribute('id', 'myScreenWrap');
@@ -4045,6 +4056,8 @@ async function loadLocalMedia(stream, kind) {
             myScreenWrap.appendChild(myScreenAvatarImage);
             myScreenWrap.appendChild(myScreenMedia);
             myScreenWrap.appendChild(myScreenPeerName);
+
+            createVideoLoadingSpinner(myScreenWrap, myScreenMedia);
 
             videoMediaContainer.appendChild(myScreenWrap);
             // Show my screen tile immediately when created
@@ -4363,7 +4376,6 @@ async function loadRemoteMediaStream(stream, peers, peer_id, kind) {
             remoteMedia.style.objectFit = 'var(--video-object-fit)';
             remoteMedia.style.name = peer_id + '_typeCam';
             remoteMedia.controls = remoteMediaControls;
-            remoteMedia.poster = images.poster;
 
             remoteVideoWrap.className = 'Camera';
             remoteVideoWrap.setAttribute('id', peer_id + '_videoWrap');
@@ -4375,6 +4387,8 @@ async function loadRemoteMediaStream(stream, peers, peer_id, kind) {
             remoteVideoWrap.appendChild(remotePitchMeter);
             remoteVideoWrap.appendChild(remoteMedia);
             remoteVideoWrap.appendChild(remotePeerName);
+
+            createVideoLoadingSpinner(remoteVideoWrap, remoteMedia);
 
             // need later on disconnect or remove peers
             peerVideoMediaElements[remoteMedia.id] = remoteVideoWrap;
@@ -4578,8 +4592,6 @@ async function loadRemoteMediaStream(stream, peers, peer_id, kind) {
             remoteScreenMedia.style.objectFit = 'contain';
             remoteScreenMedia.style.name = peer_id + '_typeScreen';
 
-            remoteScreenMedia.poster = images.poster;
-
             remoteScreenWrap.className = 'Screen';
             remoteScreenWrap.setAttribute('id', peer_id + '_screenWrap');
             remoteScreenWrap.style.display = isHideALLVideosActive ? 'none' : 'block';
@@ -4588,6 +4600,8 @@ async function loadRemoteMediaStream(stream, peers, peer_id, kind) {
             remoteScreenWrap.appendChild(remoteScreenAvatarImage);
             remoteScreenWrap.appendChild(remoteScreenMedia);
             remoteScreenWrap.appendChild(remoteScreenPeerName);
+
+            createVideoLoadingSpinner(remoteScreenWrap, remoteScreenMedia);
 
             // need later on disconnect or remove peers
             peerScreenMediaElements[remoteScreenMedia.id] = remoteScreenWrap;
@@ -7582,6 +7596,48 @@ function attachMediaStream(element, stream) {
     //console.log("DEPRECATED, attachMediaStream will soon be removed.");
     element.srcObject = stream;
     console.log('Success, media stream attached', stream.getTracks());
+}
+
+/**
+ * Create a loading spinner overlay inside a video wrap element.
+ * The spinner is automatically hidden once the video starts playing.
+ * @param {HTMLElement} wrap - The parent wrapper div (.Camera or .Screen)
+ * @param {HTMLVideoElement} videoEl - The video element to monitor
+ */
+function createVideoLoadingSpinner(wrap, videoEl) {
+    const spinnerWrap = document.createElement('div');
+    spinnerWrap.className = 'video-loading-spinner';
+
+    const loadingSpinner = document.createElement('div');
+    loadingSpinner.className = 'loading-spinner';
+
+    const spinnerRing = document.createElement('div');
+    spinnerRing.className = 'spinner-ring';
+
+    const spinnerLogo = document.createElement('img');
+    spinnerLogo.className = 'spinner-logo';
+    spinnerLogo.src = '../images/logo.svg';
+    spinnerLogo.alt = 'logo';
+
+    loadingSpinner.appendChild(spinnerRing);
+    loadingSpinner.appendChild(spinnerLogo);
+    spinnerWrap.appendChild(loadingSpinner);
+    wrap.appendChild(spinnerWrap);
+
+    function hideSpinner() {
+        if (spinnerWrap.style.display === 'none') return;
+        spinnerWrap.style.display = 'none';
+        videoEl.removeEventListener('playing', hideSpinner);
+        videoEl.removeEventListener('loadeddata', hideSpinner);
+    }
+
+    videoEl.addEventListener('playing', hideSpinner);
+    videoEl.addEventListener('loadeddata', hideSpinner);
+
+    // If the video is already playing or has data, hide immediately
+    if (videoEl.readyState >= 2) {
+        hideSpinner();
+    }
 }
 
 /**
@@ -13769,7 +13825,7 @@ function showAbout() {
     Swal.fire({
         background: swBg,
         position: 'center',
-        title: brand.about?.title && brand.about.title.trim() !== '' ? brand.about.title : 'WebRTC P2P v1.7.68',
+        title: brand.about?.title && brand.about.title.trim() !== '' ? brand.about.title : 'WebRTC P2P v1.7.69',
         imageUrl: brand.about?.imageUrl && brand.about.imageUrl.trim() !== '' ? brand.about.imageUrl : images.about,
         customClass: { image: 'img-about' },
         html: `
