@@ -85,9 +85,12 @@
 
         <!-- show this before to join -->
 
-        <div id="loadingDiv" class="center pulsate">
+        <div id="loadingDiv" class="center">
+            <div class="loading-spinner">
+                <div class="spinner-ring"></div>
+                <img class="spinner-logo" src="../images/logo.svg" alt="logo" />
+            </div>
             <h1>Loading</h1>
-            <img class="loading-img" src="../images/loading.gif" />
             <pre>
 Please allow the camera or microphone
 access to use this app.
@@ -106,13 +109,13 @@ access to use this app.
         <div id="initUser" class="init-user hidden">
             <!-- <p>Please allow the camera & microphone access to use this app.</p> -->
             <div id="initVideoContainer" class="init-video-container">
-                <video
-                    id="initVideo"
-                    playsinline="true"
-                    autoplay=""
-                    class="mirror"
-                    poster="../images/loader.gif"
-                ></video>
+                <div id="initVideoLoader" class="init-video-loader">
+                    <div class="loading-spinner">
+                        <div class="spinner-ring"></div>
+                        <img class="spinner-logo" src="../images/logo.svg" alt="logo" />
+                    </div>
+                </div>
+                <video id="initVideo" playsinline="true" autoplay="" class="mirror"></video>
             </div>
             <div class="initComands">
                 <button id="initVideoBtn" class="fas fa-video"></button>

@@ -15,7 +15,7 @@
  * @license For commercial use or closed source, contact us at license.mirotalk@gmail.com or purchase directly from CodeCanyon
  * @license CodeCanyon: https://codecanyon.net/item/mirotalk-p2p-webrtc-realtime-video-conferences/38376661
  * @author  Miroslav Pejic - miroslav.pejic.85@gmail.com
- * @version 1.7.67
+ * @version 1.7.68
  *
  */
 
@@ -2093,6 +2093,9 @@ async function changeInitCamera(deviceId) {
             console.log('Detect Camera facing mode', camera);
             // We going to update init video stream
             initVideo.srcObject = camStream;
+            // Hide the CSS loader overlay once camera stream is attached
+            const initVideoLoader = getId('initVideoLoader');
+            if (initVideoLoader) initVideoLoader.style.display = 'none';
             initStream = camStream;
             const initVideoTrack = getVideoTrack(initStream);
             if (initVideoTrack) {
@@ -8071,6 +8074,8 @@ async function startScreenSharing(constraints, init) {
             elemDisplay(initVideo, true, 'block');
             initVideo.classList.toggle('mirror');
             initVideo.srcObject = newInitStream;
+            const initVideoLoader = getId('initVideoLoader');
+            if (initVideoLoader) initVideoLoader.style.display = 'none';
             disable(initVideoSelect, true);
             disable(initVideoBtn, true);
         } else {
@@ -13764,7 +13769,7 @@ function showAbout() {
     Swal.fire({
         background: swBg,
         position: 'center',
-        title: brand.about?.title && brand.about.title.trim() !== '' ? brand.about.title : 'WebRTC P2P v1.7.67',
+        title: brand.about?.title && brand.about.title.trim() !== '' ? brand.about.title : 'WebRTC P2P v1.7.68',
         imageUrl: brand.about?.imageUrl && brand.about.imageUrl.trim() !== '' ? brand.about.imageUrl : images.about,
         customClass: { image: 'img-about' },
         html: `
