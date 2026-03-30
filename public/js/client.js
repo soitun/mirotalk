@@ -3937,6 +3937,8 @@ async function loadLocalMedia(stream, kind) {
 
             if (!useVideo) {
                 elemDisplay(myVideoAvatarImage, true, 'block');
+                const spinner = myVideoWrap.querySelector('.video-loading-spinner');
+                if (spinner) elemDisplay(spinner, false);
                 setMediaButtonsClass([
                     { element: myVideoStatusIcon, status: false, mediaType: 'video' },
                     { element: videoBtn, status: false, mediaType: 'video' },
@@ -10842,6 +10844,10 @@ function setMyVideoStatus(status) {
             { element: myVideo, display: false },
             { element: initVideo, display: false },
         ]);
+        // Hide loading spinner so the avatar is visible (e.g. Safari with no camera)
+        const myVideoWrap = getId('myVideoWrap');
+        const spinner = myVideoWrap ? myVideoWrap.querySelector('.video-loading-spinner') : null;
+        if (spinner) spinner.style.display = 'none';
         playSound('off');
     }
 
