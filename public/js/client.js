@@ -2139,8 +2139,8 @@ async function changeInitCamera(deviceId) {
 async function changeLocalCamera(deviceId) {
     // Show loading spinner while switching camera
     const myVideoWrap = getId('myVideoWrap');
-    let spinner = myVideoWrap ? myVideoWrap.querySelector('.video-loading-spinner') : null;
-    if (spinner) spinner.style.display = '';
+    const spinner = myVideoWrap ? myVideoWrap.querySelector('.video-loading-spinner') : null;
+    if (spinner) elemDisplay(spinner, true, 'flex');
 
     if (localVideoMediaStream) {
         await stopVideoTracks(localVideoMediaStream);
@@ -2171,8 +2171,7 @@ async function changeLocalCamera(deviceId) {
             } catch (fallbackErr) {
                 console.error('Error accessing init video device with default constraints', fallbackErr);
                 printError(err);
-                // Hide loading spinner on error
-                if (spinner) spinner.style.display = 'none';
+                if (spinner) elemDisplay(spinner, false);
             }
         });
 
@@ -2190,8 +2189,7 @@ async function changeLocalCamera(deviceId) {
             await refreshMyStreamToPeers(camStream);
             setLocalMaxFps(videoMaxFrameRate);
         }
-        // Hide loading spinner
-        if (spinner) spinner.style.display = 'none';
+        if (spinner) elemDisplay(spinner, false);
     }
 
     /**
@@ -4497,7 +4495,7 @@ async function loadRemoteMediaStream(stream, peers, peer_id, kind) {
                 ]);
                 setMediaButtonsClass([{ element: remoteVideoStatusIcon, status: false, mediaType: 'video' }]);
                 const spinner = remoteVideoWrap.querySelector('.video-loading-spinner');
-                if (spinner) spinner.style.display = 'none';
+                if (spinner) elemDisplay(spinner, false);
             }
             break;
         case 'screen':
@@ -7998,7 +7996,7 @@ async function swapCamera() {
     // Show loading spinner while switching camera
     const myVideoWrap = getId('myVideoWrap');
     const spinner = myVideoWrap ? myVideoWrap.querySelector('.video-loading-spinner') : null;
-    if (spinner) spinner.style.display = '';
+    if (spinner) elemDisplay(spinner, true, 'flex');
 
     // some devices can't swap the cam, if have Video Track already in execution.
     await stopLocalVideoTrack();
@@ -8018,8 +8016,7 @@ async function swapCamera() {
         userLog('error', 'Error to swapping the camera ' + err);
         // https://blog.addpipe.com/common-getusermedia-errors/
     } finally {
-        // Hide loading spinner
-        if (spinner) spinner.style.display = 'none';
+        if (spinner) elemDisplay(spinner, false);
     }
 }
 
@@ -10844,10 +10841,9 @@ function setMyVideoStatus(status) {
             { element: myVideo, display: false },
             { element: initVideo, display: false },
         ]);
-        // Hide loading spinner so the avatar is visible (e.g. Safari with no camera)
         const myVideoWrap = getId('myVideoWrap');
         const spinner = myVideoWrap ? myVideoWrap.querySelector('.video-loading-spinner') : null;
-        if (spinner) spinner.style.display = 'none';
+        if (spinner) elemDisplay(spinner, false);
         playSound('off');
     }
 
@@ -11059,7 +11055,6 @@ function setPeerVideoStatus(peer_id, status) {
     const peerVideoPlayer = getId(peer_id + '___video');
     const peerVideoAvatarImage = getId(peer_id + '_avatar');
     const peerVideoStatus = getId(peer_id + '_videoStatus');
-
     const peerVideoWrap = getId(peer_id + '_videoWrap');
 
     if (status) {
@@ -11078,7 +11073,7 @@ function setPeerVideoStatus(peer_id, status) {
             { element: peerVideoAvatarImage, display: true, mode: 'block' },
         ]);
         const spinner = peerVideoWrap ? peerVideoWrap.querySelector('.video-loading-spinner') : null;
-        if (spinner) spinner.style.display = 'none';
+        if (spinner) elemDisplay(spinner, false);
         if (peerVideoStatus) {
             setMediaButtonsClass([{ element: peerVideoStatus, status: false, mediaType: 'video' }]);
             setTippy(peerVideoStatus, 'Participant video is off', 'bottom');
