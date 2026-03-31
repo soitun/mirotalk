@@ -3737,16 +3737,20 @@ hr {
     top: calc(100% + 10px);
     right: 0;
     left: auto;
-    min-width: 200px;
-    max-width: min(200px, calc(100vw - 32px));
+    min-width: 248px;
+    max-width: min(248px, calc(100vw - 32px));
 }
 
 .msger-room-actions-menu .msger-dropdown-divider {
     height: 1px;
-    margin: 6px 4px;
+    margin: 2px 4px;
     padding: 0;
     list-style: none;
     background: linear-gradient(90deg, rgba(214, 234, 238, 0.04), rgba(214, 234, 238, 0.12), rgba(214, 234, 238, 0.04));
+}
+
+.msger-room-actions-menu .msger-dropdown-divider + li {
+    margin-top: 2px;
 }
 
 .dropdown-menu-custom.show {
@@ -3798,105 +3802,12 @@ hr {
     backdrop-filter: blur(16px);
 }
 
-.msger-room-actions-menu li {
-    padding: 0;
-}
-
-.msger-room-actions-menu li + li {
-    margin-top: 4px;
-}
-
-.msger-room-actions-menu li button {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    width: 100%;
-    min-height: 0;
-    padding: 9px 10px;
-    border: 0 !important;
-    border-radius: 10px;
-    outline: none !important;
-    box-shadow: none !important;
-    appearance: none;
-    -webkit-appearance: none;
-    font-size: 0.84rem;
-    font-weight: 600;
-    line-height: 1.25;
-    white-space: nowrap;
-    color: rgba(255, 255, 255, 0.88);
-    background: transparent;
-    transition:
-        background-color 0.18s ease,
-        color 0.18s ease;
-}
-
-.msger-room-actions-menu li button:hover {
-    color: #fff;
-    background: rgba(255, 255, 255, 0.06);
-}
-
-.msger-room-actions-menu .msger-participant-action-icon {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 24px;
-    min-width: 24px;
-    height: 24px;
-    border-radius: 9px;
-    background: rgba(255, 255, 255, 0.06);
-    color: rgba(232, 247, 249, 0.88);
-    transition:
-        background-color 0.18s ease,
-        color 0.18s ease;
-}
-
-.msger-room-actions-menu .msger-participant-action-label {
-    display: inline-flex;
-    align-items: center;
-    min-width: 0;
-    font-size: 0.84rem;
-    color: rgba(255, 255, 255, 0.88);
-    transition: color 0.18s ease;
-}
-
-.msger-room-actions-menu li button:hover .msger-participant-action-icon {
-    background: rgba(255, 255, 255, 0.12);
-    color: #fff;
-}
-
-.msger-room-actions-menu li button:hover .msger-participant-action-label {
-    color: #fff;
-}
-
-.msger-room-actions-menu .msger-participant-action-danger .msger-participant-action-icon {
-    background: rgba(255, 95, 87, 0.12);
-    color: #ff8c84;
-}
-
-.msger-room-actions-menu .msger-participant-action-danger:hover {
-    color: #fff;
-    background: linear-gradient(90deg, rgba(255, 95, 87, 0.18), rgba(255, 95, 87, 0.08));
-}
-
-.msger-room-actions-menu .msger-participant-action-danger:hover .msger-participant-action-icon {
-    background: rgba(255, 95, 87, 0.18);
-    color: #ff6b60;
-}
-
-.msger-room-actions-menu .msger-participant-action-danger .msger-participant-action-label {
-    color: #ffd5cf;
-}
-
-.msger-room-actions-menu .msger-participant-action-danger:hover .msger-participant-action-label {
-    color: #fff;
-}
-
 @media (max-width: 820px) {
     .msger-header-options .dropdown-custom > .msger-room-actions-menu {
         right: 0;
         left: auto;
-        min-width: min(214px, calc(100vw - 32px));
-        max-width: min(244px, calc(100vw - 32px));
+        min-width: min(248px, calc(100vw - 32px));
+        max-width: min(248px, calc(100vw - 32px));
     }
 }
 
