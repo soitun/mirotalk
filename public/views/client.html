@@ -149,7 +149,11 @@ access to use this app.
                     >
                         <i class="fas fa-chevron-up"></i>
                     </button>
-                    <div id="audioMenu" class="dropdown-menu text-start" aria-labelledby="audioToggle"></div>
+                    <div
+                        id="audioMenu"
+                        class="dropdown-menu text-start app-dropdown-menu"
+                        aria-labelledby="audioToggle"
+                    ></div>
                 </div>
             </div>
             <div id="videoSplit" class="split-btn">
@@ -165,7 +169,11 @@ access to use this app.
                     >
                         <i class="fas fa-chevron-up"></i>
                     </button>
-                    <div id="videoMenu" class="dropdown-menu text-start" aria-labelledby="videoToggle"></div>
+                    <div
+                        id="videoMenu"
+                        class="dropdown-menu text-start app-dropdown-menu"
+                        aria-labelledby="videoToggle"
+                    ></div>
                 </div>
             </div>
 
@@ -192,15 +200,19 @@ access to use this app.
                     </button>
                     <div
                         id="settingsExtraMenu"
-                        class="dropdown-menu text-start hidden"
+                        class="dropdown-menu text-start hidden app-dropdown-menu"
                         aria-labelledby="settingsExtraToggle"
                     >
                         <!-- SHARING -->
                         <div class="device-menu-header extra-menu-group" data-buttons="shareRoomBtn,fileShareBtn">
                             SHARING
                         </div>
-                        <button id="shareRoomBtn"><i class="fas fa-share-alt"></i> Share Room</button>
-                        <button id="fileShareBtn"><i class="fas fa-folder-open"></i> File sharing</button>
+                        <button id="shareRoomBtn" class="app-dropdown-action">
+                            <i class="fas fa-share-alt"></i> Share Room
+                        </button>
+                        <button id="fileShareBtn" class="app-dropdown-action">
+                            <i class="fas fa-folder-open"></i> File sharing
+                        </button>
 
                         <div class="device-menu-divider extra-menu-divider" data-group="sharing"></div>
 
@@ -208,8 +220,12 @@ access to use this app.
                         <div class="device-menu-header extra-menu-group" data-buttons="recordStreamBtn,snapshotRoomBtn">
                             RECORDING & CAPTURE
                         </div>
-                        <button id="recordStreamBtn"><i class="fas fa-record-vinyl"></i> Start Recording</button>
-                        <button id="snapshotRoomBtn"><i class="fas fa-camera-retro"></i> Snapshot</button>
+                        <button id="recordStreamBtn" class="app-dropdown-action">
+                            <i class="fas fa-record-vinyl"></i> Start Recording
+                        </button>
+                        <button id="snapshotRoomBtn" class="app-dropdown-action">
+                            <i class="fas fa-camera-retro"></i> Snapshot
+                        </button>
 
                         <div class="device-menu-divider extra-menu-divider" data-group="recording"></div>
 
@@ -220,10 +236,18 @@ access to use this app.
                         >
                             TOOLS
                         </div>
-                        <button id="captionBtn"><i class="fas fa-closed-captioning"></i> Transcription</button>
-                        <button id="whiteboardBtn"><i class="fas fa-chalkboard-teacher"></i> Whiteboard</button>
-                        <button id="documentPiPBtn"><i class="fas fa-images"></i> Document PiP</button>
-                        <button id="roomEmojiPickerBtn"><i class="fas fa-face-smile"></i> Room Emoji</button>
+                        <button id="captionBtn" class="app-dropdown-action">
+                            <i class="fas fa-closed-captioning"></i> Transcription
+                        </button>
+                        <button id="whiteboardBtn" class="app-dropdown-action">
+                            <i class="fas fa-chalkboard-teacher"></i> Whiteboard
+                        </button>
+                        <button id="documentPiPBtn" class="app-dropdown-action">
+                            <i class="fas fa-images"></i> Document PiP
+                        </button>
+                        <button id="roomEmojiPickerBtn" class="app-dropdown-action">
+                            <i class="fas fa-face-smile"></i> Room Emoji
+                        </button>
 
                         <div class="device-menu-divider extra-menu-divider" data-group="tools"></div>
 
@@ -234,9 +258,11 @@ access to use this app.
                         >
                             VIEW & SETTINGS
                         </div>
-                        <button id="hideMeBtn"><i class="fas fa-user"></i> Hide Me</button>
-                        <button id="fullScreenBtn"><i class="fas fa-expand-alt"></i> Full Screen</button>
-                        <button id="aboutBtn"><i class="fas fa-question"></i> About</button>
+                        <button id="hideMeBtn" class="app-dropdown-action"><i class="fas fa-user"></i> Hide Me</button>
+                        <button id="fullScreenBtn" class="app-dropdown-action">
+                            <i class="fas fa-expand-alt"></i> Full Screen
+                        </button>
+                        <button id="aboutBtn" class="app-dropdown-action"><i class="fas fa-question"></i> About</button>
                     </div>
                 </div>
             </div>
@@ -284,11 +310,10 @@ access to use this app.
                             </button>
                             <ul
                                 id="msgerDropDownContent"
-                                class="dropdown-menu-custom"
+                                class="dropdown-menu-custom app-dropdown-menu"
                                 aria-labelledby="msgerDropDownMenuBtn"
                             >
                                 <li>
-                                    <hr />
                                     <div id="msgerShowChatOnMsgDiv" class="msger-menu-toggle-row">
                                         <span class="msger-menu-toggle-icon">
                                             <i class="fa-solid fa-eye"></i>
@@ -318,7 +343,11 @@ access to use this app.
                                     <hr />
                                 </li>
                                 <li class="msger-menu-action-row">
-                                    <button id="msgerSaveBtn" class="msger-menu-action" type="button">
+                                    <button
+                                        id="msgerSaveBtn"
+                                        class="app-dropdown-action msger-menu-action"
+                                        type="button"
+                                    >
                                         <span class="msger-menu-action-icon">
                                             <i class="fas fa-save"></i>
                                         </span>
@@ -328,7 +357,7 @@ access to use this app.
                                 <li class="msger-menu-action-row">
                                     <button
                                         id="msgerClean"
-                                        class="msger-menu-action msger-menu-action-danger"
+                                        class="app-dropdown-action msger-menu-action msger-menu-action-danger"
                                         type="button"
                                     >
                                         <span class="msger-menu-action-icon">
@@ -362,7 +391,7 @@ access to use this app.
                                     </button>
                                     <ul
                                         id="msgerSidebarDropDownContent"
-                                        class="dropdown-menu-custom msger-participant-dropdown-menu msger-room-actions-menu"
+                                        class="dropdown-menu-custom app-dropdown-menu msger-participant-dropdown-menu msger-room-actions-menu"
                                         aria-labelledby="msgerSidebarDropDownMenuBtn"
                                     ></ul>
                                 </div>
@@ -478,7 +507,7 @@ access to use this app.
                                     </button>
                                     <ul
                                         id="msgerCPDropDownContent"
-                                        class="dropdown-menu-custom msger-participant-dropdown-menu msger-room-actions-menu"
+                                        class="dropdown-menu-custom app-dropdown-menu msger-participant-dropdown-menu msger-room-actions-menu"
                                         aria-labelledby="msgerCPDropDownMenuBtn"
                                     ></ul>
                                 </div>
@@ -1186,19 +1215,31 @@ access to use this app.
                         </button>
                         <div
                             id="whiteboardDropdownMenu"
-                            class="whiteboard-dropdown-menu"
+                            class="whiteboard-dropdown-menu app-dropdown-menu"
                             aria-labelledby="whiteboardDropDownMenu"
                         >
-                            <button id="whiteboardImgFileBtn"><i class="far fa-image"></i> Add image file</button>
-                            <button id="whiteboardImgUrlBtn"><i class="fas fa-link"></i> Add image URL</button>
-                            <button id="whiteboardPdfFileBtn"><i class="far fa-file-pdf"></i> Add pdf file</button>
-                            <button id="whiteboardTextBtn"><i class="fas fa-spell-check"></i> Add text</button>
-                            <button id="whiteboardStickyNoteBtn">
+                            <button id="whiteboardImgFileBtn" class="app-dropdown-action">
+                                <i class="far fa-image"></i> Add image file
+                            </button>
+                            <button id="whiteboardImgUrlBtn" class="app-dropdown-action">
+                                <i class="fas fa-link"></i> Add image URL
+                            </button>
+                            <button id="whiteboardPdfFileBtn" class="app-dropdown-action">
+                                <i class="far fa-file-pdf"></i> Add pdf file
+                            </button>
+                            <button id="whiteboardTextBtn" class="app-dropdown-action">
+                                <i class="fas fa-spell-check"></i> Add text
+                            </button>
+                            <button id="whiteboardStickyNoteBtn" class="app-dropdown-action">
                                 <i class="fas fa-sticky-note"></i> Add sticky note
                             </button>
-                            <button id="whiteboardLineBtn"><i class="fas fa-slash"></i> Add line</button>
-                            <button id="whiteboardRectBtn"><i class="far fa-square"></i> Add rectangle</button>
-                            <button id="whiteboardTriangleBtn">
+                            <button id="whiteboardLineBtn" class="app-dropdown-action">
+                                <i class="fas fa-slash"></i> Add line
+                            </button>
+                            <button id="whiteboardRectBtn" class="app-dropdown-action">
+                                <i class="far fa-square"></i> Add rectangle
+                            </button>
+                            <button id="whiteboardTriangleBtn" class="app-dropdown-action">
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
                                     width="1em"
@@ -1210,10 +1251,18 @@ access to use this app.
                                 </svg>
                                 Add triangle
                             </button>
-                            <button id="whiteboardCircleBtn"><i class="far fa-circle"></i> Add circle</button>
-                            <button id="whiteboardSaveBtn"><i class="fas fa-save"></i> Save</button>
-                            <button id="whiteboardCleanBtn"><i class="fas fa-trash"></i> Clean</button>
-                            <button id="whiteboardShortcutsBtn"><i class="fas fa-keyboard"></i> Shortcuts</button>
+                            <button id="whiteboardCircleBtn" class="app-dropdown-action">
+                                <i class="far fa-circle"></i> Add circle
+                            </button>
+                            <button id="whiteboardSaveBtn" class="app-dropdown-action">
+                                <i class="fas fa-save"></i> Save
+                            </button>
+                            <button id="whiteboardCleanBtn" class="app-dropdown-action">
+                                <i class="fas fa-trash"></i> Clean
+                            </button>
+                            <button id="whiteboardShortcutsBtn" class="app-dropdown-action">
+                                <i class="fas fa-keyboard"></i> Shortcuts
+                            </button>
                         </div>
                     </div>
                     <button id="whiteboardCloseBtn" class="fas fa-times"></button>

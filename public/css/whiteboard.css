@@ -182,54 +182,31 @@
     top: 100%;
     right: 0;
     display: none;
-    border-radius: 12px;
-    background: var(--body-bg);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+    min-width: 200px;
     overflow-y: auto;
     overflow-x: hidden;
     max-height: var(--wb-height) !important;
 }
 
 /* Styles for dropdown menu items */
-.whiteboard-dropdown-menu button {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    width: 160px;
+.whiteboard-dropdown-menu .app-dropdown-action {
+    width: 100%;
     font-size: 0.8em;
-    text-align: left;
     padding: 10px;
-    border: none;
-    border-radius: 8px;
-    background: none;
-    cursor: pointer;
 }
 
-.whiteboard-dropdown-menu button:hover {
-    background: rgba(255, 255, 255, 0.08);
+.whiteboard-dropdown-menu .app-dropdown-action:hover {
     color: #ffffff;
 }
 
 /* Styles for icons and SVGs inside buttons */
-.whiteboard-dropdown-menu button i,
-.whiteboard-dropdown-menu button svg {
-    margin-right: 8px;
-}
-
-/* Styles for list items */
-.whiteboard-dropdown-menu li {
-    padding: 8px 16px;
-}
-
-.whiteboard-dropdown-menu li:hover {
-    background: var(--body-bg);
-}
-
-/* Ensuring dropdown buttons within list items have transparent background */
-.whiteboard-dropdown-menu li button {
-    background: transparent;
-    padding: 0;
+.whiteboard-dropdown-menu .app-dropdown-action i,
+.whiteboard-dropdown-menu .app-dropdown-action svg {
+    width: 18px;
+    min-width: 18px;
+    text-align: center;
+    flex: 0 0 18px;
+    margin-right: 0;
 }
 
 /* Whiteboard Shortcuts Styles */

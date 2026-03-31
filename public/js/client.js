@@ -15,7 +15,7 @@
  * @license For commercial use or closed source, contact us at license.mirotalk@gmail.com or purchase directly from CodeCanyon
  * @license CodeCanyon: https://codecanyon.net/item/mirotalk-p2p-webrtc-realtime-video-conferences/38376661
  * @author  Miroslav Pejic - miroslav.pejic.85@gmail.com
- * @version 1.7.80
+ * @version 1.7.81
  *
  */
 
@@ -5872,6 +5872,9 @@ function setChatRoomBtn() {
     searchPeerBarName.addEventListener('keyup', () => {
         searchPeer();
     });
+    document.addEventListener('pointerdown', handleMsgerDropdownOutsidePress);
+    document.addEventListener('click', handleMsgerDropdownOutsidePress);
+    document.addEventListener('pointerdown', handleMsgerParticipantDropdownDocumentClick);
     document.addEventListener('click', handleMsgerParticipantDropdownDocumentClick);
     msgerCPList?.addEventListener('scroll', closeAllMsgerParticipantDropdownMenus);
 
@@ -9437,6 +9440,36 @@ function toggleChatDropDownMenu() {
         : (msgerDropDownContent.style.display = 'block');
 }
 
+function closeMsgerDropdownMenus() {
+    [msgerDropDownContent, msgerCPDropDownContent, msgerSidebarDropDownContent].forEach((menuEl) => {
+        if (menuEl) {
+            elemDisplay(menuEl, false);
+        }
+    });
+}
+
+function isEventInsideElements(target, ...elements) {
+    return elements.some((element) => element && (element === target || element.contains(target)));
+}
+
+function handleMsgerDropdownOutsidePress(event) {
+    if (
+        isEventInsideElements(
+            event.target,
+            msgerDropDownMenuBtn,
+            msgerDropDownContent,
+            msgerCPDropDownMenuBtn,
+            msgerCPDropDownContent,
+            msgerSidebarDropDownMenuBtn,
+            msgerSidebarDropDownContent
+        )
+    ) {
+        return;
+    }
+
+    closeMsgerDropdownMenus();
+}
+
 function toggleParticipantsDropDownMenu(activeMenu, siblingMenu = null) {
     if (!activeMenu) {
         return;
@@ -9454,6 +9487,11 @@ function syncCaptionEveryoneButtons(isActive) {
     elemDisplay(captionEveryoneStopBtn, isActive, 'inline');
     elemDisplay(captionEveryoneBtnDesktop, !isActive, 'inline');
     elemDisplay(captionEveryoneStopBtnDesktop, isActive, 'inline');
+
+    elemDisplay(captionEveryoneBtn?.closest('li'), !isActive);
+    elemDisplay(captionEveryoneStopBtn?.closest('li'), isActive);
+    elemDisplay(captionEveryoneBtnDesktop?.closest('li'), !isActive);
+    elemDisplay(captionEveryoneStopBtnDesktop?.closest('li'), isActive);
 }
 
 /**
@@ -10328,7 +10366,6 @@ function ensureChatGPTConversationEntry() {
 
     msgerCPList.insertAdjacentHTML('afterbegin', chatGPTEntry);
 
-    const msgerPrivateAvatar = getId(CHAT_GPT_PEER_ID + '_pMsgAvatar');
     const msgerPrivateBtn = getId(CHAT_GPT_PEER_ID + '_pMsgBtn');
 
     addMsgerPrivateBtn(msgerPrivateBtn, null, null, null, null, null, null, null, null, myPeerId, CHAT_GPT_PEER_ID);
@@ -10587,8 +10624,8 @@ function handleMsgerParticipantDropdownDocumentClick(event) {
 function getMsgerParticipantDropdownActionMarkup(buttonId, iconClass, label, variant = 'default') {
     const actionClass =
         variant === 'danger'
-            ? 'dropdown-item msger-participant-action msger-participant-action-danger'
-            : 'dropdown-item msger-participant-action';
+            ? 'dropdown-item app-dropdown-action msger-participant-action msger-participant-action-danger'
+            : 'dropdown-item app-dropdown-action msger-participant-action';
 
     return `
         <li>
@@ -10682,7 +10719,7 @@ async function msgerAddPeers(peers) {
                         <button id="${peer_id}_pDropdownToggle" class="dropdown-toggle" type="button">
                             <i class="fas fa-ellipsis-vertical"></i>
                         </button>
-                        <ul id="${peer_id}_pDropdownMenuList" class="dropdown-menu-custom-list msger-participant-dropdown-menu">
+                        <ul id="${peer_id}_pDropdownMenuList" class="dropdown-menu-custom-list app-dropdown-menu msger-participant-dropdown-menu">
                             ${dropdownOptions}
                         </ul>
                     </div>
@@ -10692,7 +10729,6 @@ async function msgerAddPeers(peers) {
                 msgerCPList.insertAdjacentHTML('beforeend', msgerPrivateDiv);
                 msgerCPList.scrollTop += 500;
 
-                const msgerPrivateAvatar = getId(peer_id + '_pMsgAvatar');
                 const msgerPrivateBtn = getId(peer_id + '_pMsgBtn');
                 const msgerPrivateKickOutBtn = getId(peer_id + '_pKickOut');
                 const msgerPrivateToggleAudioBtn = getId(peer_id + '_pToggleAudio');
@@ -10701,7 +10737,6 @@ async function msgerAddPeers(peers) {
                 const msgerPrivateSelectFileBtn = getId(peer_id + '_pSelectFile');
                 const msgerPrivateSendVideoUrlBtn = getId(peer_id + '_pSendVideoUrl');
                 const msgerPrivateRequestGeoBtn = getId(peer_id + '_pRequestGeo');
-                const msgerParticipantDropdownToggle = getId(peer_id + '_pDropdownToggle');
 
                 addMsgerPrivateBtn(
                     msgerPrivateBtn,
@@ -14564,7 +14599,7 @@ function showAbout() {
     Swal.fire({
         background: swBg,
         position: 'center',
-        title: brand.about?.title && brand.about.title.trim() !== '' ? brand.about.title : 'WebRTC P2P v1.7.80',
+        title: brand.about?.title && brand.about.title.trim() !== '' ? brand.about.title : 'WebRTC P2P v1.7.81',
         imageUrl: brand.about?.imageUrl && brand.about.imageUrl.trim() !== '' ? brand.about.imageUrl : images.about,
         customClass: { image: 'img-about' },
         html: `
@@ -15262,6 +15297,7 @@ function setupQuickDeviceSwitchDropdowns() {
         if (!menuEl || !selectEl) {
             const btn = document.createElement('button');
             btn.type = 'button';
+            btn.className = 'app-dropdown-action';
             btn.disabled = true;
             btn.textContent = emptyLabel;
             menuEl.appendChild(btn);
@@ -15273,6 +15309,7 @@ function setupQuickDeviceSwitchDropdowns() {
         if (options.length === 0) {
             const btn = document.createElement('button');
             btn.type = 'button';
+            btn.className = 'app-dropdown-action';
             btn.disabled = true;
             btn.textContent = emptyLabel;
             menuEl.appendChild(btn);
@@ -15282,6 +15319,7 @@ function setupQuickDeviceSwitchDropdowns() {
         options.forEach((opt) => {
             const btn = document.createElement('button');
             btn.type = 'button';
+            btn.className = 'app-dropdown-action';
 
             const isSelected = opt.value === selectEl.value;
             const label = opt.textContent || opt.label || opt.value;
@@ -15323,7 +15361,7 @@ function setupQuickDeviceSwitchDropdowns() {
         appendMenuDivider(videoMenu);
         const settingsBtn = document.createElement('button');
         settingsBtn.type = 'button';
-        settingsBtn.className = 'device-menu-action-btn';
+        settingsBtn.className = 'app-dropdown-action device-menu-action-btn';
         const settingsIcon = document.createElement('i');
         settingsIcon.className = 'fas fa-cog';
         settingsBtn.appendChild(settingsIcon);
@@ -15351,6 +15389,7 @@ function setupQuickDeviceSwitchDropdowns() {
         if (!audioOutputSelect || audioOutputSelect.disabled) {
             const btn = document.createElement('button');
             btn.type = 'button';
+            btn.className = 'app-dropdown-action';
             btn.disabled = true;
             btn.textContent = 'Speaker selection not supported';
             audioMenu.appendChild(btn);
@@ -15364,7 +15403,7 @@ function setupQuickDeviceSwitchDropdowns() {
         // Test speaker button
         const testBtn = document.createElement('button');
         testBtn.type = 'button';
-        testBtn.className = 'device-menu-action-btn';
+        testBtn.className = 'app-dropdown-action device-menu-action-btn';
         const testIcon = document.createElement('i');
         testIcon.className = 'fa-solid fa-circle-play';
         testBtn.appendChild(testIcon);
@@ -15375,7 +15414,7 @@ function setupQuickDeviceSwitchDropdowns() {
         // Settings button
         const settingsBtn = document.createElement('button');
         settingsBtn.type = 'button';
-        settingsBtn.className = 'device-menu-action-btn';
+        settingsBtn.className = 'app-dropdown-action device-menu-action-btn';
         const settingsIcon = document.createElement('i');
         settingsIcon.className = 'fas fa-cog';
         settingsBtn.appendChild(settingsIcon);
