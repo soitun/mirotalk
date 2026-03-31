@@ -8,7 +8,7 @@
     /* common */
     --navbar-bg: rgba(0, 0, 0, 0.2);
     --body-bg: radial-gradient(#393939, #000000);
-    --border: 0.5px solid rgb(255 255 255 / 32%);
+    --border: 0.5px solid rgb(255 255 255 / 18%);
     --dd-color: #ffffff;
 
     --msger-top: 50%;
@@ -116,7 +116,7 @@ body {
 #google_translate_element select {
     background: var(--select-bg) !important;
     padding: 6px 10px;
-    border: 1px solid rgba(255, 255, 255, 0.12);
+    border: var(--border);
     border-radius: 8px;
     color: #fff;
 }
@@ -1125,6 +1125,7 @@ body {
     width: 100%;
     min-width: 0;
     padding: 14px;
+    border: none;
     border: var(--border);
     border-radius: 18px;
     background: var(--body-bg);
