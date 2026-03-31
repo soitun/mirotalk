@@ -14,7 +14,7 @@
     background: var(--wb-bg);
     border: var(--border);
     box-shadow: var(--box-shadow);
-    border-radius: 10px;
+    border-radius: 12px;
     /* center */
     top: 50%;
     left: 50%;
@@ -63,7 +63,7 @@
     display: flex;
     justify-content: space-between;
     padding: 5px;
-    border-radius: 10px;
+    border-radius: 12px;
     background: rgba(0, 0, 0, 0.2);
     color: #ffffff;
     cursor: move;

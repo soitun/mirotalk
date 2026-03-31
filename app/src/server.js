@@ -45,7 +45,7 @@ dependencies: {
  * @license For commercial use or closed source, contact us at license.mirotalk@gmail.com or purchase directly from CodeCanyon
  * @license CodeCanyon: https://codecanyon.net/item/mirotalk-p2p-webrtc-realtime-video-conferences/38376661
  * @author  Miroslav Pejic - miroslav.pejic.85@gmail.com
- * @version 1.7.70
+ * @version 1.7.80
  *
  */
 
@@ -1900,7 +1900,7 @@ io.sockets.on('connect', async (socket) => {
         if (!Validate.isValidData(config)) return;
 
         // log.debug('Video player', config);
-        const { room_id, peer_id, peer_name, video_action, video_src } = config;
+        const { room_id, peer_id, peer_name, video_action, video_src, broadcast } = config;
 
         // Check if valid video src url
         if (video_action == 'open' && !isValidHttpURL(video_src)) {
@@ -1913,6 +1913,7 @@ io.sockets.on('connect', async (socket) => {
             peer_name: peer_name,
             video_action: video_action,
             video_src: video_src,
+            broadcast: broadcast,
         };
 
         if (peer_id) {

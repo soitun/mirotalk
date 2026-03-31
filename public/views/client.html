@@ -261,7 +261,12 @@ access to use this app.
         <section id="msgerDraggable" class="msger-draggable fadein">
             <section id="msger" class="msger">
                 <header id="msgerHeader" class="msger-header">
-                    <div class="msger-header-title"></div>
+                    <div class="msger-header-title">
+                        <div class="msger-panel-heading msger-panel-heading-compact">
+                            <span class="msger-sidebar-label">Chat</span>
+                            <h3>Messages</h3>
+                        </div>
+                    </div>
                     <div class="msger-header-options">
                         <button id="msgerTogglePin" class="fas fa-map-pin"></button>
                         <button id="msgerTheme" class="fas fa-ghost"></button>
@@ -284,27 +289,53 @@ access to use this app.
                             >
                                 <li>
                                     <hr />
-                                    <div id="msgerShowChatOnMsgDiv" class="title ml-10">
-                                        <i class="fa-solid fa-eye"></i>
-                                        <label class="switch ml-10">
+                                    <div id="msgerShowChatOnMsgDiv" class="msger-menu-toggle-row">
+                                        <span class="msger-menu-toggle-icon">
+                                            <i class="fa-solid fa-eye"></i>
+                                        </span>
+                                        <span class="msger-menu-toggle-copy">
+                                            <strong>Open chat on new message</strong>
+                                            <small>Bring the chat panel forward when a new message arrives</small>
+                                        </span>
+                                        <label class="switch">
                                             <input id="msgerShowChatOnMsg" type="checkbox" checked />
                                             <span class="slider round"></span>
                                         </label>
                                     </div>
-                                    <div id="msgerSpeechMsgDiv" class="title">
-                                        <i class="fas fa-volume-high ml-10"></i>
-                                        <label class="switch ml-10">
+                                    <div id="msgerSpeechMsgDiv" class="msger-menu-toggle-row">
+                                        <span class="msger-menu-toggle-icon">
+                                            <i class="fas fa-volume-high"></i>
+                                        </span>
+                                        <span class="msger-menu-toggle-copy">
+                                            <strong>Speak incoming messages</strong>
+                                            <small>Read new chat messages aloud</small>
+                                        </span>
+                                        <label class="switch">
                                             <input id="msgerSpeechMsg" type="checkbox" />
                                             <span class="slider round"></span>
                                         </label>
                                     </div>
                                     <hr />
                                 </li>
-                                <li>
-                                    <button id="msgerSaveBtn"><i class="fas fa-save"></i> Save messages</button>
+                                <li class="msger-menu-action-row">
+                                    <button id="msgerSaveBtn" class="msger-menu-action" type="button">
+                                        <span class="msger-menu-action-icon">
+                                            <i class="fas fa-save"></i>
+                                        </span>
+                                        <span class="msger-menu-action-label">Save All messages</span>
+                                    </button>
                                 </li>
-                                <li>
-                                    <button id="msgerClean"><i class="fas fa-trash"></i> Clean messages</button>
+                                <li class="msger-menu-action-row">
+                                    <button
+                                        id="msgerClean"
+                                        class="msger-menu-action msger-menu-action-danger"
+                                        type="button"
+                                    >
+                                        <span class="msger-menu-action-icon">
+                                            <i class="fas fa-trash"></i>
+                                        </span>
+                                        <span class="msger-menu-action-label">Clean All messages</span>
+                                    </button>
                                 </li>
                             </ul>
                         </div>
@@ -312,125 +343,280 @@ access to use this app.
                     </div>
                 </header>
 
-                <main id="msgerChat" class="msger-chat">
-                    <!-- EMPTY CHAT ILLUSTRATION -->
-                    <div id="msgerEmptyNotice" class="empty-chat-notice">
-                        <img alt="Empty chat illustration" class="empty-chat-img" src="../svg/emptyChat.svg" />
-                        <h5 class="empty-chat-title">Start Conversation</h5>
-                        <p class="empty-chat-desc">
-                            There are no messages here yet. Start a conversation by sending a message.
-                        </p>
-                    </div>
-                    <!-- Chat messages will be appended here -->
-                </main>
-
-                <!-- Start emoji picker -->
-
-                <section id="msgerEmojiPicker" class="hidden fadein chatEmojiPicker"></section>
-
-                <!-- End emoji picker -->
-
-                <div class="msger-inputarea">
-                    <textarea
-                        rows="1"
-                        cols="1"
-                        id="msgerInput"
-                        class="msger-input"
-                        placeholder="Write a message..."
-                    ></textarea>
-                </div>
-
-                <div class="msger-input-buttons">
-                    <button id="msgerEmojiBtn" class="fas fa-smile"></button>
-                    <button id="msgerMarkdownBtn" class="fab fa-markdown"></button>
-                    <button id="msgerGPTBtn" class="fas fa-robot"></button>
-                    <button id="msgerShareFileBtn" class="fas fa-paperclip"></button>
-                    <button id="msgerVideoUrlBtn" class="fab fa-youtube"></button>
-                    <button id="msgerCPBtn" class="fas fa-users"></button>
-                    <button id="msgerCleanTextBtn" class="fas fa-trash"></button>
-                    <button id="msgerPasteBtn" class="fas fa-paste"></button>
-                    <button id="msgerSendBtn" class="fas fa-paper-plane"></button>
-                </div>
-            </section>
-
-            <!-- Start private msg -->
-
-            <section id="msgerCP" class="center fadein">
-                <section id="msgerCPSec" class="msger">
-                    <header id="msgerCPHeader" class="msger-private-header">
-                        <div class="msger-header-title"><i class="fas fa-users"></i> Participants</div>
-                        <div class="msger-header-options">
-                            <!-- More options -->
-                            <div id="tabRoomParticipants" class="dropdown-custom">
-                                <button
-                                    class="dropdown-toggle-custom"
-                                    type="button"
-                                    id="msgerCPDropDownMenuBtn"
-                                    data-bs-toggle="dropdown-custom"
-                                    aria-expanded="false"
-                                >
-                                    <i class="fas fa-ellipsis-v"></i>
-                                </button>
-                                <ul
-                                    id="msgerCPDropDownContent"
-                                    class="dropdown-menu-custom"
-                                    aria-labelledby="msgerCPDropDownMenuBtn"
-                                >
-                                    <li>
-                                        <button id="captionEveryoneBtn">
-                                            <i class="fas fa-play"></i> Start captions
-                                        </button>
-                                    </li>
-                                    <li>
-                                        <button id="captionEveryoneStopBtn">
-                                            <i class="fas fa-stop"></i> Stop captions
-                                        </button>
-                                    </li>
-                                    <li>
-                                        <button id="muteEveryoneBtn">
-                                            <i class="fas fa-microphone"></i> Mute everyone
-                                        </button>
-                                    </li>
-                                    <li>
-                                        <button id="hideEveryoneBtn"><i class="fas fa-video"></i> Hide everyone</button>
-                                    </li>
-                                    <li>
-                                        <button id="ejectEveryoneBtn">
-                                            <i class="fas fa-right-from-bracket"></i> Eject everyone
-                                        </button>
-                                    </li>
-                                </ul>
+                <div class="msger-layout">
+                    <aside class="msger-sidebar">
+                        <div class="msger-sidebar-header">
+                            <div class="msger-panel-heading">
+                                <h3>Participants</h3>
                             </div>
-                            <button id="msgerCPCloseBtn" class="fas fa-times"></button>
+                            <div class="msger-header-options msger-sidebar-header-options">
+                                <div class="dropdown-custom">
+                                    <button
+                                        class="dropdown-toggle-custom"
+                                        type="button"
+                                        id="msgerSidebarDropDownMenuBtn"
+                                        data-bs-toggle="dropdown-custom"
+                                        aria-expanded="false"
+                                    >
+                                        <i class="fas fa-ellipsis-v"></i>
+                                    </button>
+                                    <ul
+                                        id="msgerSidebarDropDownContent"
+                                        class="dropdown-menu-custom msger-participant-dropdown-menu msger-room-actions-menu"
+                                        aria-labelledby="msgerSidebarDropDownMenuBtn"
+                                    >
+                                        <li>
+                                            <button
+                                                id="captionEveryoneBtnDesktop"
+                                                class="dropdown-item msger-participant-action"
+                                            >
+                                                <span class="msger-participant-action-icon"
+                                                    ><i class="fas fa-play"></i
+                                                ></span>
+                                                <span class="msger-participant-action-label">Start captions</span>
+                                            </button>
+                                        </li>
+                                        <li>
+                                            <button
+                                                id="captionEveryoneStopBtnDesktop"
+                                                class="dropdown-item msger-participant-action"
+                                            >
+                                                <span class="msger-participant-action-icon"
+                                                    ><i class="fas fa-stop"></i
+                                                ></span>
+                                                <span class="msger-participant-action-label">Stop captions</span>
+                                            </button>
+                                        </li>
+                                        <li class="msger-dropdown-divider" aria-hidden="true"></li>
+                                        <li>
+                                            <button
+                                                id="muteEveryoneBtnDesktop"
+                                                class="dropdown-item msger-participant-action msger-participant-action-danger"
+                                            >
+                                                <span class="msger-participant-action-icon"
+                                                    ><i class="fas fa-microphone"></i
+                                                ></span>
+                                                <span class="msger-participant-action-label">Mute everyone</span>
+                                            </button>
+                                        </li>
+                                        <li>
+                                            <button
+                                                id="hideEveryoneBtnDesktop"
+                                                class="dropdown-item msger-participant-action msger-participant-action-danger"
+                                            >
+                                                <span class="msger-participant-action-icon"
+                                                    ><i class="fas fa-video"></i
+                                                ></span>
+                                                <span class="msger-participant-action-label">Hide everyone</span>
+                                            </button>
+                                        </li>
+                                        <li>
+                                            <button
+                                                id="ejectEveryoneBtnDesktop"
+                                                class="dropdown-item msger-participant-action msger-participant-action-danger"
+                                            >
+                                                <span class="msger-participant-action-icon"
+                                                    ><i class="fas fa-right-from-bracket"></i
+                                                ></span>
+                                                <span class="msger-participant-action-label">Eject everyone</span>
+                                            </button>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <button id="msgerSidebarCloseBtn" class="fas fa-times"></button>
+                            </div>
                         </div>
-                    </header>
-                    <main id="msgerCPChat" class="msger-chat">
-                        <div class="search-container">
-                            <input
-                                id="searchPeerBarName"
-                                type="text"
-                                placeholder=" 🔍 Search peer by name..."
-                                maxlength="254"
-                                name="search"
-                            />
-                        </div>
-                        <br />
-                        <!-- EMPTY PARTICIPANTS ILLUSTRATION -->
-                        <div id="msgerEmptyParticipantsNotice" class="empty-participants-notice">
-                            <img
-                                alt="Empty participants illustration"
-                                class="empty-participants-img"
-                                src="../svg/emptyParticipants.svg"
-                            />
-                            <h5 class="empty-participants-title">Participants</h5>
-                            <p class="empty-participants-desc">There are no participants here yet.</p>
-                        </div>
-                        <div id="msgerCPList"></div>
-                    </main>
-                </section>
-            </section>
 
-            <!-- End private msg -->
+                        <section class="msger-sidebar-section">
+                            <span class="msger-sidebar-label">Room chat</span>
+                            <div class="msger-chat-list">
+                                <button id="msgerRoomChatItem" class="msger-chat-item active" type="button">
+                                    <span class="msger-chat-item-icon"><i class="fas fa-comments"></i></span>
+                                    <span class="msger-chat-item-copy">
+                                        <strong>Room chat</strong>
+                                        <small>Message everyone</small>
+                                    </span>
+                                    <span id="msgerRoomChatBadge" class="msger-chat-unread-badge hidden">0</span>
+                                </button>
+                            </div>
+                        </section>
+
+                        <section class="msger-sidebar-section">
+                            <div class="msger-sidebar-row">
+                                <span class="msger-sidebar-label">Participants</span>
+                            </div>
+                            <div class="search-container search-container-sidebar">
+                                <label class="msger-search-field" for="searchPeerBarName">
+                                    <span class="msger-search-icon"><i class="fas fa-search"></i></span>
+                                    <span class="msger-search-copy">
+                                        <input
+                                            id="searchPeerBarName"
+                                            type="text"
+                                            placeholder="Filter participants"
+                                            maxlength="254"
+                                            name="search"
+                                        />
+                                    </span>
+                                </label>
+                            </div>
+                            <div id="msgerPrivateChatsEmpty" class="msger-sidebar-empty">
+                                Participants will appear here when other people join the room.
+                            </div>
+                            <div id="msgerCPList" class="msger-chat-list msger-private-chat-list"></div>
+                        </section>
+                    </aside>
+
+                    <section class="msger-main">
+                        <div class="msger-conversation-banner">
+                            <div class="msger-panel-heading msger-panel-heading-compact">
+                                <span id="msgerConversationLabel" class="msger-sidebar-label">Current view</span>
+                                <h3 id="msgerConversationTitle">All messages</h3>
+                            </div>
+                            <p id="msgerConversationMeta" class="msger-conversation-meta">
+                                Public messages and direct replies appear here.
+                            </p>
+                        </div>
+
+                        <main id="msgerChat" class="msger-chat">
+                            <!-- EMPTY CHAT ILLUSTRATION -->
+                            <div id="msgerEmptyNotice" class="empty-chat-notice">
+                                <img alt="Empty chat illustration" class="empty-chat-img" src="../svg/emptyChat.svg" />
+                                <h5 class="empty-chat-title">Start Conversation</h5>
+                                <p class="empty-chat-desc">
+                                    There are no messages here yet. Start a conversation by sending a message.
+                                </p>
+                            </div>
+                            <!-- Chat messages will be appended here -->
+                        </main>
+
+                        <div class="msger-composer">
+                            <section id="msgerEmojiPicker" class="hidden fadein chatEmojiPicker"></section>
+
+                            <div class="msger-inputarea">
+                                <textarea
+                                    rows="1"
+                                    cols="1"
+                                    id="msgerInput"
+                                    class="msger-input"
+                                    placeholder="Write a message..."
+                                ></textarea>
+                            </div>
+
+                            <div class="msger-input-buttons">
+                                <button id="msgerEmojiBtn" class="fas fa-smile"></button>
+                                <button id="msgerMarkdownBtn" class="fab fa-markdown"></button>
+                                <button id="msgerShareFileBtn" class="fas fa-paperclip"></button>
+                                <button id="msgerVideoUrlBtn" class="fab fa-youtube"></button>
+                                <button id="msgerCPBtn" class="fas fa-users"></button>
+                                <button id="msgerCleanTextBtn" class="fas fa-trash"></button>
+                                <button id="msgerPasteBtn" class="fas fa-paste"></button>
+                                <button id="msgerSendBtn" class="fas fa-paper-plane"></button>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="msgerCP" class="fadein" aria-hidden="true">
+                        <header id="msgerCPHeader" class="msger-private-header">
+                            <div class="msger-panel-heading msger-panel-heading-compact">
+                                <span class="msger-sidebar-label">Participants</span>
+                                <h3>People here</h3>
+                            </div>
+                            <div class="msger-header-options">
+                                <!-- More options -->
+                                <div id="tabRoomParticipants" class="dropdown-custom">
+                                    <button
+                                        class="dropdown-toggle-custom"
+                                        type="button"
+                                        id="msgerCPDropDownMenuBtn"
+                                        data-bs-toggle="dropdown-custom"
+                                        aria-expanded="false"
+                                    >
+                                        <i class="fas fa-ellipsis-v"></i>
+                                    </button>
+                                    <ul
+                                        id="msgerCPDropDownContent"
+                                        class="dropdown-menu-custom msger-participant-dropdown-menu msger-room-actions-menu"
+                                        aria-labelledby="msgerCPDropDownMenuBtn"
+                                    >
+                                        <li>
+                                            <button
+                                                id="captionEveryoneBtn"
+                                                class="dropdown-item msger-participant-action"
+                                            >
+                                                <span class="msger-participant-action-icon"
+                                                    ><i class="fas fa-play"></i
+                                                ></span>
+                                                <span class="msger-participant-action-label">Start captions</span>
+                                            </button>
+                                        </li>
+                                        <li>
+                                            <button
+                                                id="captionEveryoneStopBtn"
+                                                class="dropdown-item msger-participant-action"
+                                            >
+                                                <span class="msger-participant-action-icon"
+                                                    ><i class="fas fa-stop"></i
+                                                ></span>
+                                                <span class="msger-participant-action-label">Stop captions</span>
+                                            </button>
+                                        </li>
+                                        <li class="msger-dropdown-divider" aria-hidden="true"></li>
+                                        <li>
+                                            <button
+                                                id="muteEveryoneBtn"
+                                                class="dropdown-item msger-participant-action msger-participant-action-danger"
+                                            >
+                                                <span class="msger-participant-action-icon"
+                                                    ><i class="fas fa-microphone"></i
+                                                ></span>
+                                                <span class="msger-participant-action-label">Mute everyone</span>
+                                            </button>
+                                        </li>
+                                        <li>
+                                            <button
+                                                id="hideEveryoneBtn"
+                                                class="dropdown-item msger-participant-action msger-participant-action-danger"
+                                            >
+                                                <span class="msger-participant-action-icon"
+                                                    ><i class="fas fa-video"></i
+                                                ></span>
+                                                <span class="msger-participant-action-label">Hide everyone</span>
+                                            </button>
+                                        </li>
+                                        <li>
+                                            <button
+                                                id="ejectEveryoneBtn"
+                                                class="dropdown-item msger-participant-action msger-participant-action-danger"
+                                            >
+                                                <span class="msger-participant-action-icon"
+                                                    ><i class="fas fa-right-from-bracket"></i
+                                                ></span>
+                                                <span class="msger-participant-action-label">Eject everyone</span>
+                                            </button>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <button id="msgerCPCloseBtn" class="fas fa-times"></button>
+                            </div>
+                        </header>
+                        <main id="msgerCPChat" class="msger-chat">
+                            <!-- EMPTY PARTICIPANTS ILLUSTRATION -->
+                            <div id="msgerEmptyParticipantsNotice" class="empty-participants-notice">
+                                <img
+                                    alt="Empty participants illustration"
+                                    class="empty-participants-img"
+                                    src="../svg/emptyParticipants.svg"
+                                />
+                                <h5 class="empty-participants-title">Participants</h5>
+                                <p class="empty-participants-desc">There are no participants here yet.</p>
+                            </div>
+                            <div id="msgerParticipantsList" class="msger-participants-list"></div>
+                        </main>
+                    </section>
+
+                    <!-- End private msg -->
+                </div>
+            </section>
         </section>
 
         <!-- End chat room -->
@@ -591,6 +777,24 @@ access to use this app.
                                     </div>
                                 </td>
                                 <td><input id="switchKeepAwake" class="toggle" type="checkbox" /></td>
+                            </tr>
+                            <tr id="pinChatByDefaultRow">
+                                <td class="w-80">
+                                    <div class="title">
+                                        <i class="fas fa-comments"></i>
+                                        <p>Pin chat</p>
+                                    </div>
+                                </td>
+                                <td><input id="switchPinChatByDefault" class="toggle" type="checkbox" /></td>
+                            </tr>
+                            <tr id="pinCaptionByDefaultRow">
+                                <td class="w-80">
+                                    <div class="title">
+                                        <i class="fas fa-closed-captioning"></i>
+                                        <p>Pin transcription</p>
+                                    </div>
+                                </td>
+                                <td><input id="switchPinCaptionByDefault" class="toggle" type="checkbox" /></td>
                             </tr>
                         </table>
                         <br />

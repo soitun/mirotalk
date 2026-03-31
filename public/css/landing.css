@@ -3802,8 +3802,9 @@ img.has-shadow {
     border-radius: 18px;
 }
 
+.br-20,
 .br-24 {
-    border-radius: 24px;
+    border-radius: 20px;
 }
 
 .w-300 {
