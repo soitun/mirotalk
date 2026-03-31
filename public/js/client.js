@@ -6079,10 +6079,7 @@ function setParticipantsBtn() {
                 chatPin();
             }
 
-            msgerDraggable.classList.add('msger-pinned-sidebar-open');
-            msgerCPBtn.classList.add('active');
-            searchPeerBarName?.focus();
-            screenReaderAccessibility.announceMessage('Pinned chat participants opened');
+            openPinnedParticipantsSidebar(true);
             return;
         }
 
@@ -6090,6 +6087,20 @@ function setParticipantsBtn() {
         searchPeerBarName?.focus();
         screenReaderAccessibility.announceMessage('Participants list opened');
     });
+}
+
+function openPinnedParticipantsSidebar(announce = false) {
+    if (!isChatPinned) {
+        return;
+    }
+
+    msgerDraggable.classList.add('msger-pinned-sidebar-open');
+    msgerCPBtn.classList.add('active');
+    searchPeerBarName?.focus();
+
+    if (announce) {
+        screenReaderAccessibility.announceMessage('Pinned chat participants opened');
+    }
 }
 
 /**
@@ -9860,6 +9871,10 @@ function handleDataChannelChat(dataMessage) {
     if (msgPrivate) {
         if (!isConversationCurrentlyVisible('private', msgFrom, msgFromId)) {
             addUnreadMessage('private', msgFromId);
+
+            if (isChatRoomVisible && isChatPinned) {
+                openPinnedParticipantsSidebar();
+            }
         }
     } else if (!isConversationCurrentlyVisible('public')) {
         addUnreadMessage('public');
