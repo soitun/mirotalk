@@ -3941,6 +3941,12 @@ img.has-shadow {
 # Webkit-Scrollbar Styles
 --------------------------------------------------------------*/
 
+html,
+body {
+    scrollbar-width: thin;
+    scrollbar-color: #4678f9 #1a1b1f;
+}
+
 /* Target the scrollbar track */
 ::-webkit-scrollbar {
     background: #1a1b1f;

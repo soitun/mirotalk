@@ -724,6 +724,8 @@ body {
     max-width: 100%;
     font-size: 1rem;
     line-height: 1.6;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(0, 0, 0, 0.4) rgba(0, 0, 0, 0.1);
 }
 
 /* Scrollbar Styling */
@@ -1458,6 +1460,8 @@ body {
     max-width: 100%;
     font-size: 1rem;
     line-height: 1.6;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(0, 0, 0, 0.4) rgba(0, 0, 0, 0.1);
 }
 
 .msger-chat::-webkit-scrollbar {
@@ -1705,6 +1709,8 @@ button {
     background: var(--body-bg);
     border-radius: 18px;
     border: var(--border);
+    scrollbar-width: thin;
+    scrollbar-color: #404040 transparent;
 }
 
 .msger-input::-webkit-scrollbar {
@@ -1967,6 +1973,8 @@ button {
     background: transparent;
     backdrop-filter: none;
     transition: all 0.25s ease;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.16) transparent;
 }
 
 #msgerCPList::-webkit-scrollbar {
@@ -4033,6 +4041,12 @@ hr {
 /*--------------------------------------------------------------
 # Webkit-Scrollbar Styles
 --------------------------------------------------------------*/
+
+html,
+body {
+    scrollbar-width: thin;
+    scrollbar-color: #2f2f2f #1a1b1f;
+}
 
 ::-webkit-scrollbar {
     width: 10px;
