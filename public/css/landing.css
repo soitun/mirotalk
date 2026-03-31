@@ -1488,6 +1488,23 @@ textarea.form-input {
     color: #376df9;
 }
 
+.room-gen-btn.spin {
+    animation: roomGenSpin 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    color: #4678f9;
+}
+
+@keyframes roomGenSpin {
+    0% {
+        transform: translateY(-50%) rotate(0deg) scale(1);
+    }
+    50% {
+        transform: translateY(-50%) rotate(180deg) scale(1.25);
+    }
+    100% {
+        transform: translateY(-50%) rotate(360deg) scale(1);
+    }
+}
+
 @media (max-width: 640px) {
     .form-group-desktop .form-input {
         margin-bottom: 12px;

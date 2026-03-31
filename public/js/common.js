@@ -194,8 +194,14 @@ const adultCnt = document.getElementById('adultCnt');
 
 if (genRoomButton) {
     genRoomButton.onclick = (e) => {
+        genRoomButton.classList.remove('spin');
+        void genRoomButton.offsetWidth;
+        genRoomButton.classList.add('spin');
         genRoom();
     };
+    genRoomButton.addEventListener('animationend', () => {
+        genRoomButton.classList.remove('spin');
+    });
 }
 
 if (joinRoomButton) {
