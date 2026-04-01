@@ -1304,13 +1304,19 @@ function countPeerConnections() {
 document.addEventListener('DOMContentLoaded', function () {
     initCursorLightEffect();
     initClientPeer();
-    // Close navbar dropdowns when clicking outside
+    initDocumentListeners();
+});
+
+/**
+ * Document listeners
+ */
+function initDocumentListeners() {
     document.addEventListener('click', (e) => {
         if (!e.target.closest('.navbar-dropdown')) {
             document.querySelectorAll('.navbar-dropdown-content.show').forEach((el) => el.classList.remove('show'));
         }
     });
-});
+}
 
 /**
  * Initialize cursor light effect on video container
