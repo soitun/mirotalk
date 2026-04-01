@@ -15,7 +15,7 @@
  * @license For commercial use or closed source, contact us at license.mirotalk@gmail.com or purchase directly from CodeCanyon
  * @license CodeCanyon: https://codecanyon.net/item/mirotalk-p2p-webrtc-realtime-video-conferences/38376661
  * @author  Miroslav Pejic - miroslav.pejic.85@gmail.com
- * @version 1.7.83
+ * @version 1.7.84
  *
  */
 
@@ -1632,6 +1632,23 @@ function handleButtonsRule() {
         { element: captionMaxBtn, display: !isMobileDevice && buttons.caption.showMaxBtn },
     ]);
 
+    // Hide settings tabs when corresponding main buttons are disabled
+    if (!buttons.main.showVideoBtn) {
+        displayElements([
+            { element: tabVideoBtn, display: false },
+            { element: videoDropdown, display: false },
+            { element: getId('videoSourceDiv'), display: false },
+            { element: getId('videoFitDiv'), display: false },
+            { element: videoFpsDiv, display: false },
+        ]);
+    }
+    if (!buttons.main.showAudioBtn) {
+        displayElements([
+            { element: tabAudioBtn, display: false },
+            { element: audioDropdown, display: false },
+        ]);
+    }
+
     // Settings buttons
     displayElements([
         { element: activeRoomsBtn, display: buttons.settings.showActiveRoomsBtn },
@@ -2281,14 +2298,14 @@ function checkPeerAudioVideo() {
     let video = getQueryParam('video');
     if (audio) {
         audio = audio.toLowerCase();
-        let queryPeerAudio = useAudio ? audio === '1' || audio === 'true' : false;
+        let queryPeerAudio = useAudio && buttons.main.showAudioBtn ? audio === '1' || audio === 'true' : false;
         if (queryPeerAudio != null) handleAudio(audioBtn, false, queryPeerAudio);
         //elemDisplay(tabAudioBtn, queryPeerAudio);
         console.log('Direct join', { audio: queryPeerAudio });
     }
     if (video) {
         video = video.toLowerCase();
-        let queryPeerVideo = useVideo ? video === '1' || video === 'true' : false;
+        let queryPeerVideo = useVideo && buttons.main.showVideoBtn ? video === '1' || video === 'true' : false;
         if (queryPeerVideo != null) handleVideo(videoBtn, false, queryPeerVideo);
         //elemDisplay(tabVideoBtn, queryPeerVideo);
         console.log('Direct join', { video: queryPeerVideo });
@@ -4146,7 +4163,7 @@ async function loadLocalMedia(stream, kind) {
  * Check if screen is shared on join room
  */
 function checkShareScreen() {
-    if (!isMobileDevice && isScreenEnabled && isScreenSharingSupported) {
+    if (!isMobileDevice && isScreenEnabled && isScreenSharingSupported && buttons.main.showScreenBtn) {
         playSound('newMessage');
         // screenShareBtn.click(); // Chrome - Opera - Edge - Brave
         // handle error: getDisplayMedia requires transient activation from a user gesture on Safari - FireFox
@@ -14599,7 +14616,7 @@ function showAbout() {
     Swal.fire({
         background: swBg,
         position: 'center',
-        title: brand.about?.title && brand.about.title.trim() !== '' ? brand.about.title : 'WebRTC P2P v1.7.83',
+        title: brand.about?.title && brand.about.title.trim() !== '' ? brand.about.title : 'WebRTC P2P v1.7.84',
         imageUrl: brand.about?.imageUrl && brand.about.imageUrl.trim() !== '' ? brand.about.imageUrl : images.about,
         customClass: { image: 'img-about' },
         html: `
