@@ -126,6 +126,15 @@
     display: inline;
 }
 
+/* Dropdown overrides - must beat .navbar div */
+.navbar div.navbar-dropdown-content {
+    display: none !important;
+}
+
+.navbar div.navbar-dropdown-item {
+    display: flex !important;
+}
+
 /* Extra small containers (mobile portrait, small screens) */
 @container camera (max-width: 250px) {
     .navbar {
@@ -223,26 +232,75 @@
 }
 
 /*--------------------------------------------------------------
-# Expand buttons 
+# Navbar dropdown menu
 --------------------------------------------------------------*/
 
-.expand-video-content {
+.navbar-dropdown {
     position: relative;
-    display: none;
-    float: right;
-    width: auto;
+    display: inline-flex;
+    align-items: center;
 }
 
-.expand-video-content button {
-    display: none;
+.navbar-dropdown-content {
+    display: none !important;
+    position: fixed;
+    z-index: 9999;
+    min-width: 180px;
+    background: var(--body-bg);
+    border-radius: 10px;
+    border: var(--border);
+    padding: 6px 0;
+    box-shadow: var(--box-shadow);
+    max-height: 70vh;
+    overflow-y: auto;
 }
 
-.expand-video:hover .expand-video-content {
-    display: inline;
+.navbar-dropdown-content.show {
+    display: block !important;
 }
 
-.expand-video:hover .expand-video-content button {
-    display: inline;
+.navbar-dropdown-item {
+    display: flex !important;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 14px;
+    color: #fff;
+    font-size: 0.85rem;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.15s ease;
+}
+
+.navbar-dropdown-item:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.navbar-dropdown-item button,
+.navbar .navbar-dropdown-item button,
+.navbar .navbar-dropdown-content .navbar-dropdown-item button {
+    pointer-events: none;
+    background: none !important;
+    border: none !important;
+    color: #fff !important;
+    font-size: 1rem !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    min-width: 20px !important;
+    min-height: auto !important;
+    flex-shrink: 0;
+    border-radius: 0 !important;
+    box-sizing: content-box;
+    transform: none !important;
+}
+
+.navbar-dropdown-item button:hover,
+.navbar .navbar-dropdown-item button:hover {
+    background: none !important;
+    transform: none !important;
+}
+
+.navbar-dropdown-item span {
+    flex: 1;
 }
 
 /*--------------------------------------------------------------

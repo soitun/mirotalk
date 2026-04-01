@@ -15,7 +15,7 @@
  * @license For commercial use or closed source, contact us at license.mirotalk@gmail.com or purchase directly from CodeCanyon
  * @license CodeCanyon: https://codecanyon.net/item/mirotalk-p2p-webrtc-realtime-video-conferences/38376661
  * @author  Miroslav Pejic - miroslav.pejic.85@gmail.com
- * @version 1.7.84
+ * @version 1.7.85
  *
  */
 
@@ -1304,6 +1304,12 @@ function countPeerConnections() {
 document.addEventListener('DOMContentLoaded', function () {
     initCursorLightEffect();
     initClientPeer();
+    // Close navbar dropdowns when clicking outside
+    document.addEventListener('click', (e) => {
+        if (!e.target.closest('.navbar-dropdown')) {
+            document.querySelectorAll('.navbar-dropdown-content.show').forEach((el) => el.classList.remove('show'));
+        }
+    });
 });
 
 /**
@@ -3072,6 +3078,12 @@ function handleRemovePeer(config) {
 
     if (peer_id in peerConnections) peerConnections[peer_id].close();
 
+    // Clean up dropdown menus appended to body
+    const dropdownBtn = getId(peer_id + '_videoDropdownBtn');
+    if (dropdownBtn && dropdownBtn._dropdownContent) {
+        dropdownBtn._dropdownContent.remove();
+    }
+
     msgerRemovePeer(peer_id);
     removeVideoPinMediaContainer(peer_id);
 
@@ -3801,6 +3813,9 @@ async function loadLocalMedia(stream, kind) {
             const myVideoZoomInBtn = document.createElement('button');
             const myVideoZoomOutBtn = document.createElement('button');
             const myVideoPiPBtn = document.createElement('button');
+            const myDropdownDiv = document.createElement('div');
+            const myDropdownBtn = document.createElement('button');
+            const myDropdownContent = document.createElement('div');
             const myVideoAvatarImage = document.createElement('img');
             const myPitchMeter = document.createElement('div');
             const myPitchBar = document.createElement('div');
@@ -3898,23 +3913,37 @@ async function loadLocalMedia(stream, kind) {
 
             buttons.local.showVideoFocusBtn && myVideoNavBar.appendChild(myVideoFocusBtn);
 
-            myVideoNavBar.appendChild(myVideoMirrorBtn);
-
             if (showVideoPipBtn && buttons.local.showVideoPipBtn) myVideoNavBar.appendChild(myVideoPiPBtn);
-
-            if (buttons.local.showZoomInOutBtn) {
-                myVideoNavBar.appendChild(myVideoZoomInBtn);
-                myVideoNavBar.appendChild(myVideoZoomOutBtn);
-            }
 
             buttons.local.showSnapShotBtn && myVideoNavBar.appendChild(myVideoToImgBtn);
             buttons.local.showVideoCircleBtn && myVideoNavBar.appendChild(myPrivacyBtn);
 
-            isVideoFullScreenSupported && myVideoNavBar.appendChild(myVideoFullScreenBtn);
+            // Local dropdown menu
+            myDropdownDiv.className = 'navbar-dropdown';
+            myDropdownBtn.id = 'myVideoDropdownBtn';
+            myDropdownBtn.className = 'fas fa-ellipsis-vertical';
+            myDropdownContent.className = 'navbar-dropdown-content';
+
+            myDropdownContent.appendChild(createDropdownItem(myVideoMirrorBtn, 'Mirror', myDropdownContent));
+            isVideoFullScreenSupported &&
+                myDropdownContent.appendChild(
+                    createDropdownItem(myVideoFullScreenBtn, 'Full Screen', myDropdownContent)
+                );
+            if (buttons.local.showZoomInOutBtn) {
+                myDropdownContent.appendChild(createDropdownItem(myVideoZoomInBtn, 'Zoom In', myDropdownContent));
+                myDropdownContent.appendChild(createDropdownItem(myVideoZoomOutBtn, 'Zoom Out', myDropdownContent));
+            }
+
+            myDropdownDiv.appendChild(myDropdownBtn);
+            document.body.appendChild(myDropdownContent);
+            myDropdownBtn._dropdownContent = myDropdownContent;
+            handleDropdownEvents(myDropdownDiv, myDropdownBtn, myDropdownContent);
 
             myVideoNavBar.appendChild(myVideoStatusIcon);
             myVideoNavBar.appendChild(myAudioStatusIcon);
             myVideoNavBar.appendChild(myHandStatusIcon);
+
+            myVideoNavBar.appendChild(myDropdownDiv);
 
             // add my pitchBar
             myPitchMeter.appendChild(myPitchBar);
@@ -4249,11 +4278,9 @@ async function loadRemoteMediaStream(stream, peers, peer_id, kind) {
             const remotePitchMeter = document.createElement('div');
             const remotePitchBar = document.createElement('div');
             const remoteAudioVolume = document.createElement('input');
-
-            // Expand button UI/UX
-            const remoteExpandBtnDiv = document.createElement('div');
-            const remoteExpandBtn = document.createElement('button');
-            const remoteExpandContainerDiv = document.createElement('div');
+            const remoteDropdownDiv = document.createElement('div');
+            const remoteDropdownBtn = document.createElement('button');
+            const remoteDropdownContent = document.createElement('div');
 
             // remote peer name element
             remotePeerName.setAttribute('id', peer_id + '_name');
@@ -4334,26 +4361,17 @@ async function loadRemoteMediaStream(stream, peers, peer_id, kind) {
             remoteVideoMirrorBtn.setAttribute('id', peer_id + '_toggleMirror');
             remoteVideoMirrorBtn.className = className.mirror;
 
-            // no mobile devices
+            // tooltips for navbar buttons only (not dropdown items)
             if (!isMobileDevice) {
                 setTippy(remotePeerName, 'Participant name', 'bottom');
                 setTippy(remoteHandStatusIcon, 'Participant hand is raised', 'bottom');
                 setTippy(remoteVideoStatusIcon, 'Participant video is on', 'bottom');
                 setTippy(remoteAudioStatusIcon, 'Participant audio is on', 'bottom');
                 setTippy(remoteAudioVolume, '🔊 Volume', 'top');
-                setTippy(remoteVideoAudioUrlBtn, 'Send Video or Audio', 'bottom');
-                setTippy(remotePrivateMsgBtn, 'Open private conversation', 'bottom');
-                setTippy(remoteGeoLocationBtn, 'Get Geo Location', 'bottom');
-                setTippy(remoteFileShareBtn, 'Send file', 'bottom');
                 setTippy(remoteVideoToImgBtn, 'Take a snapshot', 'bottom');
-                setTippy(remotePeerKickOut, 'Kick out', 'bottom');
-                setTippy(remoteVideoFullScreenBtn, 'Full screen mode', 'bottom');
-                setTippy(remoteVideoZoomInBtn, 'Zoom in video', 'bottom');
-                setTippy(remoteVideoZoomOutBtn, 'Zoom out video', 'bottom');
                 setTippy(remoteVideoPiPBtn, 'Toggle picture in picture', 'bottom');
                 setTippy(remoteVideoPinBtn, 'Toggle Pin video', 'bottom');
                 setTippy(remoteVideoFocusBtn, 'Toggle Focus mode', 'bottom');
-                setTippy(remoteVideoMirrorBtn, 'Toggle video mirror', 'bottom');
             }
 
             // my video avatar image
@@ -4372,38 +4390,65 @@ async function loadRemoteMediaStream(stream, peers, peer_id, kind) {
             // remote video nav bar
             remoteVideoNavBar.className = 'navbar fadein';
 
-            // remote expand buttons div
-            remoteExpandBtnDiv.className = 'expand-video';
-            remoteExpandBtn.id = peer_id + '_videoExpandBtn';
-            remoteExpandBtn.className = 'fas fa-ellipsis-vertical';
-            remoteExpandContainerDiv.className = 'expand-video-content';
+            // remote dropdown menu (replaces old expand-video)
+            remoteDropdownDiv.className = 'navbar-dropdown';
+            remoteDropdownBtn.id = peer_id + '_videoDropdownBtn';
+            remoteDropdownBtn.className = 'fas fa-ellipsis-vertical';
+            remoteDropdownContent.className = 'navbar-dropdown-content';
+
+            // Build dropdown items
+            remoteDropdownContent.appendChild(
+                createDropdownItem(remoteVideoMirrorBtn, 'Mirror', remoteDropdownContent)
+            );
+            isVideoFullScreenSupported &&
+                remoteDropdownContent.appendChild(
+                    createDropdownItem(remoteVideoFullScreenBtn, 'Full Screen', remoteDropdownContent)
+                );
+            if (buttons.remote.showZoomInOutBtn) {
+                remoteDropdownContent.appendChild(
+                    createDropdownItem(remoteVideoZoomInBtn, 'Zoom In', remoteDropdownContent)
+                );
+                remoteDropdownContent.appendChild(
+                    createDropdownItem(remoteVideoZoomOutBtn, 'Zoom Out', remoteDropdownContent)
+                );
+            }
+            buttons.remote.showPrivateMessageBtn &&
+                remoteDropdownContent.appendChild(
+                    createDropdownItem(remotePrivateMsgBtn, 'Private Message', remoteDropdownContent)
+                );
+            buttons.remote.showGeoLocationBtn &&
+                remoteDropdownContent.appendChild(
+                    createDropdownItem(remoteGeoLocationBtn, 'Geo Location', remoteDropdownContent)
+                );
+            buttons.remote.showFileShareBtn &&
+                remoteDropdownContent.appendChild(
+                    createDropdownItem(remoteFileShareBtn, 'Send File', remoteDropdownContent)
+                );
+            buttons.remote.showShareVideoAudioBtn &&
+                remoteDropdownContent.appendChild(
+                    createDropdownItem(remoteVideoAudioUrlBtn, 'Send Video/Audio', remoteDropdownContent)
+                );
+            buttons.remote.showKickOutBtn &&
+                remoteDropdownContent.appendChild(
+                    createDropdownItem(remotePeerKickOut, 'Kick Out', remoteDropdownContent, 'red')
+                );
+
+            remoteDropdownDiv.appendChild(remoteDropdownBtn);
+            // Append dropdown content to body so it escapes overflow:hidden on .Camera
+            document.body.appendChild(remoteDropdownContent);
+            // Store reference for cleanup on peer removal
+            remoteDropdownBtn._dropdownContent = remoteDropdownContent;
+
+            handleDropdownEvents(remoteDropdownDiv, remoteDropdownBtn, remoteDropdownContent);
 
             // attach to remote video nav bar
             !isMobileDevice && remoteVideoNavBar.appendChild(remoteVideoPinBtn);
 
             buttons.remote.showVideoFocusBtn && remoteVideoNavBar.appendChild(remoteVideoFocusBtn);
 
-            remoteVideoNavBar.appendChild(remoteVideoMirrorBtn);
-
             if (showVideoPipBtn && buttons.remote.showVideoPipBtn) remoteVideoNavBar.appendChild(remoteVideoPiPBtn);
 
-            // Add to expand container div...
-            if (buttons.remote.showZoomInOutBtn) {
-                remoteExpandContainerDiv.appendChild(remoteVideoZoomInBtn);
-                remoteExpandContainerDiv.appendChild(remoteVideoZoomOutBtn);
-            }
-            buttons.remote.showPrivateMessageBtn && remoteExpandContainerDiv.appendChild(remotePrivateMsgBtn);
-            buttons.remote.showGeoLocationBtn && remoteExpandContainerDiv.appendChild(remoteGeoLocationBtn);
-            buttons.remote.showFileShareBtn && remoteExpandContainerDiv.appendChild(remoteFileShareBtn);
-            buttons.remote.showShareVideoAudioBtn && remoteExpandContainerDiv.appendChild(remoteVideoAudioUrlBtn);
-            buttons.remote.showKickOutBtn && remoteExpandContainerDiv.appendChild(remotePeerKickOut);
-
-            remoteExpandBtnDiv.appendChild(remoteExpandBtn);
-            remoteExpandBtnDiv.appendChild(remoteExpandContainerDiv);
-
             buttons.remote.showSnapShotBtn && remoteVideoNavBar.appendChild(remoteVideoToImgBtn);
-
-            isVideoFullScreenSupported && remoteVideoNavBar.appendChild(remoteVideoFullScreenBtn);
 
             remoteVideoNavBar.appendChild(remoteVideoStatusIcon);
             remoteVideoNavBar.appendChild(remoteAudioStatusIcon);
@@ -4414,7 +4459,7 @@ async function loadRemoteMediaStream(stream, peers, peer_id, kind) {
             }
             remoteVideoNavBar.appendChild(remoteHandStatusIcon);
 
-            remoteVideoNavBar.appendChild(remoteExpandBtnDiv);
+            remoteVideoNavBar.appendChild(remoteDropdownDiv);
 
             remoteMedia.setAttribute('id', peer_id + '___video');
             remoteMedia.setAttribute('playsinline', true);
@@ -4745,6 +4790,101 @@ async function loadRemoteMediaStream(stream, peers, peer_id, kind) {
         default:
             break;
     }
+}
+
+/**
+ * Create a dropdown item for the navbar dropdown menu
+ * @param {HTMLElement} btnEl the button element to trigger the action
+ * @param {string} label the text label for the dropdown item
+ * @param {HTMLElement} dropdownContent the dropdown content panel (appended to body)
+ * @param {string} [color] optional color for the button and label
+ */
+function createDropdownItem(btnEl, label, dropdownContent, color) {
+    const item = document.createElement('div');
+    item.className = 'navbar-dropdown-item';
+    item.appendChild(btnEl);
+    const span = document.createElement('span');
+    span.textContent = label;
+    item.appendChild(span);
+    if (color) {
+        btnEl.style.setProperty('color', color, 'important');
+        span.style.setProperty('color', color, 'important');
+    }
+    let dispatching = false;
+    item.addEventListener('click', (e) => {
+        if (dispatching) return;
+        e.stopPropagation();
+        dispatching = true;
+        btnEl.click();
+        dispatching = false;
+        if (dropdownContent) dropdownContent.classList.remove('show');
+    });
+    return item;
+}
+
+/**
+ * Handle dropdown hover/touch events for navbar dropdown menus
+ * @param {HTMLElement} dropdownDiv the wrapper div
+ * @param {HTMLElement} dropdownBtn the trigger button
+ * @param {HTMLElement} dropdownContent the dropdown content panel (appended to body)
+ */
+function handleDropdownEvents(dropdownDiv, dropdownBtn, dropdownContent) {
+    let closeTimer = null;
+
+    function showDropdown() {
+        if (closeTimer) {
+            clearTimeout(closeTimer);
+            closeTimer = null;
+        }
+        const rect = dropdownBtn.getBoundingClientRect();
+        dropdownContent.style.top = rect.bottom + 2 + 'px';
+        dropdownContent.style.right = window.innerWidth - rect.right + 'px';
+        dropdownContent.style.left = 'auto';
+        document.querySelectorAll('.navbar-dropdown-content.show').forEach((el) => {
+            if (el !== dropdownContent) el.classList.remove('show');
+        });
+        dropdownContent.classList.add('show');
+    }
+
+    function scheduleClose() {
+        if (closeTimer) clearTimeout(closeTimer);
+        closeTimer = setTimeout(() => {
+            dropdownContent.classList.remove('show');
+            closeTimer = null;
+        }, 200);
+    }
+
+    // Desktop: open on hover
+    dropdownDiv.addEventListener('mouseenter', () => showDropdown());
+
+    // Close with delay when mouse leaves both the button and the dropdown content
+    dropdownDiv.addEventListener('mouseleave', (e) => {
+        if (!dropdownContent.contains(e.relatedTarget)) {
+            scheduleClose();
+        }
+    });
+    dropdownContent.addEventListener('mouseenter', () => {
+        if (closeTimer) {
+            clearTimeout(closeTimer);
+            closeTimer = null;
+        }
+    });
+    dropdownContent.addEventListener('mouseleave', (e) => {
+        if (!dropdownDiv.contains(e.relatedTarget)) {
+            scheduleClose();
+        }
+    });
+
+    // Mobile: toggle on tap
+    dropdownBtn.addEventListener('touchstart', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        if (dropdownContent.classList.contains('show')) {
+            dropdownContent.classList.remove('show');
+        } else {
+            showDropdown();
+        }
+    });
 }
 
 /**
@@ -14616,7 +14756,7 @@ function showAbout() {
     Swal.fire({
         background: swBg,
         position: 'center',
-        title: brand.about?.title && brand.about.title.trim() !== '' ? brand.about.title : 'WebRTC P2P v1.7.84',
+        title: brand.about?.title && brand.about.title.trim() !== '' ? brand.about.title : 'WebRTC P2P v1.7.85',
         imageUrl: brand.about?.imageUrl && brand.about.imageUrl.trim() !== '' ? brand.about.imageUrl : images.about,
         customClass: { image: 'img-about' },
         html: `
