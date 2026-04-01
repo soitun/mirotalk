@@ -2520,6 +2520,7 @@ button {
 
 .mySettingsMain {
     display: flex;
+    width: 100%;
 }
 
 @media screen and (max-width: 1030px) {
@@ -2714,8 +2715,6 @@ button {
     margin-top: 15px;
     border-radius: 8px;
     background: var(--body-bg);
-    overflow-x: none;
-    overflow-y: auto;
 }
 
 #extraInfo {
@@ -2917,7 +2916,11 @@ button {
 
 .tabActions {
     position: relative;
+    padding: 10px 15px 0px 0px;
     width: 65%;
+    max-height: 530px;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
 @media screen and (max-width: 830px) {
@@ -2976,12 +2979,9 @@ button {
     margin-top: 15px;
     padding: 6px 12px;
     width: 100%;
-    max-height: 530px;
     min-height: 480px;
     border-top: none;
     background-color: var(--body-bg);
-    overflow-x: hidden;
-    overflow-y: auto;
 }
 
 .tabcontent button {
