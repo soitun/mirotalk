@@ -2913,7 +2913,6 @@ button {
 .tab {
     padding: 10px 10px 10px 0;
     overflow: hidden;
-    border-radius: 8px;
     width: 35%;
     background-color: var(--body-bg);
     min-height: 480px;
