@@ -2512,7 +2512,6 @@ button {
     margin: auto;
     padding: 10px;
     width: 50%;
-    min-height: 560px !important;
     background: var(--body-bg);
     box-shadow: var(--box-shadow);
     border: var(--border);
@@ -2534,7 +2533,6 @@ button {
 @media screen and (max-width: 830px) {
     #mySettings {
         width: 80%;
-        min-height: auto;
     }
     .mySettingsMain {
         flex-direction: row;
@@ -2640,6 +2638,7 @@ button {
     border: none;
     border-radius: 8px;
     float: right;
+    margin-right: -10px;
     background: transparent;
     transition: background 0.23s;
 }
@@ -2911,7 +2910,7 @@ button {
 --------------------------------------------------------------*/
 
 .tab {
-    padding: 10px 10px 10px 0;
+    padding: 0px 10px 10px 0; /* top right bottom left */
     overflow: hidden;
     width: 35%;
     background-color: var(--body-bg);
@@ -2923,9 +2922,9 @@ button {
 
 .tabActions {
     position: relative;
-    padding: 10px 15px 0px 0px;
+    padding: 0px 20px 0px 0px; /* top right bottom left */
     width: 65%;
-    max-height: 530px;
+    max-height: 540px;
     overflow-y: auto;
     overflow-x: hidden;
 }

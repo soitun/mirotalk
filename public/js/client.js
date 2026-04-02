@@ -15,7 +15,7 @@
  * @license For commercial use or closed source, contact us at license.mirotalk@gmail.com or purchase directly from CodeCanyon
  * @license CodeCanyon: https://codecanyon.net/item/mirotalk-p2p-webrtc-realtime-video-conferences/38376661
  * @author  Miroslav Pejic - miroslav.pejic.85@gmail.com
- * @version 1.7.86
+ * @version 1.7.87
  *
  */
 
@@ -363,8 +363,7 @@ const pinChatByDefaultRow = getId('pinChatByDefaultRow');
 const switchPinChatByDefault = getId('switchPinChatByDefault');
 const keepAwakeButton = getId('keepAwakeButton');
 const switchKeepAwake = getId('switchKeepAwake');
-const pinCaptionByDefaultRow = getId('pinCaptionByDefaultRow');
-const switchPinCaptionByDefault = getId('switchPinCaptionByDefault');
+
 const switchPushToTalk = getId('switchPushToTalk');
 const switchAudioPitchBar = getId('switchAudioPitchBar');
 const audioInputSelect = getId('audioSource');
@@ -656,7 +655,6 @@ let isChatEmojiVisible = false;
 let isChatMarkdownOn = false;
 let isChatPasteTxt = false;
 let pinChatByDefault = false;
-let pinCaptionByDefault = true;
 let speechInMessages = false;
 let isSpeechSynthesisSupported = 'speechSynthesis' in window;
 let transcripts = []; // collect all the transcripts to save it later if you need
@@ -856,7 +854,6 @@ function setButtonsToolTip() {
     setTippy(switchShare, "Show 'Share Room' popup on join.", 'right');
     setTippy(switchKeepButtonsVisible, 'Keep buttons always visible', 'right');
     setTippy(switchPinChatByDefault, 'Open chat pinned by default', 'right');
-    setTippy(switchPinCaptionByDefault, 'Open transcription pinned by default', 'right');
     setTippy(switchKeepAwake, 'Prevent the device from sleeping (if supported)', 'right');
     setTippy(recImage, 'Toggle recording', 'right');
     setTippy(networkIP, 'IP address associated with the ICE candidate', 'right');
@@ -6957,21 +6954,12 @@ function setMySettingsBtn() {
 
     if (!isDesktopDevice) {
         elemDisplay(pinChatByDefaultRow, false);
-        elemDisplay(pinCaptionByDefaultRow, false);
     } else {
         switchPinChatByDefault.addEventListener('change', (e) => {
             pinChatByDefault = e.currentTarget.checked;
             lsSettings.pin_chat_by_default = pinChatByDefault;
             lS.setSettings(lsSettings);
             userLog('toast', `Chat opens pinned by default ${pinChatByDefault ? 'ON' : 'OFF'}`);
-            playSound('switch');
-        });
-
-        switchPinCaptionByDefault.addEventListener('change', (e) => {
-            pinCaptionByDefault = e.currentTarget.checked;
-            lsSettings.pin_caption_by_default = pinCaptionByDefault;
-            lS.setSettings(lsSettings);
-            userLog('toast', `Transcription opens pinned by default ${pinCaptionByDefault ? 'ON' : 'OFF'}`);
             playSound('switch');
         });
     }
@@ -7504,7 +7492,6 @@ function loadSettingsFromLocalStorage() {
     showChatOnMessage = lsSettings.show_chat_on_msg;
     speechInMessages = lsSettings.speech_in_msg;
     pinChatByDefault = lsSettings.pin_chat_by_default;
-    pinCaptionByDefault = lsSettings.pin_caption_by_default;
     msgerShowChatOnMsg.checked = showChatOnMessage;
     msgerSpeechMsg.checked = speechInMessages;
     screenFpsSelect.selectedIndex = lsSettings.screen_fps;
@@ -7521,7 +7508,6 @@ function loadSettingsFromLocalStorage() {
     switchShare.checked = notify;
     switchKeepButtonsVisible.checked = isKeepButtonsVisible;
     switchPinChatByDefault.checked = pinChatByDefault;
-    switchPinCaptionByDefault.checked = pinCaptionByDefault;
     switchAudioPitchBar.checked = isAudioPitchBar;
     switchShortcuts.checked = isShortcutsEnabled;
     keepCustomTheme.checked = themeCustom.keep;
@@ -9586,10 +9572,6 @@ function showCaptionDraggable() {
     captionIcon.className = 'far fa-closed-captioning';
 
     isCaptionBoxVisible = true;
-
-    if (isDesktopDevice && canBePinned() && pinCaptionByDefault && !isChatPinned && !isCaptionPinned) {
-        captionPin();
-    }
 
     screenReaderAccessibility.announceMessage('Caption opened');
 }
@@ -14764,7 +14746,7 @@ function showAbout() {
     Swal.fire({
         background: swBg,
         position: 'center',
-        title: brand.about?.title && brand.about.title.trim() !== '' ? brand.about.title : 'WebRTC P2P v1.7.86',
+        title: brand.about?.title && brand.about.title.trim() !== '' ? brand.about.title : 'WebRTC P2P v1.7.87',
         imageUrl: brand.about?.imageUrl && brand.about.imageUrl.trim() !== '' ? brand.about.imageUrl : images.about,
         customClass: { image: 'img-about' },
         html: `
