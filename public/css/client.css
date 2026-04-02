@@ -2633,18 +2633,25 @@ button {
 }
 
 #mySettingsCloseBtn {
-    font-size: 1.2rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    font-size: 1rem;
+    line-height: 1;
     color: #fff;
     border: none;
-    border-radius: 8px;
+    border-radius: 12px;
     float: right;
-    margin-right: -10px;
-    background: transparent;
-    transition: background 0.23s;
+    background: var(--body-bg);
+    transition: all 0.25s ease;
 }
 
 #mySettingsCloseBtn:hover {
-    background: var(--body-bg);
+    background: var(--right-msg-bg);
+    transform: translateY(-1px);
 }
 
 .form-check-input {
