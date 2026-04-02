@@ -2586,8 +2586,14 @@ button {
 }
 
 #mySettingsHeader {
-    height: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
     cursor: move;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
 }
 
 #mySettings i,
@@ -2702,7 +2708,7 @@ button {
     font-size: 0.9rem;
     border: var(--border);
     border-radius: 10px;
-    background: var(--selctt-bg);
+    background: var(--select-bg);
     outline: none;
     cursor: pointer;
     transition: 0.3s;
