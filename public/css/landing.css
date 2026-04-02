@@ -955,16 +955,25 @@ strong {
 }
 
 .button-primary {
-    color: #f9faff;
-    background-color: #000000;
+    color: #ffffff;
+    background: linear-gradient(135deg, #376df9 0%, #4678f9 100%);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 0 4px 14px rgba(55, 109, 249, 0.35);
+    transition:
+        background 0.2s ease,
+        transform 0.12s ease,
+        box-shadow 0.2s ease;
 }
 
 .button-primary:hover {
-    background-color: #4678f9;
+    background: linear-gradient(135deg, #4678f9 0%, #5a8aff 100%);
     transform: translateY(-2px);
-    transition:
-        background 0.2s ease,
-        transform 0.12s ease;
+    box-shadow: 0 6px 20px rgba(55, 109, 249, 0.45);
+}
+
+.button-primary:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 8px rgba(55, 109, 249, 0.3);
 }
 
 .button-primary.is-loading::after {
@@ -1454,38 +1463,77 @@ textarea.form-input {
 
 .room-input-wrap .form-input {
     padding-right: 44px;
+    background-color: rgba(0, 0, 0, 0.45);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 2px solid rgba(255, 255, 255, 0.25);
+    color: #ffffff;
+    caret-color: #4678f9;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.25);
+    transition:
+        border-color 0.2s ease,
+        background-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.room-input-wrap .form-input:hover {
+    border-color: rgba(70, 120, 249, 0.6);
+    background-color: rgba(0, 0, 0, 0.5);
+    box-shadow: 0 4px 16px rgba(70, 120, 249, 0.15);
+}
+
+.room-input-wrap .form-input:focus {
+    border-color: #4678f9;
+    background-color: rgba(0, 0, 0, 0.55);
+    box-shadow:
+        0 0 0 3px rgba(70, 120, 249, 0.2),
+        0 4px 16px rgba(70, 120, 249, 0.15);
+}
+
+.room-input-wrap .form-input::placeholder {
+    color: rgba(255, 255, 255, 0.45);
 }
 
 .room-gen-btn {
     position: absolute;
-    right: 6px;
+    right: 8px;
     top: 50%;
     transform: translateY(-50%);
-    background: none;
-    border: none;
-    color: #000000;
-    font-size: 14px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 15px;
     cursor: pointer;
-    padding: 6px 8px;
-    border-radius: 4px;
+    padding: 7px 9px;
+    border-radius: 6px;
     transition:
         color 0.2s ease,
-        background 0.2s ease;
+        background 0.2s ease,
+        border-color 0.2s ease,
+        transform 0.15s ease;
 }
 
 .room-gen-btn:hover {
-    color: #4678f9;
-    background: rgba(70, 120, 249, 0.1);
+    color: #ffffff;
+    background: rgba(70, 120, 249, 0.3);
+    border-color: rgba(70, 120, 249, 0.5);
 }
 
 .room-gen-btn:focus-visible {
     outline: none;
-    color: #4678f9;
-    background: rgba(70, 120, 249, 0.1);
+    color: #ffffff;
+    background: rgba(70, 120, 249, 0.3);
+    border-color: #4678f9;
 }
 
 .room-gen-btn:active {
-    color: #376df9;
+    color: #ffffff;
+    background: rgba(70, 120, 249, 0.5);
+    border-color: #4678f9;
+    transform: translateY(-50%) scale(0.85);
+    box-shadow: 0 0 8px rgba(70, 120, 249, 0.4);
 }
 
 .room-gen-btn.spin {
@@ -4026,8 +4074,9 @@ body {
 }
 
 .last-room a:hover {
-    background-color: #0000002a;
-    transition: all 0.3s ease-in-out;
+    background-color: rgba(70, 120, 249, 0.15);
+    color: #4678f9;
+    transition: all 0.2s ease;
 }
 
 /* Use a media query to apply a different flex-wrap value for small screens */
@@ -4127,6 +4176,7 @@ body {
 #roomName {
     text-align: center;
     justify-content: center;
+    color: #e0e4f0;
 }
 
 /*--------------------------------------------------------------
