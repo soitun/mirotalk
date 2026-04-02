@@ -118,7 +118,7 @@ if (speechRecognition) {
             };
             // save also my speech to text
             handleSpeechTranscript(config);
-            sendToDataChannel(config);
+            if (transcriptSendToAll) sendToDataChannel(config);
         }
     };
 

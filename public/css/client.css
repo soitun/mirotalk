@@ -644,7 +644,7 @@ body {
     background: var(--msger-bg);
     border: var(--border);
     resize: none;
-    overflow: hidden;
+    overflow: visible;
     border-radius: 20px;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
     backdrop-filter: blur(10px);
@@ -675,6 +675,8 @@ body {
 
 /* Draggable Header */
 .caption-header {
+    position: relative;
+    z-index: 10;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -695,23 +697,25 @@ body {
 }
 
 .caption-header-title button,
-.caption-header-options button {
+.caption-header-options > button,
+.caption-header-options > .dropdown-custom > .dropdown-toggle-custom {
     display: inline-flex;
     align-items: center;
     justify-content: center;
     padding: 8px 12px;
-    border: none;
+    border: none !important;
     font-size: 1rem;
     line-height: 1;
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.1) !important;
     color: #fff;
     border-radius: 8px;
     transition: all 0.25s ease;
 }
 
 .caption-header-title button:hover,
-.caption-header-options button:hover {
-    background: rgba(255, 255, 255, 0.2);
+.caption-header-options > button:hover,
+.caption-header-options > .dropdown-custom > .dropdown-toggle-custom:hover {
+    background: rgba(255, 255, 255, 0.2) !important;
     transform: scale(1.05);
 }
 
@@ -3830,7 +3834,8 @@ hr {
     }
 }
 
-#msgerDropDownContent .msger-menu-action {
+#msgerDropDownContent .msger-menu-action,
+#captionDropDownContent .msger-menu-action {
     position: relative;
     display: flex;
     align-items: center;
@@ -3844,15 +3849,18 @@ hr {
     line-height: 1.35;
 }
 
-#msgerDropDownContent .msger-menu-action-row {
+#msgerDropDownContent .msger-menu-action-row,
+#captionDropDownContent .msger-menu-action-row {
     padding: 0;
 }
 
-#msgerDropDownContent .msger-menu-action:hover {
+#msgerDropDownContent .msger-menu-action:hover,
+#captionDropDownContent .msger-menu-action:hover {
     background: rgba(255, 255, 255, 0.08);
 }
 
-#msgerDropDownContent .msger-menu-action-icon {
+#msgerDropDownContent .msger-menu-action-icon,
+#captionDropDownContent .msger-menu-action-icon {
     position: absolute;
     left: 12px;
     top: 50%;
@@ -3867,7 +3875,8 @@ hr {
     transform: translateY(-50%);
 }
 
-#msgerDropDownContent .msger-menu-action i {
+#msgerDropDownContent .msger-menu-action i,
+#captionDropDownContent .msger-menu-action i {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -3878,7 +3887,8 @@ hr {
     color: rgba(232, 247, 249, 0.92);
 }
 
-#msgerDropDownContent .msger-menu-action-label {
+#msgerDropDownContent .msger-menu-action-label,
+#captionDropDownContent .msger-menu-action-label {
     display: inline-flex;
     align-items: center;
     width: 100%;
@@ -3888,64 +3898,86 @@ hr {
     line-height: 1.25;
 }
 
-#msgerDropDownContent .msger-menu-action-danger {
+#msgerDropDownContent .msger-menu-action-danger,
+#captionDropDownContent .msger-menu-action-danger {
     color: #ffd3cf;
 }
 
-#msgerDropDownContent .msger-menu-action-danger .msger-menu-action-icon {
+#msgerDropDownContent .msger-menu-action-danger .msger-menu-action-icon,
+#captionDropDownContent .msger-menu-action-danger .msger-menu-action-icon {
     background: rgba(255, 95, 87, 0.12);
 }
 
-#msgerDropDownContent .msger-menu-action-danger i {
+#msgerDropDownContent .msger-menu-action-danger i,
+#captionDropDownContent .msger-menu-action-danger i {
     color: #ff8c84;
 }
 
-#msgerDropDownContent .msger-menu-action-danger:hover {
+#msgerDropDownContent .msger-menu-action-danger:hover,
+#captionDropDownContent .msger-menu-action-danger:hover {
     background: rgba(255, 95, 87, 0.1);
 }
 
-#msgerDropDownContent .msger-menu-toggle-row {
-    display: grid;
-    grid-template-columns: 18px minmax(0, 1fr) auto;
+/*--------------------------------------------------------------
+# Transcription/Chat switch rows (dropdown menu)
+--------------------------------------------------------------*/
+
+.transcription-switch-row {
+    display: flex;
     align-items: center;
-    gap: 12px;
+    justify-content: space-between;
     padding: 10px 12px;
     color: #ffffff;
+    gap: 10px;
 }
 
-#msgerDropDownContent .msger-menu-toggle-icon {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 18px;
+.transcription-switch-row i {
+    font-size: 1rem;
     min-width: 18px;
+    text-align: center;
     color: rgba(232, 247, 249, 0.92);
 }
 
-#msgerDropDownContent .msger-menu-toggle-copy {
-    display: flex;
-    min-width: 0;
-    flex-direction: column;
-    gap: 2px;
-}
-
-#msgerDropDownContent .msger-menu-toggle-copy strong {
-    display: block;
+.transcription-switch-label {
+    flex: 1;
     font-size: 0.9rem;
     font-weight: 600;
     line-height: 1.2;
     color: #ffffff;
 }
 
-#msgerDropDownContent .msger-menu-toggle-copy small {
-    display: block;
-    font-size: 0.76rem;
-    line-height: 1.3;
-    color: rgba(214, 234, 238, 0.7);
+#captionDropDownContent {
+    padding: 14px 10px 10px;
 }
 
-#msgerDropDownContent .msger-menu-toggle-row .switch {
-    margin-left: 8px;
+#captionDropDownContent > li {
+    padding: 0;
+}
+
+#captionDropDownContent hr {
+    margin: 6px 6px;
+    border: 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+#captionDropDownContent .msger-menu-action-row + .msger-menu-action-row {
+    margin-top: 4px;
+}
+
+.caption-header-options .dropdown-custom {
+    position: relative;
+    z-index: 10;
+}
+
+.caption-header-options .dropdown-custom > .dropdown-menu-custom {
+    position: absolute;
+    top: calc(100% + 10px);
+    right: 0;
+    left: auto;
+    z-index: 9999;
+    width: min(240px, calc(100vw - 32px));
+    min-width: min(240px, calc(100vw - 32px));
+    max-width: min(240px, calc(100vw - 32px));
 }
 
 /* Styles for table cell with title (td) */

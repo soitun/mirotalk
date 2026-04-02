@@ -314,27 +314,19 @@ access to use this app.
                                 aria-labelledby="msgerDropDownMenuBtn"
                             >
                                 <li>
-                                    <div id="msgerShowChatOnMsgDiv" class="msger-menu-toggle-row">
-                                        <span class="msger-menu-toggle-icon">
-                                            <i class="fa-solid fa-eye"></i>
-                                        </span>
-                                        <span class="msger-menu-toggle-copy">
-                                            <strong>Open chat on new message</strong>
-                                            <small>Bring the chat panel forward when a new message arrives</small>
-                                        </span>
+                                    <div id="msgerShowChatOnMsgDiv" class="transcription-switch-row">
+                                        <i class="fa-solid fa-eye"></i>
+                                        <span class="transcription-switch-label">Show on msg</span>
                                         <label class="switch">
                                             <input id="msgerShowChatOnMsg" type="checkbox" checked />
                                             <span class="slider round"></span>
                                         </label>
                                     </div>
-                                    <div id="msgerSpeechMsgDiv" class="msger-menu-toggle-row">
-                                        <span class="msger-menu-toggle-icon">
-                                            <i class="fas fa-volume-high"></i>
-                                        </span>
-                                        <span class="msger-menu-toggle-copy">
-                                            <strong>Speak incoming messages</strong>
-                                            <small>Read new chat messages aloud</small>
-                                        </span>
+                                </li>
+                                <li id="msgerSpeechMsgDiv">
+                                    <div class="transcription-switch-row">
+                                        <i class="fas fa-volume-high"></i>
+                                        <span class="transcription-switch-label">Speech msg</span>
                                         <label class="switch">
                                             <input id="msgerSpeechMsg" type="checkbox" />
                                             <span class="slider round"></span>
@@ -549,8 +541,68 @@ access to use this app.
                         <button id="captionMaxBtn" class="fas fa-expand"></button>
                         <button id="captionMinBtn" class="fas fa-compress"></button>
                         <button id="captionTheme" class="fas fa-ghost"></button>
-                        <button id="captionSaveBtn" class="fas fa-save"></button>
-                        <button id="captionClean" class="fas fa-trash"></button>
+                        <div class="dropdown-custom">
+                            <button
+                                class="dropdown-toggle-custom"
+                                type="button"
+                                id="captionDropDownMenuBtn"
+                                data-bs-toggle="dropdown-custom"
+                                aria-expanded="false"
+                            >
+                                <i class="fas fa-ellipsis-v"></i>
+                            </button>
+                            <ul
+                                id="captionDropDownContent"
+                                class="dropdown-menu-custom app-dropdown-menu"
+                                aria-labelledby="captionDropDownMenuBtn"
+                            >
+                                <li>
+                                    <div class="transcription-switch-row">
+                                        <i class="fa-solid fa-eye"></i>
+                                        <span class="transcription-switch-label">Show on msg</span>
+                                        <label class="switch">
+                                            <input id="transcriptShowOnMsg" type="checkbox" checked />
+                                            <span class="slider round"></span>
+                                        </label>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="transcription-switch-row">
+                                        <i class="fa-solid fa-share-nodes"></i>
+                                        <span class="transcription-switch-label">Send to all</span>
+                                        <label class="switch">
+                                            <input id="transcriptSendToAll" type="checkbox" checked />
+                                            <span class="slider round"></span>
+                                        </label>
+                                    </div>
+                                    <hr />
+                                </li>
+                                <li class="msger-menu-action-row">
+                                    <button
+                                        id="captionSaveBtn"
+                                        class="app-dropdown-action msger-menu-action"
+                                        type="button"
+                                    >
+                                        <span class="msger-menu-action-icon">
+                                            <i class="fas fa-save"></i>
+                                        </span>
+                                        <span class="msger-menu-action-label">Save messages</span>
+                                    </button>
+                                </li>
+                                <li class="msger-menu-action-row">
+                                    <button
+                                        id="captionClean"
+                                        class="app-dropdown-action msger-menu-action msger-menu-action-danger"
+                                        type="button"
+                                    >
+                                        <span class="msger-menu-action-icon">
+                                            <i class="fas fa-trash"></i>
+                                        </span>
+                                        <span class="msger-menu-action-label">Clean messages</span>
+                                    </button>
+                                </li>
+                            </ul>
+                        </div>
                         <button id="captionClose" class="fas fa-times"></button>
                     </div>
                 </header>

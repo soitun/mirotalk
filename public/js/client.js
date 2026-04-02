@@ -15,7 +15,7 @@
  * @license For commercial use or closed source, contact us at license.mirotalk@gmail.com or purchase directly from CodeCanyon
  * @license CodeCanyon: https://codecanyon.net/item/mirotalk-p2p-webrtc-realtime-video-conferences/38376661
  * @author  Miroslav Pejic - miroslav.pejic.85@gmail.com
- * @version 1.7.88
+ * @version 1.7.89
  *
  */
 
@@ -330,6 +330,10 @@ const captionMinBtn = getId('captionMinBtn');
 const captionClean = getId('captionClean');
 const captionSaveBtn = getId('captionSaveBtn');
 const captionClose = getId('captionClose');
+const captionDropDownMenuBtn = getId('captionDropDownMenuBtn');
+const captionDropDownContent = getId('captionDropDownContent');
+const transcriptShowOnMsgEl = getId('transcriptShowOnMsg');
+const transcriptSendToAllEl = getId('transcriptSendToAll');
 const captionChat = getId('captionChat');
 const captionEmptyNotice = getId('captionEmptyNotice');
 const captionFooter = getId('captionFooter');
@@ -646,6 +650,8 @@ let leftChatAvatar;
 let rightChatAvatar;
 let chatMessagesId = 0;
 let showChatOnMessage = true;
+let transcriptShowOnMsg = true;
+let transcriptSendToAll = true;
 let isChatPinned = false;
 let isCaptionPinned = false;
 let isChatRoomVisible = false;
@@ -830,8 +836,7 @@ function setButtonsToolTip() {
     setTippy(captionMinBtn, 'Minimize', 'bottom');
     setTippy(captionTogglePin, 'Toggle caption pin', 'bottom');
     setTippy(captionTheme, 'Ghost theme', 'bottom');
-    setTippy(captionClean, 'Clean the messages', 'bottom');
-    setTippy(captionSaveBtn, 'Save the messages', 'bottom');
+    setTippy(transcriptSendToAllEl, 'When enabled, your transcription will be sent to all participants', 'bottom');
     setTippy(speechRecognitionIcon, 'Status', 'bottom');
     setTippy(speechRecognitionStart, 'Start caption', 'top');
     setTippy(speechRecognitionStop, 'Stop caption', 'top');
@@ -6321,6 +6326,37 @@ function setCaptionRoomBtn() {
             userLog('info', 'No captions to save');
         });
 
+        // dropdown caption menu
+        // Prevent drag handler on captionHeader from intercepting dropdown interactions
+        captionDropDownContent.addEventListener('mousedown', (e) => e.stopPropagation());
+        captionDropDownMenuBtn.addEventListener('mousedown', (e) => e.stopPropagation());
+
+        captionDropDownMenuBtn.addEventListener('click', () => {
+            toggleCaptionDropDownMenu();
+        });
+
+        // transcript show on message
+        transcriptShowOnMsgEl.addEventListener('change', (e) => {
+            playSound('switch');
+            transcriptShowOnMsg = e.currentTarget.checked;
+            transcriptShowOnMsg
+                ? msgPopup('info', 'Caption will be shown, when you receive a new transcript', 'top-end', 3000)
+                : msgPopup('info', 'Caption will not be shown, when you receive a new transcript', 'top-end', 3000);
+            lsSettings.transcript_show_on_msg = transcriptShowOnMsg;
+            lS.setSettings(lsSettings);
+        });
+
+        // transcript send to all
+        transcriptSendToAllEl.addEventListener('change', (e) => {
+            playSound('switch');
+            transcriptSendToAll = e.currentTarget.checked;
+            transcriptSendToAll
+                ? msgPopup('info', 'Transcription will be sent to all participants', 'top-end', 3000)
+                : msgPopup('info', 'Transcription will not be sent to participants', 'top-end', 3000);
+            lsSettings.transcript_send_to_all = transcriptSendToAll;
+            lS.setSettings(lsSettings);
+        });
+
         // close caption box - show left button and status menu if hide
         captionClose.addEventListener('click', (e) => {
             captionMinimize();
@@ -7490,10 +7526,14 @@ function setKeyboardShortcuts(enabled) {
  */
 function loadSettingsFromLocalStorage() {
     showChatOnMessage = lsSettings.show_chat_on_msg;
+    transcriptShowOnMsg = lsSettings.transcript_show_on_msg !== undefined ? lsSettings.transcript_show_on_msg : true;
+    transcriptSendToAll = lsSettings.transcript_send_to_all !== undefined ? lsSettings.transcript_send_to_all : true;
     speechInMessages = lsSettings.speech_in_msg;
     pinChatByDefault = lsSettings.pin_chat_by_default;
     msgerShowChatOnMsg.checked = showChatOnMessage;
     msgerSpeechMsg.checked = speechInMessages;
+    transcriptShowOnMsgEl.checked = transcriptShowOnMsg;
+    transcriptSendToAllEl.checked = transcriptSendToAll;
     screenFpsSelect.selectedIndex = lsSettings.screen_fps;
     videoFpsSelect.selectedIndex = lsSettings.video_fps;
     screenFpsSelectedIndex = screenFpsSelect.selectedIndex;
@@ -9589,12 +9629,20 @@ function toggleChatDropDownMenu() {
         : (msgerDropDownContent.style.display = 'block');
 }
 
+function toggleCaptionDropDownMenu() {
+    captionDropDownContent.style.display === 'block'
+        ? (captionDropDownContent.style.display = 'none')
+        : (captionDropDownContent.style.display = 'block');
+}
+
 function closeMsgerDropdownMenus() {
-    [msgerDropDownContent, msgerCPDropDownContent, msgerSidebarDropDownContent].forEach((menuEl) => {
-        if (menuEl) {
-            elemDisplay(menuEl, false);
+    [msgerDropDownContent, msgerCPDropDownContent, msgerSidebarDropDownContent, captionDropDownContent].forEach(
+        (menuEl) => {
+            if (menuEl) {
+                elemDisplay(menuEl, false);
+            }
         }
-    });
+    );
 }
 
 function isEventInsideElements(target, ...elements) {
@@ -9610,7 +9658,9 @@ function handleMsgerDropdownOutsidePress(event) {
             msgerCPDropDownMenuBtn,
             msgerCPDropDownContent,
             msgerSidebarDropDownMenuBtn,
-            msgerSidebarDropDownContent
+            msgerSidebarDropDownContent,
+            captionDropDownMenuBtn,
+            captionDropDownContent
         )
     ) {
         return;
@@ -10136,7 +10186,7 @@ function handleSpeechTranscript(config) {
               ? genGravatar(peer_name)
               : genAvatarSvg(peer_name, 32);
 
-    if (!isCaptionBoxVisible) showCaptionDraggable();
+    if (!isCaptionBoxVisible && transcriptShowOnMsg) showCaptionDraggable();
 
     const msgHTML = `
 	<div class="msg left-msg">
@@ -14750,7 +14800,7 @@ function showAbout() {
     Swal.fire({
         background: swBg,
         position: 'center',
-        title: brand.about?.title && brand.about.title.trim() !== '' ? brand.about.title : 'WebRTC P2P v1.7.88',
+        title: brand.about?.title && brand.about.title.trim() !== '' ? brand.about.title : 'WebRTC P2P v1.7.89',
         imageUrl: brand.about?.imageUrl && brand.about.imageUrl.trim() !== '' ? brand.about.imageUrl : images.about,
         customClass: { image: 'img-about' },
         html: `
@@ -15780,6 +15830,27 @@ function handleDropdownHover() {
         whiteboardDropDownMenuBtn.addEventListener('mouseleave', hideWhiteboardDropdown);
         whiteboardDropdownMenu.addEventListener('mouseenter', () => clearTimeout(wbTimeoutId));
         whiteboardDropdownMenu.addEventListener('mouseleave', hideWhiteboardDropdown);
+    }
+
+    // Handle Caption dropdown menu hover
+    if (captionDropDownMenuBtn && captionDropDownContent) {
+        let captionTimeoutId;
+
+        const showCaptionDropdown = () => {
+            clearTimeout(captionTimeoutId);
+            elemDisplay(captionDropDownContent, true, 'block');
+        };
+
+        const hideCaptionDropdown = () => {
+            captionTimeoutId = setTimeout(() => {
+                elemDisplay(captionDropDownContent, false);
+            }, 200);
+        };
+
+        captionDropDownMenuBtn.addEventListener('mouseenter', showCaptionDropdown);
+        captionDropDownMenuBtn.addEventListener('mouseleave', hideCaptionDropdown);
+        captionDropDownContent.addEventListener('mouseenter', () => clearTimeout(captionTimeoutId));
+        captionDropDownContent.addEventListener('mouseleave', hideCaptionDropdown);
     }
 }
 

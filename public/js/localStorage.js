@@ -16,6 +16,8 @@ class LocalStorage {
         this.P2P_SETTINGS = {
             share_on_join: true,
             show_chat_on_msg: true,
+            transcript_show_on_msg: true,
+            transcript_send_to_all: true,
             speech_in_msg: false,
             pin_chat_by_default: false,
             mic_noise_suppression: true, // Noise suppression using RNNoise
