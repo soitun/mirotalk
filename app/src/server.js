@@ -45,7 +45,7 @@ dependencies: {
  * @license For commercial use or closed source, contact us at license.mirotalk@gmail.com or purchase directly from CodeCanyon
  * @license CodeCanyon: https://codecanyon.net/item/mirotalk-p2p-webrtc-realtime-video-conferences/38376661
  * @author  Miroslav Pejic - miroslav.pejic.85@gmail.com
- * @version 1.7.89
+ * @version 1.7.90
  *
  */
 
@@ -1134,7 +1134,7 @@ async function ngrokStart() {
 /**
  * Start Local Server with ngrok https tunnel (optional)
  */
-server.listen(port, null, () => {
+server.listen(port, null, async () => {
     log.debug(
         `%c
 
@@ -1151,9 +1151,17 @@ server.listen(port, null, () => {
 
     // https tunnel
     if (ngrokEnabled) {
-        ngrokStart();
+        await ngrokStart();
     } else {
         log.info('Server config', getServerConfig());
+    }
+
+    // Warn if default secrets are still in use
+    if (api_key_secret === 'mirotalkp2p_default_secret') {
+        log.warn('WARNING: API_KEY_SECRET is set to the default value. Change it before deploying!');
+    }
+    if (jwtCfg.JWT_KEY === 'mirotalk_jwt_secret') {
+        log.warn('WARNING: JWT_SECRET is set to the default value. Change it before deploying!');
     }
 });
 
