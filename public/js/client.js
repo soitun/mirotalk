@@ -9573,6 +9573,10 @@ function showCaptionDraggable() {
 
     isCaptionBoxVisible = true;
 
+    if (isDesktopDevice && canBePinned() && !isChatPinned && !isCaptionPinned) {
+        captionPin();
+    }
+
     screenReaderAccessibility.announceMessage('Caption opened');
 }
 
