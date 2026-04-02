@@ -1208,13 +1208,14 @@ body {
 .msger-private-chat-entry {
     display: flex;
     align-items: center;
-    gap: 8px;
     min-width: 0;
     position: relative;
 }
 
 .msger-private-chat-entry .msger-chat-item {
     flex: 1;
+    cursor: pointer;
+    position: relative;
 }
 
 .msger-private-chat-entry .dropdown-menu-custom {
@@ -1228,6 +1229,7 @@ body {
     height: 40px;
     flex-shrink: 0;
     overflow: visible;
+    margin-left: auto;
 }
 
 .msger-private-chat-entry .dropdown-toggle {
@@ -1238,7 +1240,7 @@ body {
     height: 40px;
     padding: 0;
     border-radius: 12px;
-    background: var(--body-bg);
+    background: transparent;
 }
 
 .msger-private-chat-entry .msger-participant-dropdown-menu .app-dropdown-action {
