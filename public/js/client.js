@@ -693,6 +693,7 @@ let isAudioPitchBar = true;
 let isPushToTalkActive = false;
 let isSpaceDown = false;
 let isShortcutsEnabled = false;
+let themeCardDebounce = null;
 
 // recording
 let mediaRecorder;
@@ -7320,12 +7321,18 @@ function setupMySettings() {
         lS.setSettings(lsSettings);
         setTheme();
     });
+
     document.querySelectorAll('.theme-card').forEach((card) => {
         card.onclick = () => {
             if (card.classList.contains('disabled')) return;
             const index = parseInt(card.dataset.index);
             themeSelect.selectedIndex = index;
-            themeSelect.dispatchEvent(new Event('change'));
+            updateThemeCardsActive();
+            if (themeCardDebounce) clearTimeout(themeCardDebounce);
+            themeCardDebounce = setTimeout(() => {
+                themeCardDebounce = null;
+                themeSelect.dispatchEvent(new Event('change'));
+            }, 200);
         };
     });
     // video object fit

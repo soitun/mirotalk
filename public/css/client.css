@@ -2699,8 +2699,15 @@ button {
     border-radius: 10px;
     background: rgba(255, 255, 255, 0.05);
     cursor: pointer;
-    transition: all 0.25s ease;
+    transition:
+        border-color 0.25s ease,
+        background 0.25s ease,
+        box-shadow 0.25s ease,
+        transform 0.25s ease,
+        opacity 0.25s ease;
     user-select: none;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
 }
 
 .theme-card i {
@@ -3121,7 +3128,6 @@ button {
 /* Style the tab content */
 .tabcontent {
     display: none;
-    margin-top: 15px;
     padding: 6px 12px;
     width: 100%;
     min-height: 480px;
