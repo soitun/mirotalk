@@ -15,7 +15,7 @@
  * @license For commercial use or closed source, contact us at license.mirotalk@gmail.com or purchase directly from CodeCanyon
  * @license CodeCanyon: https://codecanyon.net/item/mirotalk-p2p-webrtc-realtime-video-conferences/38376661
  * @author  Miroslav Pejic - miroslav.pejic.85@gmail.com
- * @version 1.7.90
+ * @version 1.7.91
  *
  */
 
@@ -3328,6 +3328,21 @@ function setTheme() {
     }
     wbIsBgTransparent = false;
     //setButtonsBarPosition(mainButtonsBarPosition);
+    updateThemeCardsActive();
+}
+
+function updateThemeCardsActive() {
+    const cards = document.querySelectorAll('.theme-card');
+    cards.forEach((card) => {
+        card.classList.toggle('active', parseInt(card.dataset.index) === themeSelect.selectedIndex);
+    });
+}
+
+function updateThemeCardsDisabled() {
+    const cards = document.querySelectorAll('.theme-card');
+    cards.forEach((card) => {
+        card.classList.toggle('disabled', themeSelect.disabled);
+    });
 }
 
 /**
@@ -7043,6 +7058,7 @@ function setMySettingsBtn() {
     keepCustomTheme.onchange = (e) => {
         themeCustom.keep = e.currentTarget.checked;
         themeSelect.disabled = themeCustom.keep;
+        updateThemeCardsDisabled();
         lsSettings.theme_custom = themeCustom.keep;
         lsSettings.theme_color = themeCustom.color;
         lS.setSettings(lsSettings);
@@ -7304,6 +7320,14 @@ function setupMySettings() {
         lS.setSettings(lsSettings);
         setTheme();
     });
+    document.querySelectorAll('.theme-card').forEach((card) => {
+        card.onclick = () => {
+            if (card.classList.contains('disabled')) return;
+            const index = parseInt(card.dataset.index);
+            themeSelect.selectedIndex = index;
+            themeSelect.dispatchEvent(new Event('change'));
+        };
+    });
     // video object fit
     videoObjFitSelect.addEventListener('change', (e) => {
         lsSettings.video_obj_fit = videoObjFitSelect.selectedIndex;
@@ -7552,6 +7576,7 @@ function loadSettingsFromLocalStorage() {
     switchShortcuts.checked = isShortcutsEnabled;
     keepCustomTheme.checked = themeCustom.keep;
     themeSelect.disabled = themeCustom.keep;
+    updateThemeCardsDisabled();
     themeCustom.input.value = themeCustom.color;
 
     switchNoiseSuppression.checked = lsSettings.mic_noise_suppression;
@@ -14800,7 +14825,7 @@ function showAbout() {
     Swal.fire({
         background: swBg,
         position: 'center',
-        title: brand.about?.title && brand.about.title.trim() !== '' ? brand.about.title : 'WebRTC P2P v1.7.90',
+        title: brand.about?.title && brand.about.title.trim() !== '' ? brand.about.title : 'WebRTC P2P v1.7.91',
         imageUrl: brand.about?.imageUrl && brand.about.imageUrl.trim() !== '' ? brand.about.imageUrl : images.about,
         customClass: { image: 'img-about' },
         html: `
