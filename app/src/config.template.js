@@ -2,7 +2,7 @@
 
 /**
  * ==============================================
- * MiroTalk P2P v.1.7.92 - Configuration File
+ * MiroTalk P2P v.1.7.93 - Configuration File
  * ==============================================
  *
  * This file is the central configuration source.
@@ -378,6 +378,43 @@ module.exports = {
             },
         },
         //...
+    },
+    // ==========================================
+    // Themes
+    // ==========================================
+    /**
+     * Theme definitions — CSS custom properties for each theme.
+     * Admins can override individual themes or add new ones.
+     * The client merges these with built-in defaults, so you
+     * only need to specify the properties you want to change.
+     */
+    themes: {
+        /* Example: override dark theme background
+        dark: {
+            '--body-bg': 'radial-gradient(#1a1a2e, #0a0a14)',
+            '--msger-bg': 'radial-gradient(#1a1a2e, #0a0a14)',
+        },
+        */
+        /* Example: add a custom theme
+        ocean: {
+            '--body-bg': 'radial-gradient(#0d2137, #061220)',
+            '--msger-bg': 'radial-gradient(#0d2137, #061220)',
+            '--msger-private-bg': 'radial-gradient(#0d2137, #061220)',
+            '--wb-bg': 'radial-gradient(#0d2137, #061220)',
+            '--elem-border-color': '1px solid rgba(56, 189, 248, 0.15)',
+            '--navbar-bg': 'rgba(6, 18, 32, 0.88)',
+            '--select-bg': '#0f2a45',
+            '--tab-btn-active': '#163d5e',
+            '--box-shadow': '0px 4px 12px 0px rgba(0, 0, 0, 0.5)',
+            '--left-msg-bg': '#112d4a',
+            '--right-msg-bg': '#0a1f35',
+            '--private-msg-bg': '#0e2540',
+            '--btn-bar-bg-color': '#E0F2FE',
+            '--btn-bar-color': '#061220',
+            '--btns-bg-color': 'rgba(6, 18, 32, 0.75)',
+            '--dd-color': '#38BDF8',
+        },
+        */
     },
     /**
      * Configuration for controlling the visibility of buttons in the MiroTalk P2P client.

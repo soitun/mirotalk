@@ -45,7 +45,7 @@ dependencies: {
  * @license For commercial use or closed source, contact us at license.mirotalk@gmail.com or purchase directly from CodeCanyon
  * @license CodeCanyon: https://codecanyon.net/item/mirotalk-p2p-webrtc-realtime-video-conferences/38376661
  * @author  Miroslav Pejic - miroslav.pejic.85@gmail.com
- * @version 1.7.92
+ * @version 1.7.93
  *
  */
 
@@ -781,6 +781,11 @@ app.post('/login', loginLimiter, (req, res) => {
 // UI buttons configuration
 app.get('/buttons', (req, res) => {
     res.status(200).json({ message: config.buttons ? config.buttons : false });
+});
+
+// UI themes configuration
+app.get('/themes', (req, res) => {
+    res.status(200).json({ message: config.themes ? config.themes : false });
 });
 
 // UI brand configuration

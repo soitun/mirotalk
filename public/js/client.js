@@ -15,7 +15,7 @@
  * @license For commercial use or closed source, contact us at license.mirotalk@gmail.com or purchase directly from CodeCanyon
  * @license CodeCanyon: https://codecanyon.net/item/mirotalk-p2p-webrtc-realtime-video-conferences/38376661
  * @author  Miroslav Pejic - miroslav.pejic.85@gmail.com
- * @version 1.7.92
+ * @version 1.7.93
  *
  */
 
@@ -1339,7 +1339,8 @@ function initCursorLightEffect() {
 /**
  * On body load Get started
  */
-function initClientPeer() {
+async function initClientPeer() {
+    await getThemes();
     setTheme();
 
     if (!isWebRTCSupported) {
@@ -1708,6 +1709,99 @@ async function getButtons() {
         }
     } catch (error) {
         console.error('AXIOS GET CONFIG ERROR', error.message);
+    }
+}
+
+/**
+ * Get Themes config from server side and merge with built-in defaults
+ */
+async function getThemes() {
+    try {
+        const response = await axios.get('/themes', {
+            timeout: 5000,
+        });
+        const serverThemes = response.data.message;
+        if (serverThemes) {
+            // Deep merge each theme: server overrides take precedence
+            for (const [name, vars] of Object.entries(serverThemes)) {
+                themeMap[name] = themeMap[name] ? { ...themeMap[name], ...vars } : vars;
+            }
+            renderDynamicThemeCards();
+            console.log('AXIOS ROOM THEMES SETTINGS', {
+                serverThemes: serverThemes,
+                clientThemes: Object.keys(themeMap),
+            });
+        }
+    } catch (error) {
+        console.error('AXIOS GET THEMES ERROR', error.message);
+    }
+}
+
+/**
+ * Dynamically add theme cards & dropdown options for server-defined themes
+ * that are not part of the built-in defaults.
+ */
+function renderDynamicThemeCards() {
+    const grid = getId('themeCardsGrid');
+    if (!grid) return;
+
+    const builtInThemes = new Set(Array.from(themeSelect.options).map((opt) => opt.value));
+
+    const iconPool = [
+        'fa-solid fa-wand-magic-sparkles',
+        'fa-solid fa-palette',
+        'fa-solid fa-paint-roller',
+        'fa-solid fa-swatchbook',
+        'fa-solid fa-brush',
+        'fa-solid fa-eye-dropper',
+        'fa-solid fa-fill-drip',
+        'fa-solid fa-circle-half-stroke',
+    ];
+    let iconIndex = 0;
+
+    for (const [name, vars] of Object.entries(themeMap)) {
+        if (builtInThemes.has(name)) continue;
+
+        // Add <option> to the hidden select
+        const option = document.createElement('option');
+        option.value = name;
+        option.textContent = name.charAt(0).toUpperCase() + name.slice(1);
+        themeSelect.appendChild(option);
+
+        const index = themeSelect.options.length - 1;
+
+        // Pick an icon and a color from the theme's --dd-color
+        const iconClass = iconPool[iconIndex % iconPool.length];
+        iconIndex++;
+        const iconColor = vars['--dd-color'] || '#c0c0c0';
+
+        // Create the card
+        const card = document.createElement('div');
+        card.className = 'theme-card';
+        card.dataset.theme = name;
+        card.dataset.index = index;
+        card.innerHTML = `<i class="${iconClass}"></i><span>${option.textContent}</span>`;
+
+        // Apply dynamic icon color via inline style
+        const icon = card.querySelector('i');
+        icon.style.color = iconColor;
+
+        // Set dynamic active border color
+        card.style.setProperty('--dynamic-theme-color', iconColor);
+
+        // Click handler (same logic as built-in cards)
+        card.onclick = () => {
+            if (card.classList.contains('disabled')) return;
+            themeSelect.selectedIndex = index;
+            updateThemeCardsActive();
+            if (themeCardDebounce) clearTimeout(themeCardDebounce);
+            themeCardDebounce = setTimeout(() => {
+                themeCardDebounce = null;
+                themeSelect.dispatchEvent(new Event('change'));
+            }, 200);
+        };
+
+        grid.appendChild(card);
     }
 }
 
@@ -3116,7 +3210,7 @@ function handleRemovePeer(config) {
 /**
  * Theme definitions — each key maps to the CSS custom properties for that theme
  */
-const themeMap = {
+let themeMap = {
     dark: {
         '--body-bg': 'radial-gradient(#2a2a2e, #121214)',
         '--msger-bg': 'radial-gradient(#2a2a2e, #121214)',
@@ -3328,7 +3422,14 @@ function setTheme() {
 function updateThemeCardsActive() {
     const cards = document.querySelectorAll('.theme-card');
     cards.forEach((card) => {
-        card.classList.toggle('active', parseInt(card.dataset.index) === themeSelect.selectedIndex);
+        const isActive = parseInt(card.dataset.index) === themeSelect.selectedIndex;
+        card.classList.toggle('active', isActive);
+        // For dynamic (server-added) cards, apply active border/shadow via inline style
+        const dynamicColor = card.style.getPropertyValue('--dynamic-theme-color');
+        if (dynamicColor) {
+            card.style.borderColor = isActive ? dynamicColor : '';
+            card.style.boxShadow = isActive ? `0 0 12px ${dynamicColor}33` : '';
+        }
     });
 }
 
@@ -14836,7 +14937,7 @@ function showAbout() {
     Swal.fire({
         background: swBg,
         position: 'center',
-        title: brand.about?.title && brand.about.title.trim() !== '' ? brand.about.title : 'WebRTC P2P v1.7.92',
+        title: brand.about?.title && brand.about.title.trim() !== '' ? brand.about.title : 'WebRTC P2P v1.7.93',
         imageUrl: brand.about?.imageUrl && brand.about.imageUrl.trim() !== '' ? brand.about.imageUrl : images.about,
         customClass: { image: 'img-about' },
         html: `

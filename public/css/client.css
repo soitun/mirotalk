@@ -6,10 +6,7 @@
 
 :root {
     /* common */
-    --navbar-bg: rgba(0, 0, 0, 0.2);
-    --body-bg: radial-gradient(#393939, #000000);
     --border: 0.5px solid rgb(255 255 255 / 18%);
-    --dd-color: #ffffff;
 
     --msger-top: 50%;
     --msger-left: 50%;
@@ -37,14 +34,6 @@
     --btns-hover-scale: scale(1.1);
     --hover-color: grey;
 
-    /* video elem border color */
-    --elem-border-color: none;
-
-    --tab-btn-active: rgb(30 29 29);
-
-    --btn-bar-bg-color: #ffffff;
-    --btn-bar-color: #000000;
-
     /* bottom buttons bar horizontal default */
     --bottom-btns-top: auto;
     --bottom-btns-left: 50%;
@@ -54,27 +43,31 @@
     --bottom-btns-margin-bottom: 18px;
     --bottom-btns-flex-direction: row;
 
-    /* dark theme */
-    --body-bg: radial-gradient(#393939, #000000);
-    --msger-bg: radial-gradient(#393939, #000000);
-    --msger-private-bg: radial-gradient(#393939, #000000);
-    --wb-bg: radial-gradient(#393939, #000000);
-    --select-bg: #2c2c2c;
-    --box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-
-    /* chat msg boble */
-    --left-msg-bg: #252d31;
-    --right-msg-bg: #056162;
-    --private-msg-bg: #6b1226;
+    /* dark theme fallback (default) */
+    --body-bg: radial-gradient(#2a2a2e, #121214);
+    --msger-bg: radial-gradient(#2a2a2e, #121214);
+    --msger-private-bg: radial-gradient(#2a2a2e, #121214);
+    --wb-bg: radial-gradient(#2a2a2e, #121214);
+    --navbar-bg: rgba(18, 18, 20, 0.85);
+    --elem-border-color: 1px solid rgba(255, 255, 255, 0.08);
+    --select-bg: #333338;
+    --tab-btn-active: #3d3d42;
+    --box-shadow: 0px 4px 12px 0px rgba(0, 0, 0, 0.5);
+    --left-msg-bg: #2c2c30;
+    --right-msg-bg: #3a3a40;
+    --private-msg-bg: #252528;
+    --btn-bar-bg-color: #e8e8ec;
+    --btn-bar-color: #121214;
+    --btns-bg-color: rgba(18, 18, 20, 0.75);
+    --dd-color: #e8e8ec;
 
     /* volume detected */
     --volume-up: 0px 8px 16px 0px rgb(249, 253, 0);
 
     /* video avatar img size */
     --vmi-wh: 15vw;
-    /* 
-        https://developer.mozilla.org/it/docs/Web/CSS/object-fit 
-    */
+
+    /* https://developer.mozilla.org/it/docs/Web/CSS/object-fit */
     --video-object-fit: cover;
 }
 
@@ -2804,6 +2797,11 @@ button {
 .theme-card.active[data-theme='yellow'] {
     border-color: #d4b85c;
     box-shadow: 0 0 12px rgba(212, 184, 92, 0.2);
+}
+
+/* Dynamic server-added theme cards: active state handled via inline styles */
+.theme-card.active i {
+    filter: brightness(1.2);
 }
 
 @media screen and (max-width: 500px) {
