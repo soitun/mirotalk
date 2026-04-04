@@ -15,7 +15,7 @@
  * @license For commercial use or closed source, contact us at license.mirotalk@gmail.com or purchase directly from CodeCanyon
  * @license CodeCanyon: https://codecanyon.net/item/mirotalk-p2p-webrtc-realtime-video-conferences/38376661
  * @author  Miroslav Pejic - miroslav.pejic.85@gmail.com
- * @version 1.7.91
+ * @version 1.7.92
  *
  */
 
@@ -3114,27 +3114,190 @@ function handleRemovePeer(config) {
 }
 
 /**
+ * Theme definitions — each key maps to the CSS custom properties for that theme
+ */
+const themeMap = {
+    dark: {
+        '--body-bg': 'radial-gradient(#2a2a2e, #121214)',
+        '--msger-bg': 'radial-gradient(#2a2a2e, #121214)',
+        '--msger-private-bg': 'radial-gradient(#2a2a2e, #121214)',
+        '--wb-bg': 'radial-gradient(#2a2a2e, #121214)',
+        '--elem-border-color': '1px solid rgba(255, 255, 255, 0.08)',
+        '--navbar-bg': 'rgba(18, 18, 20, 0.85)',
+        '--select-bg': '#333338',
+        '--tab-btn-active': '#3d3d42',
+        '--box-shadow': '0px 4px 12px 0px rgba(0, 0, 0, 0.5)',
+        '--left-msg-bg': '#2c2c30',
+        '--right-msg-bg': '#3a3a40',
+        '--private-msg-bg': '#252528',
+        '--btn-bar-bg-color': '#E8E8EC',
+        '--btn-bar-color': '#121214',
+        '--btns-bg-color': 'rgba(18, 18, 20, 0.75)',
+        '--dd-color': '#E8E8EC',
+    },
+    grey: {
+        '--body-bg': 'radial-gradient(#3b3f47, #1e2028)',
+        '--msger-bg': 'radial-gradient(#3b3f47, #1e2028)',
+        '--msger-private-bg': 'radial-gradient(#3b3f47, #1e2028)',
+        '--wb-bg': 'radial-gradient(#434750, #252830)',
+        '--elem-border-color': '1px solid rgba(255, 255, 255, 0.08)',
+        '--navbar-bg': 'rgba(30, 32, 40, 0.85)',
+        '--select-bg': '#32363e',
+        '--tab-btn-active': '#484c55',
+        '--box-shadow': '0px 4px 12px 0px rgba(0, 0, 0, 0.45)',
+        '--left-msg-bg': '#33373f',
+        '--right-msg-bg': '#434750',
+        '--private-msg-bg': '#2d3038',
+        '--btn-bar-bg-color': '#E8E8EC',
+        '--btn-bar-color': '#1e2028',
+        '--btns-bg-color': 'rgba(30, 32, 40, 0.75)',
+        '--dd-color': '#E0E0E6',
+    },
+    green: {
+        '--body-bg': 'radial-gradient(#1a3a32, #0d1f1a)',
+        '--msger-bg': 'radial-gradient(#1a3a32, #0d1f1a)',
+        '--msger-private-bg': 'radial-gradient(#1a3a32, #0d1f1a)',
+        '--wb-bg': 'radial-gradient(#1a3a32, #0d1f1a)',
+        '--elem-border-color': '1px solid rgba(72, 199, 154, 0.15)',
+        '--navbar-bg': 'rgba(13, 31, 26, 0.88)',
+        '--select-bg': '#17332b',
+        '--tab-btn-active': '#22493e',
+        '--box-shadow': '0px 4px 12px 0px rgba(0, 0, 0, 0.5)',
+        '--left-msg-bg': '#1e3f36',
+        '--right-msg-bg': '#14302a',
+        '--private-msg-bg': '#153028',
+        '--btn-bar-bg-color': '#E8F5E9',
+        '--btn-bar-color': '#0d1f1a',
+        '--btns-bg-color': 'rgba(13, 31, 26, 0.75)',
+        '--dd-color': '#48C79A',
+    },
+    blue: {
+        '--body-bg': 'radial-gradient(#1b2a4a, #0f1729)',
+        '--msger-bg': 'radial-gradient(#1b2a4a, #0f1729)',
+        '--msger-private-bg': 'radial-gradient(#1b2a4a, #0f1729)',
+        '--wb-bg': 'radial-gradient(#1b2a4a, #0f1729)',
+        '--elem-border-color': '1px solid rgba(96, 165, 250, 0.15)',
+        '--navbar-bg': 'rgba(15, 23, 41, 0.88)',
+        '--select-bg': '#182440',
+        '--tab-btn-active': '#243656',
+        '--box-shadow': '0px 4px 12px 0px rgba(0, 0, 0, 0.5)',
+        '--left-msg-bg': '#1e2e50',
+        '--right-msg-bg': '#152038',
+        '--private-msg-bg': '#172545',
+        '--btn-bar-bg-color': '#E3F2FD',
+        '--btn-bar-color': '#0f1729',
+        '--btns-bg-color': 'rgba(15, 23, 41, 0.75)',
+        '--dd-color': '#60A5FA',
+    },
+    red: {
+        '--body-bg': 'radial-gradient(#3d1520, #1c0a10)',
+        '--msger-bg': 'radial-gradient(#3d1520, #1c0a10)',
+        '--msger-private-bg': 'radial-gradient(#3d1520, #1c0a10)',
+        '--wb-bg': 'radial-gradient(#3d1520, #1c0a10)',
+        '--elem-border-color': '1px solid rgba(248, 113, 113, 0.15)',
+        '--navbar-bg': 'rgba(28, 10, 16, 0.88)',
+        '--select-bg': '#35121c',
+        '--tab-btn-active': '#4d1a28',
+        '--box-shadow': '0px 4px 12px 0px rgba(0, 0, 0, 0.5)',
+        '--left-msg-bg': '#421824',
+        '--right-msg-bg': '#2e1018',
+        '--private-msg-bg': '#381420',
+        '--btn-bar-bg-color': '#FDE8E8',
+        '--btn-bar-color': '#1c0a10',
+        '--btns-bg-color': 'rgba(28, 10, 16, 0.75)',
+        '--dd-color': '#F87171',
+    },
+    purple: {
+        '--body-bg': 'radial-gradient(#2a1840, #150d24)',
+        '--msger-bg': 'radial-gradient(#2a1840, #150d24)',
+        '--msger-private-bg': 'radial-gradient(#2a1840, #150d24)',
+        '--wb-bg': 'radial-gradient(#2a1840, #150d24)',
+        '--elem-border-color': '1px solid rgba(192, 132, 252, 0.15)',
+        '--navbar-bg': 'rgba(21, 13, 36, 0.88)',
+        '--select-bg': '#241538',
+        '--tab-btn-active': '#351f4e',
+        '--box-shadow': '0px 4px 12px 0px rgba(0, 0, 0, 0.5)',
+        '--left-msg-bg': '#2e1c45',
+        '--right-msg-bg': '#201230',
+        '--private-msg-bg': '#28163c',
+        '--btn-bar-bg-color': '#F3E8FD',
+        '--btn-bar-color': '#150d24',
+        '--btns-bg-color': 'rgba(21, 13, 36, 0.75)',
+        '--dd-color': '#C084FC',
+    },
+    orange: {
+        '--body-bg': 'radial-gradient(#3d2410, #1e1208)',
+        '--msger-bg': 'radial-gradient(#3d2410, #1e1208)',
+        '--msger-private-bg': 'radial-gradient(#3d2410, #1e1208)',
+        '--wb-bg': 'radial-gradient(#3d2410, #1e1208)',
+        '--elem-border-color': '1px solid rgba(251, 191, 36, 0.15)',
+        '--navbar-bg': 'rgba(30, 18, 8, 0.88)',
+        '--select-bg': '#352010',
+        '--tab-btn-active': '#4d3018',
+        '--box-shadow': '0px 4px 12px 0px rgba(0, 0, 0, 0.5)',
+        '--left-msg-bg': '#422814',
+        '--right-msg-bg': '#2e1c0e',
+        '--private-msg-bg': '#382210',
+        '--btn-bar-bg-color': '#FFF3E0',
+        '--btn-bar-color': '#1e1208',
+        '--btns-bg-color': 'rgba(30, 18, 8, 0.75)',
+        '--dd-color': '#FBBF24',
+    },
+    yellow: {
+        '--body-bg': 'radial-gradient(#3a3418, #1e1c0e)',
+        '--msger-bg': 'radial-gradient(#3a3418, #1e1c0e)',
+        '--msger-private-bg': 'radial-gradient(#3a3418, #1e1c0e)',
+        '--wb-bg': 'radial-gradient(#3a3418, #1e1c0e)',
+        '--elem-border-color': '1px solid rgba(250, 204, 21, 0.15)',
+        '--navbar-bg': 'rgba(30, 28, 14, 0.88)',
+        '--select-bg': '#322e15',
+        '--tab-btn-active': '#4a441e',
+        '--box-shadow': '0px 4px 12px 0px rgba(0, 0, 0, 0.5)',
+        '--left-msg-bg': '#3e381c',
+        '--right-msg-bg': '#2c2812',
+        '--private-msg-bg': '#363018',
+        '--btn-bar-bg-color': '#FFFDE7',
+        '--btn-bar-color': '#1e1c0e',
+        '--btns-bg-color': 'rgba(30, 28, 14, 0.75)',
+        '--dd-color': '#FACC15',
+    },
+};
+
+/**
+ * Apply a set of CSS custom properties from a theme vars object
+ * @param {object} vars theme CSS properties map
+ */
+function applyThemeVars(vars) {
+    swBg = vars['--body-bg'];
+    for (const [prop, value] of Object.entries(vars)) {
+        setSP(prop, value);
+    }
+    document.body.style.background = vars['--body-bg'];
+}
+
+/**
  * Set custom theme
  */
 function setCustomTheme() {
     const color = themeCustom.color;
-    swBg = `radial-gradient(${color}, ${color})`;
-    setSP('--body-bg', `radial-gradient(${color}, ${color})`);
-    setSP('--msger-bg', `radial-gradient(${color}, ${color})`);
-    setSP('--msger-private-bg', `radial-gradient(${color}, ${color})`);
-    setSP('--wb-bg', `radial-gradient(${color}, ${color})`);
-    setSP('--elem-border-color', '0.5px solid rgb(255 255 255 / 32%)');
-    setSP('--navbar-bg', 'rgba(0, 0, 0, 0.2)');
-    setSP('--select-bg', `${color}`);
-    setSP('--tab-btn-active', `${color}`);
-    setSP('--box-shadow', '0px 8px 16px 0px rgba(0, 0, 0, 0.2)');
-    setSP('--left-msg-bg', '#252d31');
-    setSP('--right-msg-bg', `${color}`);
-    setSP('--private-msg-bg', '#6b1226');
-    setSP('--btn-bar-bg-color', '#FFFFFF');
-    setSP('--btn-bar-color', '#000000');
-    setSP('--btns-bg-color', `${color}`);
-    document.body.style.background = `radial-gradient(${color}, ${color})`;
+    const bg = `radial-gradient(${color}, ${color})`;
+    applyThemeVars({
+        '--body-bg': bg,
+        '--msger-bg': bg,
+        '--msger-private-bg': bg,
+        '--wb-bg': bg,
+        '--elem-border-color': '0.5px solid rgb(255 255 255 / 32%)',
+        '--navbar-bg': 'rgba(0, 0, 0, 0.2)',
+        '--select-bg': color,
+        '--tab-btn-active': color,
+        '--box-shadow': '0px 8px 16px 0px rgba(0, 0, 0, 0.2)',
+        '--left-msg-bg': '#252d31',
+        '--right-msg-bg': color,
+        '--private-msg-bg': '#6b1226',
+        '--btn-bar-bg-color': '#FFFFFF',
+        '--btn-bar-color': '#000000',
+        '--btns-bg-color': color,
+    });
 }
 
 /**
@@ -3145,188 +3308,18 @@ function setTheme() {
 
     mirotalkTheme.selectedIndex = lsSettings.theme;
     const theme = mirotalkTheme.value;
-    switch (theme) {
-        case 'dark':
-            // dark theme — refined neutral with subtle warm undertone
-            swBg = 'radial-gradient(#2a2a2e, #121214)';
-            setSP('--body-bg', 'radial-gradient(#2a2a2e, #121214)');
-            setSP('--msger-bg', 'radial-gradient(#2a2a2e, #121214)');
-            setSP('--msger-private-bg', 'radial-gradient(#2a2a2e, #121214)');
-            setSP('--wb-bg', 'radial-gradient(#2a2a2e, #121214)');
-            setSP('--elem-border-color', '1px solid rgba(255, 255, 255, 0.08)');
-            setSP('--navbar-bg', 'rgba(18, 18, 20, 0.85)');
-            setSP('--select-bg', '#333338');
-            setSP('--tab-btn-active', '#3d3d42');
-            setSP('--box-shadow', '0px 4px 12px 0px rgba(0, 0, 0, 0.5)');
-            setSP('--left-msg-bg', '#2c2c30');
-            setSP('--right-msg-bg', '#3a3a40');
-            setSP('--private-msg-bg', '#252528');
-            setSP('--btn-bar-bg-color', '#E8E8EC');
-            setSP('--btn-bar-color', '#121214');
-            setSP('--btns-bg-color', 'rgba(18, 18, 20, 0.75)');
-            setSP('--dd-color', '#E8E8EC');
-            document.body.style.background = 'radial-gradient(#2a2a2e, #121214)';
-            mirotalkTheme.selectedIndex = 0;
-            break;
-        case 'grey':
-            // grey theme — modern slate with balanced cool tones
-            swBg = 'radial-gradient(#3b3f47, #1e2028)';
-            setSP('--body-bg', 'radial-gradient(#3b3f47, #1e2028)');
-            setSP('--msger-bg', 'radial-gradient(#3b3f47, #1e2028)');
-            setSP('--wb-bg', 'radial-gradient(#434750, #252830)');
-            setSP('--elem-border-color', '1px solid rgba(255, 255, 255, 0.08)');
-            setSP('--navbar-bg', 'rgba(30, 32, 40, 0.85)');
-            setSP('--select-bg', '#32363e');
-            setSP('--tab-btn-active', '#484c55');
-            setSP('--box-shadow', '0px 4px 12px 0px rgba(0, 0, 0, 0.45)');
-            setSP('--msger-private-bg', 'radial-gradient(#3b3f47, #1e2028)');
-            setSP('--left-msg-bg', '#33373f');
-            setSP('--right-msg-bg', '#434750');
-            setSP('--private-msg-bg', '#2d3038');
-            setSP('--btn-bar-bg-color', '#E8E8EC');
-            setSP('--btn-bar-color', '#1e2028');
-            setSP('--btns-bg-color', 'rgba(30, 32, 40, 0.75)');
-            setSP('--dd-color', '#E0E0E6');
-            document.body.style.background = 'radial-gradient(#3b3f47, #1e2028)';
-            mirotalkTheme.selectedIndex = 1;
-            break;
-        case 'green':
-            // green theme — modern emerald with depth
-            swBg = 'radial-gradient(#1a3a32, #0d1f1a)';
-            setSP('--body-bg', 'radial-gradient(#1a3a32, #0d1f1a)');
-            setSP('--msger-bg', 'radial-gradient(#1a3a32, #0d1f1a)');
-            setSP('--wb-bg', 'radial-gradient(#1a3a32, #0d1f1a)');
-            setSP('--elem-border-color', '1px solid rgba(72, 199, 154, 0.15)');
-            setSP('--navbar-bg', 'rgba(13, 31, 26, 0.88)');
-            setSP('--select-bg', '#17332b');
-            setSP('--tab-btn-active', '#22493e');
-            setSP('--box-shadow', '0px 4px 12px 0px rgba(0, 0, 0, 0.5)');
-            setSP('--msger-private-bg', 'radial-gradient(#1a3a32, #0d1f1a)');
-            setSP('--left-msg-bg', '#1e3f36');
-            setSP('--right-msg-bg', '#14302a');
-            setSP('--private-msg-bg', '#153028');
-            setSP('--btn-bar-bg-color', '#E8F5E9');
-            setSP('--btn-bar-color', '#0d1f1a');
-            setSP('--btns-bg-color', 'rgba(13, 31, 26, 0.75)');
-            setSP('--dd-color', '#48C79A');
-            document.body.style.background = 'radial-gradient(#1a3a32, #0d1f1a)';
-            mirotalkTheme.selectedIndex = 2;
-            break;
-        case 'blue':
-            // blue theme — modern deep blue with clarity
-            swBg = 'radial-gradient(#1b2a4a, #0f1729)';
-            setSP('--body-bg', 'radial-gradient(#1b2a4a, #0f1729)');
-            setSP('--msger-bg', 'radial-gradient(#1b2a4a, #0f1729)');
-            setSP('--wb-bg', 'radial-gradient(#1b2a4a, #0f1729)');
-            setSP('--elem-border-color', '1px solid rgba(96, 165, 250, 0.15)');
-            setSP('--navbar-bg', 'rgba(15, 23, 41, 0.88)');
-            setSP('--select-bg', '#182440');
-            setSP('--tab-btn-active', '#243656');
-            setSP('--box-shadow', '0px 4px 12px 0px rgba(0, 0, 0, 0.5)');
-            setSP('--msger-private-bg', 'radial-gradient(#1b2a4a, #0f1729)');
-            setSP('--left-msg-bg', '#1e2e50');
-            setSP('--right-msg-bg', '#152038');
-            setSP('--private-msg-bg', '#172545');
-            setSP('--btn-bar-bg-color', '#E3F2FD');
-            setSP('--btn-bar-color', '#0f1729');
-            setSP('--btns-bg-color', 'rgba(15, 23, 41, 0.75)');
-            setSP('--dd-color', '#60A5FA');
-            document.body.style.background = 'radial-gradient(#1b2a4a, #0f1729)';
-            mirotalkTheme.selectedIndex = 3;
-            break;
-        case 'red':
-            // red theme — modern crimson with warmth
-            swBg = 'radial-gradient(#3d1520, #1c0a10)';
-            setSP('--body-bg', 'radial-gradient(#3d1520, #1c0a10)');
-            setSP('--msger-bg', 'radial-gradient(#3d1520, #1c0a10)');
-            setSP('--wb-bg', 'radial-gradient(#3d1520, #1c0a10)');
-            setSP('--elem-border-color', '1px solid rgba(248, 113, 113, 0.15)');
-            setSP('--navbar-bg', 'rgba(28, 10, 16, 0.88)');
-            setSP('--select-bg', '#35121c');
-            setSP('--tab-btn-active', '#4d1a28');
-            setSP('--box-shadow', '0px 4px 12px 0px rgba(0, 0, 0, 0.5)');
-            setSP('--msger-private-bg', 'radial-gradient(#3d1520, #1c0a10)');
-            setSP('--left-msg-bg', '#421824');
-            setSP('--right-msg-bg', '#2e1018');
-            setSP('--private-msg-bg', '#381420');
-            setSP('--btn-bar-bg-color', '#FDE8E8');
-            setSP('--btn-bar-color', '#1c0a10');
-            setSP('--btns-bg-color', 'rgba(28, 10, 16, 0.75)');
-            setSP('--dd-color', '#F87171');
-            document.body.style.background = 'radial-gradient(#3d1520, #1c0a10)';
-            mirotalkTheme.selectedIndex = 4;
-            break;
-        case 'purple':
-            // purple theme — modern violet with elegance
-            swBg = 'radial-gradient(#2a1840, #150d24)';
-            setSP('--body-bg', 'radial-gradient(#2a1840, #150d24)');
-            setSP('--msger-bg', 'radial-gradient(#2a1840, #150d24)');
-            setSP('--wb-bg', 'radial-gradient(#2a1840, #150d24)');
-            setSP('--elem-border-color', '1px solid rgba(192, 132, 252, 0.15)');
-            setSP('--navbar-bg', 'rgba(21, 13, 36, 0.88)');
-            setSP('--select-bg', '#241538');
-            setSP('--tab-btn-active', '#351f4e');
-            setSP('--box-shadow', '0px 4px 12px 0px rgba(0, 0, 0, 0.5)');
-            setSP('--msger-private-bg', 'radial-gradient(#2a1840, #150d24)');
-            setSP('--left-msg-bg', '#2e1c45');
-            setSP('--right-msg-bg', '#201230');
-            setSP('--private-msg-bg', '#28163c');
-            setSP('--btn-bar-bg-color', '#F3E8FD');
-            setSP('--btn-bar-color', '#150d24');
-            setSP('--btns-bg-color', 'rgba(21, 13, 36, 0.75)');
-            setSP('--dd-color', '#C084FC');
-            document.body.style.background = 'radial-gradient(#2a1840, #150d24)';
-            mirotalkTheme.selectedIndex = 5;
-            break;
-        case 'orange':
-            // orange theme — modern amber with depth
-            swBg = 'radial-gradient(#3d2410, #1e1208)';
-            setSP('--body-bg', 'radial-gradient(#3d2410, #1e1208)');
-            setSP('--msger-bg', 'radial-gradient(#3d2410, #1e1208)');
-            setSP('--wb-bg', 'radial-gradient(#3d2410, #1e1208)');
-            setSP('--elem-border-color', '1px solid rgba(251, 191, 36, 0.15)');
-            setSP('--navbar-bg', 'rgba(30, 18, 8, 0.88)');
-            setSP('--select-bg', '#352010');
-            setSP('--tab-btn-active', '#4d3018');
-            setSP('--box-shadow', '0px 4px 12px 0px rgba(0, 0, 0, 0.5)');
-            setSP('--msger-private-bg', 'radial-gradient(#3d2410, #1e1208)');
-            setSP('--left-msg-bg', '#422814');
-            setSP('--right-msg-bg', '#2e1c0e');
-            setSP('--private-msg-bg', '#382210');
-            setSP('--btn-bar-bg-color', '#FFF3E0');
-            setSP('--btn-bar-color', '#1e1208');
-            setSP('--btns-bg-color', 'rgba(30, 18, 8, 0.75)');
-            setSP('--dd-color', '#FBBF24');
-            document.body.style.background = 'radial-gradient(#3d2410, #1e1208)';
-            mirotalkTheme.selectedIndex = 6;
-            break;
-        case 'yellow':
-            // yellow theme — modern gold with sophistication
-            swBg = 'radial-gradient(#3a3418, #1e1c0e)';
-            setSP('--body-bg', 'radial-gradient(#3a3418, #1e1c0e)');
-            setSP('--msger-bg', 'radial-gradient(#3a3418, #1e1c0e)');
-            setSP('--wb-bg', 'radial-gradient(#3a3418, #1e1c0e)');
-            setSP('--elem-border-color', '1px solid rgba(250, 204, 21, 0.15)');
-            setSP('--navbar-bg', 'rgba(30, 28, 14, 0.88)');
-            setSP('--select-bg', '#322e15');
-            setSP('--tab-btn-active', '#4a441e');
-            setSP('--box-shadow', '0px 4px 12px 0px rgba(0, 0, 0, 0.5)');
-            setSP('--msger-private-bg', 'radial-gradient(#3a3418, #1e1c0e)');
-            setSP('--left-msg-bg', '#3e381c');
-            setSP('--right-msg-bg', '#2c2812');
-            setSP('--private-msg-bg', '#363018');
-            setSP('--btn-bar-bg-color', '#FFFDE7');
-            setSP('--btn-bar-color', '#1e1c0e');
-            setSP('--btns-bg-color', 'rgba(30, 28, 14, 0.75)');
-            setSP('--dd-color', '#FACC15');
-            document.body.style.background = 'radial-gradient(#3a3418, #1e1c0e)';
-            mirotalkTheme.selectedIndex = 7;
-            break;
-        // ...
-        default:
-            console.log('No theme found');
-            break;
+    const vars = themeMap[theme];
+
+    if (!vars) {
+        console.log('No theme found');
+        return;
     }
+
+    applyThemeVars(vars);
+
+    const themeNames = Object.keys(themeMap);
+    mirotalkTheme.selectedIndex = themeNames.indexOf(theme);
+
     wbIsBgTransparent = false;
     //setButtonsBarPosition(mainButtonsBarPosition);
     updateThemeCardsActive();
@@ -3347,6 +3340,32 @@ function updateThemeCardsDisabled() {
 }
 
 /**
+ * Buttons bar position definitions
+ */
+const buttonsBarPositionMap = {
+    vertical: {
+        // bottomButtons horizontally
+        '--bottom-btns-top': 'auto',
+        '--bottom-btns-left': '50%',
+        '--bottom-btns-bottom': '0',
+        '--bottom-btns-translate-X': '-50%',
+        '--bottom-btns-translate-Y': '0%',
+        '--bottom-btns-margin-bottom': '16px',
+        '--bottom-btns-flex-direction': 'row',
+    },
+    horizontal: {
+        // bottomButtons vertically
+        '--bottom-btns-top': '50%',
+        '--bottom-btns-left': '15px',
+        '--bottom-btns-bottom': 'auto',
+        '--bottom-btns-translate-X': '0%',
+        '--bottom-btns-translate-Y': '-50%',
+        '--bottom-btns-margin-bottom': '0',
+        '--bottom-btns-flex-direction': 'column',
+    },
+};
+
+/**
  * Set buttons bar position
  * @param {string} position vertical / horizontal
  */
@@ -3354,30 +3373,15 @@ function setButtonsBarPosition(position) {
     if (!position || isMobileDevice) return;
 
     mainButtonsBarPosition = position;
-    switch (mainButtonsBarPosition) {
-        case 'vertical':
-            // bottomButtons horizontally
-            setSP('--bottom-btns-top', 'auto');
-            setSP('--bottom-btns-left', '50%');
-            setSP('--bottom-btns-bottom', '0');
-            setSP('--bottom-btns-translate-X', '-50%');
-            setSP('--bottom-btns-translate-Y', '0%');
-            setSP('--bottom-btns-margin-bottom', '16px');
-            setSP('--bottom-btns-flex-direction', 'row');
-            break;
-        case 'horizontal':
-            // bottomButtons vertically
-            setSP('--bottom-btns-top', '50%');
-            setSP('--bottom-btns-left', '15px');
-            setSP('--bottom-btns-bottom', 'auto');
-            setSP('--bottom-btns-translate-X', '0%');
-            setSP('--bottom-btns-translate-Y', '-50%');
-            setSP('--bottom-btns-margin-bottom', '0');
-            setSP('--bottom-btns-flex-direction', 'column');
-            break;
-        default:
-            console.log('No position found');
-            break;
+    const vars = buttonsBarPositionMap[mainButtonsBarPosition];
+
+    if (!vars) {
+        console.log('No position found');
+        return;
+    }
+
+    for (const [prop, value] of Object.entries(vars)) {
+        setSP(prop, value);
     }
     refreshMainButtonsToolTipPlacement();
 }
@@ -14832,7 +14836,7 @@ function showAbout() {
     Swal.fire({
         background: swBg,
         position: 'center',
-        title: brand.about?.title && brand.about.title.trim() !== '' ? brand.about.title : 'WebRTC P2P v1.7.91',
+        title: brand.about?.title && brand.about.title.trim() !== '' ? brand.about.title : 'WebRTC P2P v1.7.92',
         imageUrl: brand.about?.imageUrl && brand.about.imageUrl.trim() !== '' ? brand.about.imageUrl : images.about,
         customClass: { image: 'img-about' },
         html: `
