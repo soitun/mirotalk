@@ -15,7 +15,7 @@
  * @license For commercial use or closed source, contact us at license.mirotalk@gmail.com or purchase directly from CodeCanyon
  * @license CodeCanyon: https://codecanyon.net/item/mirotalk-p2p-webrtc-realtime-video-conferences/38376661
  * @author  Miroslav Pejic - miroslav.pejic.85@gmail.com
- * @version 1.7.94
+ * @version 1.7.95
  *
  */
 
@@ -2427,7 +2427,7 @@ function checkPeerAudioVideo() {
  * the browser lacks AudioWorklet / WebAssembly.
  * Call once during startup, before any audio stream is created.
  */
-function initRNNoiseSuppression() {
+async function initRNNoiseSuppression() {
     if (typeof RNNoiseProcessor === 'undefined') {
         console.warn('RNNoiseProcessor class is not available (script not loaded).');
         handleRNNoiseNotSupported();
@@ -2436,6 +2436,13 @@ function initRNNoiseSuppression() {
 
     if (!RNNoiseProcessor.isSupported()) {
         console.warn('RNNoise: AudioWorklet or WebAssembly not supported on this device, skipping.');
+        handleRNNoiseNotSupported();
+        return;
+    }
+
+    const supports48k = await RNNoiseProcessor.isSampleRateSupported();
+    if (!supports48k) {
+        console.warn('RNNoise: device does not support 48 kHz sample rate, skipping.');
         handleRNNoiseNotSupported();
         return;
     }
@@ -2490,6 +2497,10 @@ async function enableNoiseSuppression() {
             console.warn('Noise suppression returned no usable stream, falling back to raw mic.');
             stopNoiseSuppressionPipeline();
             await refreshMyStreamToPeers(localAudioMediaStream, true);
+            toastMessage(
+                'warning',
+                'Noise suppression is not supported on this device. Using default WebRTC noise suppression instead.'
+            );
             return false;
         }
 
@@ -3827,16 +3838,32 @@ async function setupLocalAudioMedia() {
     console.log('Requesting access to audio inputs');
 
     // Check RNNoise support early, before audio streams are created.
-    initRNNoiseSuppression();
+    await initRNNoiseSuppression();
 
     const audioConstraints = useAudio ? getAudioConstraints() : { audio: false };
 
     try {
         const stream = await navigator.mediaDevices.getUserMedia(audioConstraints);
         if (stream) {
-            await loadLocalMedia(stream, 'audio');
+            /* 
+                Verify the audio track is live – on some mobile devices getUserMedia
+                succeeds but the track is muted/ended (e.g. built-in mic restrictions).
+            */
+            let activeStream = stream;
+            const audioTrack = stream.getAudioTracks()[0];
+            if (audioTrack && (audioTrack.readyState === 'ended' || audioTrack.muted)) {
+                console.warn(
+                    'Audio track obtained but is ' +
+                        (audioTrack.muted ? 'muted' : 'ended') +
+                        ', retrying with relaxed constraints'
+                );
+                stream.getTracks().forEach((t) => t.stop());
+                activeStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+            }
+
+            await loadLocalMedia(activeStream, 'audio');
             if (useAudio) {
-                localAudioMediaStream = stream;
+                localAudioMediaStream = activeStream;
                 console.log('10. Access granted to audio device');
 
                 // Auto-enable noise suppression if the user had it active in a previous session.
@@ -7364,8 +7391,7 @@ function setupMySettings() {
             if (!ok) {
                 lsSettings.mic_noise_suppression = false;
                 lS.setSettings(lsSettings);
-                e.currentTarget.checked = false;
-                toastMessage('warning', 'Noise suppression unavailable');
+                switchNoiseSuppression.checked = false;
             } else {
                 toastMessage('success', 'Noise suppression enabled');
             }
@@ -7375,7 +7401,7 @@ function setupMySettings() {
             await disableNoiseSuppression(true);
             toastMessage('info', 'Noise suppression disabled');
         }
-        e.target.blur();
+        switchNoiseSuppression.blur();
     };
 
     // select audio output
@@ -7873,10 +7899,13 @@ function getAudioConstraints(deviceId = null) {
     const useBuiltInNoiseSuppression = !buttons.settings.customNoiseSuppression || !isRNNoiseSupported;
 
     // Enhanced audio constraints for better quality and volume on all devices
+    // On mobile, use { ideal: true } so getUserMedia succeeds even if the
+    // device's built-in mic cannot honour a constraint (e.g. iOS Safari may
+    // silently suppress audio when echoCancellation is strictly required).
     const audioConstraints = {
-        echoCancellation: true, // Prevents echo/feedback
-        autoGainControl: true, // Automatically adjusts microphone volume
-        noiseSuppression: useBuiltInNoiseSuppression, // Use RNNoise instead
+        echoCancellation: isMobileDevice ? { ideal: true } : true,
+        autoGainControl: isMobileDevice ? { ideal: true } : true,
+        noiseSuppression: useBuiltInNoiseSuppression,
     };
     /* 
     deviceId handling is platform-dependent:
@@ -14937,7 +14966,7 @@ function showAbout() {
     Swal.fire({
         background: swBg,
         position: 'center',
-        title: brand.about?.title && brand.about.title.trim() !== '' ? brand.about.title : 'WebRTC P2P v1.7.94',
+        title: brand.about?.title && brand.about.title.trim() !== '' ? brand.about.title : 'WebRTC P2P v1.7.95',
         imageUrl: brand.about?.imageUrl && brand.about.imageUrl.trim() !== '' ? brand.about.imageUrl : images.about,
         customClass: { image: 'img-about' },
         html: `
