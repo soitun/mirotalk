@@ -2,7 +2,7 @@
 
 /**
  * ==============================================
- * MiroTalk P2P v.1.7.96 - Configuration File
+ * MiroTalk P2P v.1.7.97 - Configuration File
  * ==============================================
  *
  * This file is the central configuration source.
@@ -312,6 +312,7 @@ module.exports = {
             tryEasier: true,
             poweredBy: true,
             sponsors: true,
+            pastSponsors: true,
             advertisers: true,
             supportUs: true,
             footer: true,

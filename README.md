@@ -10,8 +10,6 @@
 <a href="https://codecanyon.net/item/mirotalk-p2p-webrtc-realtime-video-conferences/38376661">![License: Extended](https://img.shields.io/badge/License-Extended_Commercial_Use-darkgreen.svg)</a>
 <a href="https://discord.gg/rgGYfeYW3N">![Community](https://img.shields.io/badge/Community-forum-pink.svg)</a>
 
-This project is proudly sponsored by
-
 </div>
 
 <h1 align=center>Recall.ai - API for meeting recording</h1>
@@ -503,12 +501,23 @@ To obtain a [MiroTalk P2P license](https://docs.mirotalk.com/license/licensing-o
 
 Do you find MiroTalk P2P indispensable for your needs? Join us in supporting this transformative project by [becoming a backer or sponsor](https://github.com/sponsors/miroslavpejic85). By doing so, not only will your logo prominently feature here, but you'll also drive the growth and sustainability of MiroTalk P2P. Your support is vital in ensuring that this valuable platform continues to thrive and remain accessible for all. Make an impact – back MiroTalk P2P today and be part of this exciting journey!
 
-|                                                                                   |                                                                                                                    |                                                                                |
-| --------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------ |
-| [![EffectsSDK](public/sponsors/EffectsSDK.png)](https://effectssdk.ai/)           | [![Hetzner](public/sponsors/HetznerLogo.png)](https://hetzner.cloud/?ref=XdRifCzCK3bn)                             | [![Netcup](public/sponsors/Netcup.png)](https://www.netcup.com/en/?ref=309627) |
-| [![BroadcastX](public/sponsors/BroadcastX.png)](https://broadcastx.de/)           | [![LuvLounge](public/sponsors/LuvLounge.png)](https://luvlounge.ca)                                                | [![QuestionPro](public/sponsors/QuestionPro.png)](https://www.questionpro.com) |
-| [![BrowserStack](public/sponsors/BrowserStack.png)](https://www.browserstack.com) | [![CrystalSound](public/sponsors/CrystalSound.png)](https://crystalsound.ai)                                       | [![Cloudron](public/sponsors/Cloudron.png)](https://cloudron.io)               |
-| [![Kiquix](public/sponsors/KiquixLogo.png)](https://kiquix.com)                   | [![TestMuAI](public/sponsors/TestMuAIBlack.svg)](https://www.testmuai.com/?utm_medium=sponsor&utm_source=mirotalk) |                                                                                |
+|                                                                                                                    |                                                                                   |                                                                                |
+| ------------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------- | ------------------------------------------------------------------------------ |
+| [![Cloudron](public/sponsors/Cloudron.png)](https://cloudron.io)                                                   | [![EffectsSDK](public/sponsors/EffectsSDK.png)](https://effectssdk.ai/)           | [![QuestionPro](public/sponsors/QuestionPro.png)](https://www.questionpro.com) |
+| [![TestMuAI](public/sponsors/TestMuAIBlack.svg)](https://www.testmuai.com/?utm_medium=sponsor&utm_source=mirotalk) | [![BrowserStack](public/sponsors/BrowserStack.png)](https://www.browserstack.com) | [![CrystalSound](public/sponsors/CrystalSound.png)](https://crystalsound.ai)   |
+| [![Netcup](public/sponsors/Netcup.png)](https://www.netcup.com/en/?ref=309627)                                     |                                                                                   |                                                                                |
+
+</details>
+
+<details open>
+<summary>Past sponsors</summary>
+
+<br/>
+
+|                                                                                        |                                                                 |                                                                         |
+| -------------------------------------------------------------------------------------- | --------------------------------------------------------------- | ----------------------------------------------------------------------- |
+| [![Hetzner](public/sponsors/HetznerLogo.png)](https://hetzner.cloud/?ref=XdRifCzCK3bn) | [![Kiquix](public/sponsors/KiquixLogo.png)](https://kiquix.com) | [![BroadcastX](public/sponsors/BroadcastX.png)](https://broadcastx.de/) |
+| [![LuvLounge](public/sponsors/LuvLounge.png)](https://luvlounge.ca)                    |                                                                 |                                                                         |
 
 </details>
 

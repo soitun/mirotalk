@@ -43,6 +43,7 @@ const teams = document.getElementById('teams');
 const tryEasier = document.getElementById('tryEasier');
 const poweredBy = document.getElementById('poweredBy');
 const sponsors = document.getElementById('sponsors');
+const pastSponsors = document.getElementById('pastSponsors');
 const advertisers = document.getElementById('advertisers');
 const supportUs = document.getElementById('supportUs');
 const footer = document.getElementById('footer');
@@ -101,13 +102,14 @@ let brand = {
         tryEasier: true,
         poweredBy: true,
         sponsors: true,
+        pastSponsors: true,
         advertisers: true,
         supportUs: true,
         footer: true,
     },
     about: {
         imageUrl: '../images/mirotalk-logo.gif',
-        title: 'WebRTC P2P v1.7.96',
+        title: 'WebRTC P2P v1.7.97',
         html: `
             <button 
                 id="support-button" 
@@ -297,6 +299,7 @@ function handleBrand() {
         [tryEasier, brand.html?.tryEasier],
         [poweredBy, brand.html?.poweredBy],
         [sponsors, brand.html?.sponsors],
+        [pastSponsors, brand.html?.pastSponsors],
         [advertisers, brand.html?.advertisers],
         [supportUs, brand.html?.supportUs],
         [footer, brand.html?.footer],
