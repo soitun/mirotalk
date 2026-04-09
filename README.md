@@ -214,7 +214,7 @@ To obtain a [MiroTalk P2P license](https://docs.mirotalk.com/license/licensing-o
 </details>
 
 <details open>
-<summary>Support the project</summary>
+<summary>❤️ Support the project</summary>
 
 <br/>
 
@@ -229,7 +229,7 @@ Do you find MiroTalk P2P indispensable for your needs? Join us in supporting thi
 </details>
 
 <details>
-<summary>Past Sponsors</summary>
+<summary>🙏 Past Sponsors</summary>
 
 <br/>
 
@@ -243,7 +243,7 @@ We are grateful to our past sponsors for their support!
 </details>
 
 <details>
-<summary>Advertisers</summary>
+<summary>📢 Advertisers</summary>
 
 ---
 
