@@ -41,10 +41,6 @@
     </a>
 </p>
 
-<br />
-
-<p align="center"><strong>If you find MiroTalk P2P useful, please ⭐ Star it on GitHub - it helps others discover this project!</strong></p>
-
 <p align="center"><strong>Proudly sponsored by</strong></p>
 
 <hr />
@@ -55,6 +51,8 @@
 </p>
 
 <hr />
+
+<br />
 
 <details open>
 <summary>✨ Why MiroTalk P2P?</summary>
