@@ -4177,6 +4177,8 @@ body {
     text-align: center;
     justify-content: center;
     color: #e0e4f0;
+    background: radial-gradient(#2a2a2e, #121214);
+    border-color: rgba(255, 255, 255, 0.08);
 }
 
 /*--------------------------------------------------------------
