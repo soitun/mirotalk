@@ -14,11 +14,11 @@ COPY .env.template ./.env
 # Rename config.template.js to config.js
 COPY ./app/src/config.template.js ./app/src/config.js
 
-# Install necessary system packages and dependencies
-RUN apk add --no-cache \
-    bash \
-    vim \
-    && npm ci --only=production --silent \
+# Install necessary system packages
+RUN apk add --no-cache bash vim
+
+# Install Node.js dependencies (retry up to 3 times to handle intermittent QEMU crashes in cross-platform builds)
+RUN for i in 1 2 3; do npm ci --only=production --silent && break || echo "Retry $i..."; done \
     && npm cache clean --force \
     && rm -rf /tmp/* /var/tmp/* /usr/share/doc/*
 
