@@ -37,7 +37,7 @@
 
 <p align="center">
     <a href="https://p2p.mirotalk.com/">
-        <img src="public/images/mirotalk-header.gif" alt="MiroTalk P2P - Open Source Video Conferencing">
+        <img src="public/images/mirotalk-github.gif" alt="MiroTalk P2P - Open Source Video Conferencing">
     </a>
 </p>
 
