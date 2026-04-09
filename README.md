@@ -84,7 +84,7 @@
 - 💬 Chat with Markdown & emoji · Collaborative whiteboard · File sharing
 - 🤖 ChatGPT (OpenAI) integration · Speech recognition
 - 🔒 OIDC auth · Host protection · JWT credentials · Room passwords · Peer-to-peer encryption
-- 🔌 REST API · Slack & Mattermost · Embeddable iframe & widget · 133 languages
+- 🔌 REST API · Slack & Mattermost · Embeddable **[iframe](https://docs.mirotalk.com/mirotalk-p2p/integration/#iframe)** & **[widget](https://docs.mirotalk.com/mirotalk-p2p/integration/#widgets-integration)** · 133 languages
 
 **[See all features →](https://docs.mirotalk.com/overview/)**
 
@@ -141,10 +141,11 @@ Open [http://localhost:3000](http://localhost:3000) - done!
 
 <br/>
 
-For detailed guides and references, visit the **[official documentation](https://docs.mirotalk.com/mirotalk-p2p/)**:
+For detailed guides and references, visit the **[official documentation](https://docs.mirotalk.com)**:
 
 - [About](https://docs.mirotalk.com/mirotalk-p2p/)
 - [Self-Hosting Guide](https://docs.mirotalk.com/mirotalk-p2p/self-hosting/)
+- [Automation-scripts](https://docs.mirotalk.com/scripts/about/)
 - [Configurations](https://docs.mirotalk.com/mirotalk-p2p/configurations/)
 - [Rebranding](https://docs.mirotalk.com/mirotalk-p2p/rebranding/)
 - [Host Protection Mode](https://docs.mirotalk.com/mirotalk-p2p/host-protection/)
