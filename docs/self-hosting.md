@@ -4,4 +4,8 @@
 
 [https://docs.mirotalk.com/mirotalk-p2p/self-hosting/](https://docs.mirotalk.com/mirotalk-p2p/self-hosting/)
 
+### Automation scripts
+
+[https://docs.mirotalk.com/scripts/about/](https://docs.mirotalk.com/scripts/about/)
+
 ---
