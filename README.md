@@ -548,8 +548,4 @@ If you like this project, please star it - every star helps more people discover
 
 <p align="center">
   Built with ❤️ by <a href="https://www.linkedin.com/in/miroslav-pejic-976a07101/">Miroslav</a> and the open-source community
-  <br><br>
-  <strong>If you find MiroTalk P2P useful, please ⭐ Star it on GitHub - it helps others discover this project!</strong>
-  <br>
-  <a href="https://github.com/miroslavpejic85/mirotalk"><strong>⭐ Star MiroTalk P2P on GitHub</strong></a>
 </p>
