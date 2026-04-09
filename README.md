@@ -134,7 +134,7 @@ Open [http://localhost:3000](http://localhost:3000) - done!
 
 </details>
 
-<details open>
+<details>
 <summary>📚 Documentation</summary>
 
 <br/>
