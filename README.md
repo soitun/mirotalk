@@ -1,16 +1,53 @@
 <h1 align="center">MiroTalk P2P</h1>
 
+<h3 align="center">Open Source WebRTC P2P Video Conferencing You Can Self-Host in Minutes</h3>
+
+<h4 align="center">Free, Secure, Fast Real-Time Communication - up to 8K, 60fps. Works in All Browsers and Platforms.</h4>
+
 <br />
 
 <div align="center">
 
+[![GitHub Stars](https://img.shields.io/github/stars/miroslavpejic85/mirotalk?style=social)](https://github.com/miroslavpejic85/mirotalk/stargazers)
+[![GitHub Forks](https://img.shields.io/github/forks/miroslavpejic85/mirotalk?style=social)](https://github.com/miroslavpejic85/mirotalk/network/members)
+
+<a href="https://choosealicense.com/licenses/agpl-3.0/">![License: AGPLv3](https://img.shields.io/badge/License-AGPLv3_Open_Source-blue.svg)</a>
+<a href="https://hub.docker.com/r/mirotalk/p2p">![Docker Pulls](https://img.shields.io/docker/pulls/mirotalk/p2p)</a>
+<a href="https://github.com/miroslavpejic85/mirotalk/commits/master">![Last Commit](https://img.shields.io/github/last-commit/miroslavpejic85/mirotalk)</a>
+<a href="https://discord.gg/rgGYfeYW3N">![Discord](https://img.shields.io/badge/Discord-Community-5865F2?logo=discord&logoColor=white)</a>
 <a href="https://www.linkedin.com/in/miroslav-pejic-976a07101/">![Author](https://img.shields.io/badge/Author-Miroslav_Pejic-brightgreen.svg)</a>
-<a href="https://choosealicense.com/licenses/agpl-3.0/">![License: AGPLv3](https://img.shields.io/badge/License-AGPLv3_Open_Surce-blue.svg)</a>
-<a href="https://codecanyon.net/item/mirotalk-p2p-webrtc-realtime-video-conferences/38376661">![License: Regular](https://img.shields.io/badge/License-Regular_Private_Use-lightblue.svg)</a>
-<a href="https://codecanyon.net/item/mirotalk-p2p-webrtc-realtime-video-conferences/38376661">![License: Extended](https://img.shields.io/badge/License-Extended_Commercial_Use-darkgreen.svg)</a>
-<a href="https://discord.gg/rgGYfeYW3N">![Community](https://img.shields.io/badge/Community-forum-pink.svg)</a>
 
 </div>
+
+<br />
+
+<p align="center"><strong>MiroTalk P2P</strong> is a <strong>self-hosted, open-source video conferencing</strong> platform using direct <strong>peer-to-peer WebRTC connections</strong> for fast, secure, real-time communication. Deploy on your own server in minutes. Enjoy unlimited rooms, no time limits, end-to-end privacy, and a rich feature set - all under your control.</p>
+
+<p align="center">
+    <a href="https://p2p.mirotalk.com"><img src="https://img.shields.io/badge/🚀_Try_Live_Demo-blue?style=for-the-badge" alt="Try Live Demo"></a>
+    &nbsp;
+    <a href="https://docs.mirotalk.com/mirotalk-p2p/self-hosting/"><img src="https://img.shields.io/badge/📖_Documentation-green?style=for-the-badge" alt="Documentation"></a>
+    &nbsp;
+    <a href="https://discord.gg/rgGYfeYW3N"><img src="https://img.shields.io/badge/💬_Discord-5865F2?style=for-the-badge&logo=discord&logoColor=white" alt="Discord"></a>
+    &nbsp;
+    <a href="https://github.com/sponsors/miroslavpejic85"><img src="https://img.shields.io/badge/❤️_Sponsor-ea4aaa?style=for-the-badge" alt="Sponsor"></a>
+</p>
+
+<br />
+
+<p align="center">
+    <a href="https://p2p.mirotalk.com/">
+        <img src="public/images/mirotalk-header.gif" alt="MiroTalk P2P - Open Source Video Conferencing">
+    </a>
+</p>
+
+<br />
+
+<p align="center"><strong>If you find MiroTalk P2P useful, please ⭐ Star it on GitHub - it helps others discover this project!</strong></p>
+
+<p align="center"><strong>Proudly sponsored by</strong></p>
+
+<hr />
 
 <h1 align=center>Recall.ai - API for meeting recording</h1>
 <p align="center">
@@ -19,102 +56,88 @@
 
 <hr />
 
-<br />
-
-<p align="center">
-<strong>MiroTalk P2P</strong> - Free WebRTC, Simple, Secure, Fast Real-Time Video Conferences with support for up to 8k resolution and 60fps. It's compatible with all major browsers and platforms.
-</p>
-
-<hr/>
-
-<p align="center">
-    <strong><a href="https://p2p.mirotalk.com">Explore MiroTalk P2P</a></strong>
-</p>
-
-<hr />
-
-<p align="center">
-    <a href="https://p2p.mirotalk.com"><img src="public/images/mirotalk-header.gif"></a>
-</p>
-
-<hr />
-
-<strong>
-    <p align="center">
-        Join our Community for questions, help, support, ideas, and discussions on <a href='https://discord.gg/rgGYfeYW3N'>Discord</a>
-    </p>
-</strong>
-
-<hr />
-
-<details>
-<summary>Features</summary>
+<details open>
+<summary>✨ Why MiroTalk P2P?</summary>
 
 <br/>
 
-- Is `100% Free` - `Open Source under (AGPLv3)` - `Self Hosted` and [PWA](https://en.wikipedia.org/wiki/Progressive_web_application)!
-- No downloads, plugins, or logins required – completely browser-based.
-- Unlimited conference rooms with no time limitations.
-- Translated into 133 languages.
-- Support for the OpenID Connect (OIDC) authentication layer.
-- Host protection to prevent unauthorized access.
-- User auth to prevent unauthorized access.
-- Room password protection.
-- JWT.io securely manages credentials for host configurations and user authentication, enhancing security and streamlining processes.
-- Compatible with desktop and mobile devices.
-- Optimized mobile room URL sharing.
-- Webcam streaming with front and rear camera support for mobile devices.
-- Crystal-clear audio streaming with speaking detection and volume indicators.
-- Screen sharing for presentations.
-- File sharing with drag-and-drop support.
-- Choose your audio input, output, and video source.
-- Supports video quality up to 8K and 60 FPS.
-- Supports advance Video/Document Picture-in-Picture (PiP) offering a more streamlined and flexible viewing experience.
-- Record your screen, audio, and video.
-- Snapshot video frames and save them as PNG images.
-- Chat with an Emoji Picker for expressing feelings, private messages, Markdown support, and conversation saving.
-- ChatGPT (powered by OpenAI) for answering questions, providing information, and connecting users to relevant resources.
-- Speech recognition for sending spoken messages.
-- Push-to-talk functionality, similar to a walkie-talkie.
-- Advanced collaborative whiteboard for teachers.
-- Real-time sharing of YouTube embed videos, video files (MP4, WebM, OGG), and audio files (MP3).
-- Meeting Duration (HH:MM:SS): Set the meeting time in hours, minutes, and seconds for precise duration control.
-- Full-screen mode with one-click video element zooming and pin/unpin.
-- Customizable UI themes.
-- Right-click options on video elements for additional controls.
-- Direct peer-to-peer connections for low-latency communication through WebRTC.
-- Supports [REST API](app/api/README.md) (Application Programming Interface).
-- Integration with [Mattermost](https://mattermost.com/) for enhanced communication.
-- Integration with [Slack](https://api.slack.com/apps/) for enhanced communication.
-- Utilizes [Sentry](https://sentry.io/) for error reporting.
+|                      | MiroTalk P2P                                                                                                                                        | Other Solutions             |
+| -------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------- |
+| 💰 **Cost**          | Free & Open Source (AGPLv3). [One-time fee licenses](https://codecanyon.net/item/mirotalk-p2p-webrtc-realtime-video-conferences/38376661) available | Paid plans                  |
+| 🏠 **Self-hosted**   | ✅ Full control over your data                                                                                                                      | ❌ Cloud only               |
+| 🔒 **Privacy**       | Your server, your rules                                                                                                                             | Third-party data processing |
+| ⏱️ **Time limits**   | Unlimited                                                                                                                                           | 40-60 min on free tiers     |
+| 🏢 **Rooms**         | Unlimited concurrent rooms                                                                                                                          | Limited                     |
+| 🎥 **Resolution**    | Up to 8K @ 60fps                                                                                                                                    | Up to 1080p                 |
+| 🌍 **Languages**     | 133 languages                                                                                                                                       | ~30-80                      |
+| 🔌 **API**           | Full REST API included                                                                                                                              | Paid add-on                 |
+| 🤖 **AI Features**   | ChatGPT (OpenAI) integration                                                                                                                        | Paid AI add-ons             |
+| 🧩 **Customization** | Full source code, white-label ready                                                                                                                 | Limited branding options    |
+| 📦 **Deployment**    | Docker, Node.js, one-click install                                                                                                                  | N/A (SaaS only)             |
+
+</details>
+
+<details open>
+<summary>🚀 Features</summary>
+
+<br/>
+
+**Core Platform**
+
+- `100% Free` · `Open Source (AGPLv3)` · `Self-Hosted` · [PWA](https://en.wikipedia.org/wiki/Progressive_web_application)
+- No downloads, plugins, or logins required - completely browser-based
+- Unlimited conference rooms with no time limits
+- Compatible with all major browsers, desktop, and mobile devices
+- Translated into 133 languages
+
+**Video & Audio**
+
+- Video quality up to 8K with webcam streaming (front & rear camera on mobile)
+- Crystal-clear audio with speaking detection and volume indicators
+- Screen sharing for presentations
+- Video/Document Picture-in-Picture (PiP)
+- Snapshot video frames as PNG images
+- Push-to-talk (walkie-talkie mode)
+- Choose audio input, output, and video source
+
+**Recording**
+
+- Record screen, audio, and video
+
+**Collaboration**
+
+- Chat with emoji picker, private messages, Markdown support, and conversation export
+- Advanced collaborative whiteboard
+- Real-time YouTube embeds, video files (MP4, WebM, OGG), and audio (MP3)
+- File sharing with drag-and-drop
+
+**AI-Powered**
+
+- ChatGPT (OpenAI) for Q&A, information, and resource discovery
+- Speech recognition - control the app with your voice
+
+**Security & Access**
+
+- OpenID Connect (OIDC) authentication
+- Host protection & user auth to prevent unauthorized access
+- JWT-based credential management
+- Room password protection
+- Direct peer-to-peer connections for low-latency communication through WebRTC
+
+**Developer & Integration**
+
+- Full [REST API](app/api/README.md)
+- [Slack](https://api.slack.com/apps/) and [Mattermost](https://mattermost.com/) integrations
+- [Sentry](https://sentry.io/) error reporting
+- Customizable UI themes
+- Meeting duration control (HH:MM:SS)
+- Embeddable via iframe & [widget](#widget)
 - And much more...
 
 </details>
 
 <details>
-<summary>About</summary>
-
-<br>
-
-- [Presentation](https://www.canva.com/design/DAE693uLOIU/view)
-- [Video Overview](https://www.youtube.com/watch?v=_IVn2aINYww)
-
-</details>
-
-<details>
-<summary>Start videoconference</summary>
-
-<br/>
-
-1. `Open` [MiroTalk P2P](https://p2p.mirotalk.com/newcall) or [alternative link](https://mirotalk.up.railway.app/newcall).
-2. `Choose` a room name and click **Join Room**.
-3. `Grant` camera and microphone access.
-4. `Share` the room URL and wait for participants to join the video conference.
-
-</details>
-
-<details>
-<summary>Direct Join</summary>
+<summary>🔗 Direct Join</summary>
 
 <br/>
 
@@ -143,7 +166,7 @@
 </details>
 
 <details>
-<summary>Host Protection Configuration</summary>
+<summary>🛡️ Host Protection Configuration</summary>
 
 <br/>
 
@@ -158,68 +181,53 @@ When [host protection](https://docs.mirotalk.com/mirotalk-p2p/host-protection/) 
 </details>
 
 <details open>
-<summary>Quick start</summary>
+<summary>⚡ Quick start</summary>
 
-![nodejs](public/images/nodejs.png)
+<br/>
 
-- Before running MiroTalk P2P, ensure you have `Node.js` [installed](https://nodejs.org/en/download).
+**Start in 6 commands:**
 
 ```bash
-# clone this repo
-$ git clone https://github.com/miroslavpejic85/mirotalk.git
-# go to mirotalk dir
-$ cd mirotalk
-# copy .env.template to .env (edit it according to your needs)
-$ cp .env.template .env
-# Setup configuration: copy the template and edit config.js to match your environment.
-# config.js is the central configuration file — it reads environment variables
-# and also contains branding, button visibility, and webhook settings.
-$ cp app/src/config.template.js app/src/config.js
-# install dependencies
-$ npm install
-# start the server
-$ npm start
+git clone https://github.com/miroslavpejic85/mirotalk.git
+cd mirotalk
+cp .env.template .env
+cp app/src/config.template.js app/src/config.js
+npm install
+npm start
 ```
 
-- Open [http://localhost:3000](http://localhost:3000) in your browser.
+Open [http://localhost:3000](http://localhost:3000) - done!
 
 </details>
 
 <details open>
-<summary>Docker</summary>
+<summary>🐳 Docker</summary>
 
 <br/>
 
 ![docker](public/images/docker.png)
 
-- Repository [docker hub](https://hub.docker.com/r/mirotalk/p2p)
-- Install [docker engine](https://docs.docker.com/engine/install/) and [docker compose](https://docs.docker.com/compose/install/)
+**Prerequisites:** Install [Docker Engine](https://docs.docker.com/engine/install/) and [Docker Compose](https://docs.docker.com/compose/install/) - Image available on [Docker Hub](https://hub.docker.com/r/mirotalk/p2p)
 
 ```bash
-# clone this repo
-$ git clone https://github.com/miroslavpejic85/mirotalk.git
-# go to mirotalk dir
-$ cd mirotalk
-# copy .env.template to .env (edit it according to your needs)
-$ cp .env.template .env
-# Copy app/src/config.template.js in app/src/config.js (central configuration file)
-$ cp app/src/config.template.js app/src/config.js
-# Copy docker-compose.template.yml in docker-compose.yml (edit it according to your needs)
-$ cp docker-compose.template.yml docker-compose.yml
-# Get official image from Docker Hub
-$ docker pull mirotalk/p2p:latest
-# create and start containers
-$ docker-compose up # -d
-# to stop and remove resources
-$ docker-compose down
+git clone https://github.com/miroslavpejic85/mirotalk.git
+cd mirotalk
+cp .env.template .env
+cp app/src/config.template.js app/src/config.js
+cp docker-compose.template.yml docker-compose.yml
+docker-compose pull    # optional: pull official image
+docker-compose up      # add -d to run in background
 ```
 
-- Open [http://localhost:3000](http://localhost:3000) in your browser.
+Open [http://localhost:3000](http://localhost:3000) - done!
+
+> **Note:**
+> Edit `app/src/config.js`, `.env`, and `docker-compose.yml` to customize your setup.
 
 </details>
 
 <details open>
-<summary>Self-Hosting</summary>
+<summary>🖥️ Self-Hosting</summary>
 
 </br>
 
@@ -239,29 +247,19 @@ When **prompted**, simply **enter your domain or subdomain**. Then wait for the 
 
 ```bash
 # Install MiroTalk P2P
-wget -qO p2p-install.sh https://docs.mirotalk.com/scripts/p2p/p2p-install.sh \
-  && chmod +x p2p-install.sh \
-  && ./p2p-install.sh
-```
+wget -qO p2p-install.sh https://docs.mirotalk.com/scripts/p2p/p2p-install.sh && chmod +x p2p-install.sh && ./p2p-install.sh
 
-```bash
 # Uninstall MiroTalk P2P
-wget -qO p2p-uninstall.sh https://docs.mirotalk.com/scripts/p2p/p2p-uninstall.sh \
-  && chmod +x p2p-uninstall.sh \
-  && ./p2p-uninstall.sh
-```
+wget -qO p2p-uninstall.sh https://docs.mirotalk.com/scripts/p2p/p2p-uninstall.sh && chmod +x p2p-uninstall.sh && ./p2p-uninstall.sh
 
-```bash
 # Update MiroTalk P2P
-wget -qO p2p-update.sh https://docs.mirotalk.com/scripts/p2p/p2p-update.sh \
-  && chmod +x p2p-update.sh \
-  && ./p2p-update.sh
+wget -qO p2p-update.sh https://docs.mirotalk.com/scripts/p2p/p2p-update.sh && chmod +x p2p-update.sh && ./p2p-update.sh
 ```
 
 </details>
 
 <details open>
-<summary>Embed a meeting</summary>
+<summary>🔗 Embed a Meeting in Your App</summary>
 
 <br/>
 
@@ -277,7 +275,7 @@ To embed a meeting within `your service or app` using an iframe, you can use the
 ></iframe>
 ```
 
-## WIdget
+## Widget
 
 To quickly add a support [widget](https://codepen.io/Miroslav-Pejic/pen/Byowjvb) to your site, include the script in your `<head>` and place the widget `<div>` at the end of your `<body>`. Your support widget will be ready instantly!
 
@@ -316,7 +314,7 @@ To quickly add a support [widget](https://codepen.io/Miroslav-Pejic/pen/Byowjvb)
 </details>
 
 <details>
-<summary>Documentations</summary>
+<summary>📚 Documentation</summary>
 
 <br>
 
@@ -326,9 +324,12 @@ To quickly add a support [widget](https://codepen.io/Miroslav-Pejic/pen/Byowjvb)
 
 - `Self-hosting:` For `self-hosting MiroTalk P2P` on your own dedicated server, please refer to [this comprehensive guide](docs/self-hosting.md). It will provide you with all the necessary instructions to get your MiroTalk P2P instance up and running smoothly.
 
-- `Rest API:` The [API documentation](https://docs.mirotalk.com/mirotalk-p2p/api/) uses [swagger](https://swagger.io/) at http://localhost:3000/api/v1/docs. Or check it out on [live](https://p2p.mirotalk.com/api/v1/docs).
+- `REST API:` The [API documentation](https://docs.mirotalk.com/mirotalk-p2p/api/) uses [swagger](https://swagger.io/) at http://localhost:3000/api/v1/docs or check it on live [here](https://p2p.mirotalk.com/api/v1/docs).
 
-### 1. Stats Endpoint (Get server statistics)
+<details>
+<summary>📡 API Examples</summary>
+
+### 1. Get Server Statistics
 
 ```bash
 curl -X GET "http://localhost:3000/api/v1/stats" -H "authorization: mirotalkp2p_default_secret" -H "Content-Type: application/json"
@@ -380,6 +381,8 @@ These commands should now work correctly with the MiroTalk P2P
 
 </details>
 
+</details>
+
 <details open>
 <summary>Cloudron, Hetzner, Netcup, Hostinger & Contabo</summary>
 
@@ -397,7 +400,7 @@ This application is running for `demonstration purposes` on [Hetzner](https://ww
 
 ---
 
-👉 Use [my personal link](https://hetzner.cloud/?ref=XdRifCzCK3bn) to receive `€⁠20 IN CLOUD CREDITS`.
+👉 Use [our referral link](https://hetzner.cloud/?ref=XdRifCzCK3bn) to receive `€⁠20 IN CLOUD CREDITS`.
 
 ---
 
@@ -431,37 +434,7 @@ To set up your own instance of `MiroTalk P2P` on a dedicated cloud server, pleas
 </details>
 
 <details>
-<summary>Live Demos</summary>
-
-<br/>
-
-<a target="_blank" href="https://p2p.mirotalk.com"><img src="public/sponsors/Hetzner.png" style="width: 220px;"></a>
-
-https://p2p.mirotalk.com
-
-[![hetzner-qr](public/images/mirotalk-hetzner-qr.png)](https://p2p.mirotalk.com)
-
-<br>
-
-<a target="_blank" href="https://railway.app/new/template/mirotalk?referralCode=mirotalk"><img src="https://railway.app/button.svg" style="width: 220px;"></a>
-
-https://mirotalk.up.railway.app
-
-[![railway-qr](public/images/mirotalk-railway-qr.png)](https://mirotalk.up.railway.app)
-
-</details>
-
-<details>
-<summary>Security</summary>
-
-<br/>
-
-For `Security` concerning, please follow [this documentation](./SECURITY.md).
-
-</details>
-
-<details>
-<summary>Credits</summary>
+<summary>🙏 Credits</summary>
 
 <br/>
 
@@ -472,17 +445,23 @@ For `Security` concerning, please follow [this documentation](./SECURITY.md).
 </details>
 
 <details>
-<summary>Contributing</summary>
+<summary>🤝 Contributing</summary>
 
 <br/>
 
-- Contributions are welcome and greatly appreciated!
-- Just run before `npm run lint`
+Contributions are welcome and greatly appreciated! Whether it's bug fixes, features, or documentation - every contribution helps.
+
+1. Fork the repository
+2. Create your feature branch
+3. Run `npm run lint` before committing
+4. Submit a pull request
+
+Have questions? Join our [Discord community](https://discord.gg/rgGYfeYW3N)!
 
 </details>
 
 <details>
-<summary>License</summary>
+<summary>📄 License</summary>
 
 <br/>
 
@@ -499,7 +478,7 @@ To obtain a [MiroTalk P2P license](https://docs.mirotalk.com/license/licensing-o
 
 <br/>
 
-Do you find MiroTalk P2P indispensable for your needs? Join us in supporting this transformative project by [becoming a backer or sponsor](https://github.com/sponsors/miroslavpejic85). By doing so, not only will your logo prominently feature here, but you'll also drive the growth and sustainability of MiroTalk P2P. Your support is vital in ensuring that this valuable platform continues to thrive and remain accessible for all. Make an impact – back MiroTalk P2P today and be part of this exciting journey!
+Do you find MiroTalk P2P indispensable for your needs? Join us in supporting this transformative project by [becoming a backer or sponsor](https://github.com/sponsors/miroslavpejic85). By doing so, not only will your logo prominently feature here, but you'll also drive the growth and sustainability of MiroTalk P2P. Your support is vital in ensuring that this valuable platform continues to thrive and remain accessible for all. Make an impact - back MiroTalk P2P today and be part of this exciting journey!
 
 |                                                                                                                    |                                                                                   |                                                                                |
 | ------------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------- | ------------------------------------------------------------------------------ |
@@ -510,9 +489,11 @@ Do you find MiroTalk P2P indispensable for your needs? Join us in supporting thi
 </details>
 
 <details open>
-<summary>Past sponsors</summary>
+<summary>Past Sponsors</summary>
 
 <br/>
+
+We are grateful to our past sponsors for their support!
 
 |                                                                                        |                                                                 |                                                                         |
 | -------------------------------------------------------------------------------------- | --------------------------------------------------------------- | ----------------------------------------------------------------------- |
@@ -542,13 +523,13 @@ Do you find MiroTalk P2P indispensable for your needs? Join us in supporting thi
 
 **Explore:**
 
-- 🎥 **[AI Video Effects Extension](https://chromewebstore.google.com/detail/effetti-webcam-ai-+-regis/iedbphhbpflhgpihkcceocomcdnemcbj)** – Add virtual backgrounds and effects to your webcam.
-- 🔊 **[Noise Cancelling Extension](https://chromewebstore.google.com/detail/noise-cancelling-app/njmhcidcdbaannpafjdljminaigdgolj)** – Reduce background noise for clearer audio.
-- 🛠️ **[Integrate EffectsSDK](https://github.com/EffectsSDK)** – Access SDKs and plugins for custom solutions.
+- 🎥 **[AI Video Effects Extension](https://chromewebstore.google.com/detail/effetti-webcam-ai-+-regis/iedbphhbpflhgpihkcceocomcdnemcbj)** - Add virtual backgrounds and effects to your webcam.
+- 🔊 **[Noise Cancelling Extension](https://chromewebstore.google.com/detail/noise-cancelling-app/njmhcidcdbaannpafjdljminaigdgolj)** - Reduce background noise for clearer audio.
+- 🛠️ **[Integrate EffectsSDK](https://github.com/EffectsSDK)** - Access SDKs and plugins for custom solutions.
 
 ---
 
-## Diving into Additional MiroTalk Projects:
+## 🌐 Diving into Additional MiroTalk Projects:
 
 <details>
 <summary>MiroTalk SFU</summary>
@@ -592,10 +573,18 @@ This project is tested with [BrowserStack](https://www.browserstack.com).
 
 ---
 
-![Star History Chart](https://app.repohistory.com/api/svg?repo=miroslavpejic85/mirotalk&type=Date&background=0D1117&color=62C3F8)
+## Star History
+
+If you like this project, please star it - every star helps more people discover this free Zoom alternative!
+
+[![Star History Chart](https://api.star-history.com/svg?repos=miroslavpejic85/mirotalk&type=Date)](https://star-history.com/#miroslavpejic85/mirotalk&Date)
 
 ---
 
 <p align="center">
   Built with ❤️ by <a href="https://www.linkedin.com/in/miroslav-pejic-976a07101/">Miroslav</a> and the open-source community
+</p>
+
+<p align="center">
+  <a href="https://github.com/miroslavpejic85/mirotalk/stargazers"><strong>⭐ Star MiroTalk P2P on GitHub</strong></a>
 </p>
