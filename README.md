@@ -382,52 +382,19 @@ These commands should now work correctly with the MiroTalk P2P
 </details>
 
 <details open>
-<summary>Cloudron, Hetzner, Netcup, Hostinger & Contabo</summary>
+<summary>☁️ Recommended Hosting Providers</summary>
 
 <br/>
 
-[![Cloudron](public/sponsors/CloudronLogo.png)](https://www.cloudron.io/)
+| Provider                                                                                       | Description                                                                                                                                                          | Link                                                                |
+| ---------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------- |
+| [![Cloudron](public/sponsors/Cloudron.png)](https://www.cloudron.io/)                          | One-click install from the [Cloudron App Store](https://www.cloudron.io/store/index.html). Automates deployment, updates, backups, and user management.              | [Get Started](https://www.cloudron.io/)                             |
+| [![Hetzner](public/sponsors/Hetzner.png)](https://www.hetzner.com)                             | One of the best [cloud providers](https://www.hetzner.com/cloud) and [dedicated root servers](https://www.hetzner.com/dedicated-rootserver). Used for our live demo. | [Get €20 Free Credits](https://hetzner.cloud/?ref=XdRifCzCK3bn)     |
+| [![Netcup](public/sponsors/Netcup.png)](https://www.netcup.com/en/?ref=309627)                 | Enterprise-grade performance at unbeatable prices. Scalable and reliable.                                                                                            | [Explore Netcup](https://www.netcup.com/en/?ref=309627)             |
+| [![Hostinger](public/advertisers/Hostinger.png)](https://hostinger.com/?REFERRALCODE=MIROTALK) | Fast, reliable hosting with 24/7 support and great performance.                                                                                                      | [Check out Hostinger](https://hostinger.com/?REFERRALCODE=MIROTALK) |
+| [![Contabo](public/advertisers/Contabo.png)](https://www.dpbolvw.net/click-101027391-14462707) | Top-tier German hosting, dedicated servers, VPS, and web hosting at unbeatable prices.                                                                               | [Explore Contabo](https://www.dpbolvw.net/click-101027391-14462707) |
 
-MiroTalk integrates with [Cloudron](https://www.cloudron.io/), enabling easy, secure, and self-managed video conferencing for organizations. Cloudron automates deployment, updates, backups, and user management, letting teams focus on collaboration instead of server maintenance. Install MiroTalk in one click from the [Cloudron App Store](https://www.cloudron.io/store/index.html) and enjoy a reliable, enterprise-ready solution.
-
----
-
-[![Hetzner](public/sponsors/Hetzner.png)](https://www.hetzner.com)
-
-This application is running for `demonstration purposes` on [Hetzner](https://www.hetzner.com/), one of `the best` [cloud providers](https://www.hetzner.com/cloud) and [dedicated root servers](https://www.hetzner.com/dedicated-rootserver).
-
----
-
-👉 Use [our referral link](https://hetzner.cloud/?ref=XdRifCzCK3bn) to receive `€⁠20 IN CLOUD CREDITS`.
-
----
-
-[![Netcup](public/sponsors/Netcup.png)](https://www.netcup.com/en/?ref=309627)
-
-Unlock `enterprise-grade performance` at a price you won’t believe.
-Scalable, reliable, and built for businesses that demand more.
-
-👉 [Power Meets Value with Netcup Root Server](https://www.netcup.com/en/?ref=309627)
-
----
-
-[![Hostinger](public/advertisers/HostingerLogo.png)](https://hostinger.com/?REFERRALCODE=MIROTALK)
-
-Fast, reliable hosting with 24/7 support and great performance. Start today!
-
-👉 [Check out Hostinger now](https://hostinger.com/?REFERRALCODE=MIROTALK)
-
----
-
-[![Contabo](public/advertisers/ContaboLogo.png)](https://www.dpbolvw.net/click-101027391-14462707)
-
-Experience also top-tier German web hosting – dedicated servers, VPS, and web hosting at `unbeatable prices`.
-
-👉 [Explore now here](https://www.dpbolvw.net/click-101027391-14462707)
-
----
-
-To set up your own instance of `MiroTalk P2P` on a dedicated cloud server, please refer to our comprehensive [self-hosting documentation](https://docs.mirotalk.com/mirotalk-p2p/self-hosting/). This guide will walk you through the process step by step, ensuring a smooth and successful deployment.
+To set up your own instance of `MiroTalk P2P` on a dedicated cloud server, please refer to our comprehensive [self-hosting documentation](https://docs.mirotalk.com/mirotalk-p2p/self-hosting/).
 
 </details>
 
@@ -581,8 +548,8 @@ If you like this project, please star it - every star helps more people discover
 
 <p align="center">
   Built with ❤️ by <a href="https://www.linkedin.com/in/miroslav-pejic-976a07101/">Miroslav</a> and the open-source community
-</p>
-
-<p align="center">
-  <a href="https://github.com/miroslavpejic85/mirotalk/stargazers"><strong>⭐ Star MiroTalk P2P on GitHub</strong></a>
+  <br><br>
+  <strong>If you find MiroTalk P2P useful, please ⭐ Star it on GitHub - it helps others discover this project!</strong>
+  <br>
+  <a href="https://github.com/miroslavpejic85/mirotalk"><strong>⭐ Star MiroTalk P2P on GitHub</strong></a>
 </p>
