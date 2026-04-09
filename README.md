@@ -228,7 +228,7 @@ Do you find MiroTalk P2P indispensable for your needs? Join us in supporting thi
 
 </details>
 
-<details open>
+<details>
 <summary>Past Sponsors</summary>
 
 <br/>
@@ -242,7 +242,7 @@ We are grateful to our past sponsors for their support!
 
 </details>
 
-<details open>
+<details>
 <summary>Advertisers</summary>
 
 ---
