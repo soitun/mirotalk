@@ -52,7 +52,7 @@
 
 <br />
 
-<details open>
+<details>
 <summary>✨ Why MiroTalk P2P?</summary>
 
 <br/>
@@ -73,7 +73,7 @@
 
 </details>
 
-<details open>
+<details>
 <summary>🚀 Features</summary>
 
 <br/>
@@ -108,7 +108,7 @@ Open [http://localhost:3000](http://localhost:3000) - done!
 
 </details>
 
-<details open>
+<details>
 <summary>🐳 Docker</summary>
 
 <br/>
@@ -255,7 +255,8 @@ We are grateful to our past sponsors for their support!
 
 </details>
 
-## ✨ EffectsSDK
+<details open>
+<summary>✨ EffectsSDK</summary>
 
 [![EffectsSDK](public/sponsors/EffectsSDK.png)](https://effectssdk.ai/)
 
@@ -264,6 +265,10 @@ Enhance your video conferencing with **advanced virtual backgrounds** and **nois
 - 🎥 [AI Video Effects Extension](https://chromewebstore.google.com/detail/effetti-webcam-ai-+-regis/iedbphhbpflhgpihkcceocomcdnemcbj): Virtual backgrounds and effects for your webcam
 - 🔊 [Noise Cancelling Extension](https://chromewebstore.google.com/detail/noise-cancelling-app/njmhcidcdbaannpafjdljminaigdgolj): Clearer audio with background noise reduction
 - 🛠️ [Integrate EffectsSDK](https://github.com/EffectsSDK): SDKs and plugins for custom solutions
+
+</details>
+
+<br />
 
 ---
 
