@@ -283,8 +283,6 @@ This project is tested with [BrowserStack](https://www.browserstack.com).
 
 ## Star History
 
-If you like this project, please star it - every star helps more people discover this project!
-
 ![Star History Chart](https://app.repohistory.com/api/svg?repo=miroslavpejic85/mirotalk&type=Date&background=0D1117&color=62C3F8)
 
 ---
