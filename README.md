@@ -80,101 +80,13 @@
 
 <br/>
 
-**Core Platform**
+- 🎥 Video up to **8K @ 60fps** · Screen sharing · Recording · Picture-in-Picture
+- 💬 Chat with Markdown & emoji · Collaborative whiteboard · File sharing
+- 🤖 ChatGPT (OpenAI) integration · Speech recognition
+- 🔒 OIDC auth · Host protection · JWT credentials · Room passwords · Peer-to-peer encryption
+- 🔌 REST API · Slack & Mattermost · Embeddable iframe & widget · 133 languages
 
-- `100% Free` · `Open Source (AGPLv3)` · `Self-Hosted` · [PWA](https://en.wikipedia.org/wiki/Progressive_web_application)
-- No downloads, plugins, or logins required - completely browser-based
-- Unlimited conference rooms with no time limits
-- Compatible with all major browsers, desktop, and mobile devices
-- Translated into 133 languages
-
-**Video & Audio**
-
-- Video quality up to 8K with webcam streaming (front & rear camera on mobile)
-- Crystal-clear audio with speaking detection and volume indicators
-- Screen sharing for presentations
-- Video/Document Picture-in-Picture (PiP)
-- Snapshot video frames as PNG images
-- Push-to-talk (walkie-talkie mode)
-- Choose audio input, output, and video source
-
-**Recording**
-
-- Record screen, audio, and video
-
-**Collaboration**
-
-- Chat with emoji picker, private messages, Markdown support, and conversation export
-- Advanced collaborative whiteboard
-- Real-time YouTube embeds, video files (MP4, WebM, OGG), and audio (MP3)
-- File sharing with drag-and-drop
-
-**AI-Powered**
-
-- ChatGPT (OpenAI) for Q&A, information, and resource discovery
-- Speech recognition - control the app with your voice
-
-**Security & Access**
-
-- OpenID Connect (OIDC) authentication
-- Host protection & user auth to prevent unauthorized access
-- JWT-based credential management
-- Room password protection
-- Direct peer-to-peer connections for low-latency communication through WebRTC
-
-**Developer & Integration**
-
-- Full [REST API](app/api/README.md)
-- [Slack](https://api.slack.com/apps/) and [Mattermost](https://mattermost.com/) integrations
-- [Sentry](https://sentry.io/) error reporting
-- Customizable UI themes
-- Meeting duration control (HH:MM:SS)
-- Embeddable via iframe & [widget](#widget)
-- And much more...
-
-</details>
-
-<details>
-<summary>🔗 Direct Join</summary>
-
-<br/>
-
-- You can `directly join a room` by using links like:
-- https://p2p.mirotalk.com/join?room=test&name=random&avatar=0&audio=0&video=0&screen=0&chat=0&hide=0&notify=0&duration=unlimited
-- https://mirotalk.up.railway.app/join?room=test&name=random&avatar=0&audio=0&video=0&screen=0&chat=0&hide=0&notify=0&duration=unlimited
-
-    | Params   | Type    | Description               |
-    | -------- | ------- | ------------------------- |
-    | room     | string  | Room Id                   |
-    | name     | string  | User name                 |
-    | avatar   | Mixed   | User avatar               |
-    | audio    | boolean | Audio stream              |
-    | video    | boolean | Video stream              |
-    | screen   | boolean | Screen stream             |
-    | chat.    | boolean | Chat                      |
-    | hide     | boolean | Hide myself               |
-    | notify   | boolean | Welcome message           |
-    | duration | string  | Meeting duration HH:MM:SS |
-    | token    | string  | jwt token                 |
-
-> **Note**
->
-> The `token` parameter are optional when either `HOST_PROTECTED` or `HOST_USER_AUTH` is set to `true` in the `.env` file. The valid list of users is defined in the `HOST_USERS` configuration.
-
-</details>
-
-<details>
-<summary>🛡️ Host Protection Configuration</summary>
-
-<br/>
-
-When [host protection](https://docs.mirotalk.com/mirotalk-p2p/host-protection/) or host user auth is enabled, the host/users must provide a valid username and password as specified in the `.env` file.
-
-| Params           | Value                                                                            | Description                                                                            |
-| ---------------- | -------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- |
-| `HOST_PROTECTED` | `true` if protection is enabled, `false` if not (default false)                  | Requires the host to provide a valid username and password during room initialization. |
-| `HOST_USER_AUTH` | `true` if user authentication is required, `false` if not (default false).       | Determines whether host authentication is required.                                    |
-| `HOST_USERS`     | JSON array with user objects: `{"username": "username", "password": "password"}` | List of valid host users with their credentials.                                       |
+**[See all features →](https://docs.mirotalk.com/overview/)**
 
 </details>
 
@@ -225,159 +137,23 @@ Open [http://localhost:3000](http://localhost:3000) - done!
 </details>
 
 <details open>
-<summary>🖥️ Self-Hosting</summary>
-
-</br>
-
-![setup](/public/images/self-hosting.png)
-
-## **Requirements**
-
-- A `clean server` running **Ubuntu 22.04 or 24.04 LTS**
-- **Root access** to the Server
-- A **domain or subdomain** pointing to your server’s public IPv4
-
----
-
-## Note
-
-When **prompted**, simply **enter your domain or subdomain**. Then wait for the installation to complete.
-
-```bash
-# Install MiroTalk P2P
-wget -qO p2p-install.sh https://docs.mirotalk.com/scripts/p2p/p2p-install.sh && chmod +x p2p-install.sh && ./p2p-install.sh
-
-# Uninstall MiroTalk P2P
-wget -qO p2p-uninstall.sh https://docs.mirotalk.com/scripts/p2p/p2p-uninstall.sh && chmod +x p2p-uninstall.sh && ./p2p-uninstall.sh
-
-# Update MiroTalk P2P
-wget -qO p2p-update.sh https://docs.mirotalk.com/scripts/p2p/p2p-update.sh && chmod +x p2p-update.sh && ./p2p-update.sh
-```
-
-</details>
-
-<details open>
-<summary>🔗 Embed a Meeting in Your App</summary>
+<summary>📚 Documentation</summary>
 
 <br/>
 
-![iframe](public/images/iframe.png)
+For detailed guides and references, visit the **[official documentation](https://docs.mirotalk.com/mirotalk-p2p/)**:
 
-To embed a meeting within `your service or app` using an iframe, you can use the following code:
-
-```html
-<iframe
-    allow="camera; microphone; speaker-selection; display-capture; fullscreen; clipboard-read; clipboard-write; web-share; autoplay; picture-in-picture"
-    src="https://p2p.mirotalk.com/newcall"
-    style="height: 100vh; width: 100vw; border: 0px;"
-></iframe>
-```
-
-## Widget
-
-To quickly add a support [widget](https://codepen.io/Miroslav-Pejic/pen/Byowjvb) to your site, include the script in your `<head>` and place the widget `<div>` at the end of your `<body>`. Your support widget will be ready instantly!
-
-```html
-<!doctype html>
-<html>
-    <head>
-        <script src="https://p2p.mirotalk.com/js/widget.js"></script>
-    </head>
-    <body>
-        <div
-            id="support-widget"
-            data-mirotalk-auto
-            data-domain="p2p.mirotalk.com"
-            data-room="support-room"
-            data-theme="dark"
-            data-widget-type="support"
-            data-widget-state="normal"
-            data-position="bottom-right"
-            data-check-online="false"
-            data-expert-images="https://i.pravatar.cc/40?img=1,https://i.pravatar.cc/40?img=2,https://i.pravatar.cc/40?img=3"
-            data-buttons="audio,video,screen,chat,join"
-            data-heading="Need Help?"
-            data-subheading="Get instant support from our expert team!"
-            data-connect-text="connect in &lt; 5 seconds"
-            data-online-text="We are online"
-            data-offline-text="We are offline"
-            data-powered-by="Powered by MiroTalk"
-        ></div>
-    </body>
-</html>
-```
-
-**[Explore Integrations →](https://docs.mirotalk.com/mirotalk-p2p/integration/)**
-
-</details>
-
-<details>
-<summary>📚 Documentation</summary>
-
-<br>
-
-- `Ngrok/HTTPS:` You can start a video conference directly from your local PC and make it accessible from any device outside your network by following [these instructions](docs/ngrok.md), or expose it directly on [HTTPS](app/ssl/README.md).
-
-- `Stun/Turn:` Install your own [Stun & Turn](https://docs.mirotalk.com/coturn/stun-turn/) by following [this instructions](./docs/coturn.md).
-
-- `Self-hosting:` For `self-hosting MiroTalk P2P` on your own dedicated server, please refer to [this comprehensive guide](docs/self-hosting.md). It will provide you with all the necessary instructions to get your MiroTalk P2P instance up and running smoothly.
-
-- `REST API:` The [API documentation](https://docs.mirotalk.com/mirotalk-p2p/api/) uses [swagger](https://swagger.io/) at http://localhost:3000/api/v1/docs or check it on live [here](https://p2p.mirotalk.com/api/v1/docs).
-
-<details>
-<summary>📡 API Examples</summary>
-
-### 1. Get Server Statistics
-
-```bash
-curl -X GET "http://localhost:3000/api/v1/stats" -H "authorization: mirotalkp2p_default_secret" -H "Content-Type: application/json"
-curl -X GET "https://p2p.mirotalk.com/api/v1/stats" -H "authorization: mirotalkp2p_default_secret" -H "Content-Type: application/json"
-curl -X GET "https://mirotalk.up.railway.app/api/v1/stats" -H "authorization: mirotalkp2p_default_secret" -H "Content-Type: application/json"
-```
-
-### 2. Meetings Endpoint (Get active meetings)
-
-```bash
-curl -X GET "http://localhost:3000/api/v1/meetings" -H "authorization: mirotalkp2p_default_secret" -H "Content-Type: application/json"
-curl -X GET "https://p2p.mirotalk.com/api/v1/meetings" -H "authorization: mirotalkp2p_default_secret" -H "Content-Type: application/json"
-curl -X GET "https://mirotalk.up.railway.app/api/v1/meetings" -H "authorization: mirotalkp2p_default_secret" -H "Content-Type: application/json"
-```
-
-### 3. Create Meeting
-
-```bash
-curl -X POST "http://localhost:3000/api/v1/meeting" -H "authorization: mirotalkp2p_default_secret" -H "Content-Type: application/json"
-curl -X POST "https://p2p.mirotalk.com/api/v1/meeting" -H "authorization: mirotalkp2p_default_secret" -H "Content-Type: application/json"
-curl -X POST "https://mirotalk.up.railway.app/api/v1/meeting" -H "authorization: mirotalkp2p_default_secret" -H "Content-Type: application/json"
-```
-
-### 4. Join Meeting (Basic)
-
-```bash
-curl -X POST "http://localhost:3000/api/v1/join" -H "authorization: mirotalkp2p_default_secret" -H "Content-Type: application/json" --data '{"room":"test","name":"random","avatar":false,"audio":true,"video":true,"screen":false,"chat":false,"hide":false,"notify":true,"duration":"unlimited"}'
-curl -X POST "https://p2p.mirotalk.com/api/v1/join" -H "authorization: mirotalkp2p_default_secret" -H "Content-Type: application/json" --data '{"room":"test","name":"random","avatar":false,"audio":true,"video":true,"screen":false,"chat":false,"hide":false,"notify":true,"duration":"unlimited"}'
-curl -X POST "https://mirotalk.up.railway.app/api/v1/join" -H "authorization: mirotalkp2p_default_secret" -H "Content-Type: application/json" --data '{"room":"test","name":"random","avatar":false,"audio":true,"video":true,"screen":false,"chat":false,"hide":false,"notify":true,"duration":"unlimited"}'
-```
-
-### 5. Join Meeting with Token
-
-```bash
-curl -X POST "http://localhost:3000/api/v1/join" -H "authorization: mirotalkp2p_default_secret" -H "Content-Type: application/json" --data '{"room":"test","name":"random","audio":true,"video":true,"screen":false,"chat":false,"hide":false,"notify":true,"token":{"username":"username","password":"password","presenter":true,"expire":"1h"}}'
-curl -X POST "https://p2p.mirotalk.com/api/v1/join" -H "authorization: mirotalkp2p_default_secret" -H "Content-Type: application/json" --data '{"room":"test","name":"random","audio":true,"video":true,"screen":false,"chat":false,"hide":false,"notify":true,"token":{"username":"username","password":"password","presenter":true,"expire":"1h"}}'
-curl -X POST "https://mirotalk.up.railway.app/api/v1/join" -H "authorization: mirotalkp2p_default_secret" -H "Content-Type: application/json" --data '{"room":"test","name":"random","audio":true,"video":true,"screen":false,"chat":false,"hide":false,"notify":true,"token":{"username":"username","password":"password","presenter":true,"expire":"1h"}}'
-```
-
-### 6. Generate Token
-
-```bash
-curl -X POST "http://localhost:3000/api/v1/token" -H "authorization: mirotalkp2p_default_secret" -H "Content-Type: application/json" --data '{"username":"username","password":"password","presenter":true,"expire":"1h"}'
-curl -X POST "https://p2p.mirotalk.com/api/v1/token" -H "authorization: mirotalkp2p_default_secret" -H "Content-Type: application/json" --data '{"username":"username","password":"password","presenter":true,"expire":"1h"}'
-curl -X POST "https://mirotalk.up.railway.app/api/v1/token" -H "authorization: mirotalkp2p_default_secret" -H "Content-Type: application/json" --data '{"username":"username","password":"password","presenter":true,"expire":"1h"}'
-```
-
-These commands should now work correctly with the MiroTalk P2P
-
-</details>
+- [About](https://docs.mirotalk.com/mirotalk-p2p/)
+- [Self-Hosting Guide](https://docs.mirotalk.com/mirotalk-p2p/self-hosting/)
+- [Configurations](https://docs.mirotalk.com/mirotalk-p2p/configurations/)
+- [Rebranding](https://docs.mirotalk.com/mirotalk-p2p/rebranding/)
+- [Host Protection Mode](https://docs.mirotalk.com/mirotalk-p2p/host-protection/)
+- [Integration](https://docs.mirotalk.com/mirotalk-p2p/integration/)
+- [Direct Room Join](https://docs.mirotalk.com/mirotalk-p2p/join-room/)
+- [REST API Documentation](https://docs.mirotalk.com/mirotalk-p2p/api/)
+- [Ngrok](https://docs.mirotalk.com/mirotalk-p2p/ngrok/)
+- [Updates](https://docs.mirotalk.com/mirotalk-p2p/updates/)
+- [WebHook](https://docs.mirotalk.com/mirotalk-p2p/webhook/)
 
 </details>
 
@@ -484,55 +260,15 @@ We are grateful to our past sponsors for their support!
 
 [![EffectsSDK](public/sponsors/EffectsSDK.png)](https://effectssdk.ai/)
 
-`Enhance your video conferencing` experience with `advanced virtual backgrounds` and `noise suppression`. EffectsSDK offers powerful SDKs and plugins for fast integration.
+Enhance your video conferencing with **advanced virtual backgrounds** and **noise suppression**. EffectsSDK offers powerful SDKs and plugins for fast integration.
 
-**Explore:**
-
-- 🎥 **[AI Video Effects Extension](https://chromewebstore.google.com/detail/effetti-webcam-ai-+-regis/iedbphhbpflhgpihkcceocomcdnemcbj)** - Add virtual backgrounds and effects to your webcam.
-- 🔊 **[Noise Cancelling Extension](https://chromewebstore.google.com/detail/noise-cancelling-app/njmhcidcdbaannpafjdljminaigdgolj)** - Reduce background noise for clearer audio.
-- 🛠️ **[Integrate EffectsSDK](https://github.com/EffectsSDK)** - Access SDKs and plugins for custom solutions.
+- 🎥 [AI Video Effects Extension](https://chromewebstore.google.com/detail/effetti-webcam-ai-+-regis/iedbphhbpflhgpihkcceocomcdnemcbj) — Virtual backgrounds and effects for your webcam
+- 🔊 [Noise Cancelling Extension](https://chromewebstore.google.com/detail/noise-cancelling-app/njmhcidcdbaannpafjdljminaigdgolj) — Clearer audio with background noise reduction
+- 🛠️ [Integrate EffectsSDK](https://github.com/EffectsSDK) — SDKs and plugins for custom solutions
 
 ---
 
-## 🌐 Diving into Additional MiroTalk Projects:
-
-<details>
-<summary>MiroTalk SFU</summary>
-
-<br>
-
-Try also [MiroTalk SFU](https://github.com/miroslavpejic85/mirotalksfu) `selective forwarding unit` real-time video conferences, optimized for large groups. `Unlimited time, unlimited concurrent rooms` each having 8+ participants, up to ~ 100 per single CPU.
-
-</details>
-
-<details>
-<summary>MiroTalk C2C</summary>
-
-<br>
-
-Try also [MiroTalk C2C](https://github.com/miroslavpejic85/mirotalkc2c) `peer to peer` real-time video conferences, optimized for cam 2 cam. `Unlimited time, unlimited concurrent rooms` each having 2 participants.
-
-</details>
-
-<details>
-<summary>MiroTalk BRO</summary>
-
-<br>
-
-Try also [MiroTalk BRO](https://github.com/miroslavpejic85/mirotalkbro) `Live broadcast` (peer to peer) live video, audio and screen stream to all connected users (viewers). `Unlimited time, unlimited concurrent rooms` each having a broadcast and many viewers.
-
-</details>
-
-<details>
-<summary>MiroTalk WEB</summary>
-
-<br>
-
-Try also [MiroTalk WEB](https://github.com/miroslavpejic85/mirotalkwebrtc) a platform that allows for the management of an `unlimited number of users`. Each user must register with their email, username, and password, after which they gain access to their `personal dashboard`. Within the dashboard, users can `manage their rooms and schedule meetings` using the desired version of MiroTalk on a specified date and time. Invitations to these meetings can be sent via email, shared through the web browser, or sent via SMS.
-
-</details>
-
----
+🌐 **Explore all MiroTalk projects:** [MiroTalk Overview →](https://docs.mirotalk.com/overview/)
 
 This project is tested with [BrowserStack](https://www.browserstack.com).
 
