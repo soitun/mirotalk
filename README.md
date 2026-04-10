@@ -273,7 +273,7 @@ Enhance your video conferencing with **advanced virtual backgrounds** and **nois
 
 ---
 
-🌐 **Explore all MiroTalk projects:** 
+🌐 **Explore all MiroTalk projects:**
 
 **[ → MiroTalk Overview](https://docs.mirotalk.com/overview/)**
 
