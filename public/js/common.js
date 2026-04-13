@@ -144,27 +144,49 @@ function getRandomNumber(length) {
     return result;
 }
 
-// Typing Effect
+// Shuffle Text Effect
 
-let i = 0;
 let txt = num + adjective + noun;
-let speed = 100;
 
 /**
- * Set room name with typewriter effect
+ * Shuffle text effect for input fields
+ * @param {HTMLInputElement} input
+ * @param {string} finalValue
+ * @param {number} duration
  */
-function typeWriter() {
-    if (i < txt.length) {
-        roomName.value += txt.charAt(i);
-        i++;
-        setTimeout(typeWriter, speed);
-    }
+function shuffleText(input, finalValue, duration = 600) {
+    const chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
+    const steps = 10;
+    const interval = duration / steps;
+    let step = 0;
+
+    input.classList.add('shuffle-active');
+
+    const timer = setInterval(() => {
+        step++;
+        const progress = step / steps;
+        let display = '';
+        for (let i = 0; i < finalValue.length; i++) {
+            if (i < finalValue.length * progress) {
+                display += finalValue[i];
+            } else {
+                display += chars[Math.floor(Math.random() * chars.length)];
+            }
+        }
+        input.value = display;
+
+        if (step >= steps) {
+            clearInterval(timer);
+            input.value = finalValue;
+            setTimeout(() => input.classList.remove('shuffle-active'), 300);
+        }
+    }, interval);
 }
 
 const roomName = document.getElementById('roomName');
 if (roomName) {
     roomName.value = '';
-    typeWriter();
+    shuffleText(roomName, txt);
 
     roomName.onkeyup = (e) => {
         if (e.keyCode === 13) {
@@ -223,7 +245,8 @@ if (adultCnt) {
 }
 
 function genRoom() {
-    document.getElementById('roomName').value = getUUID4();
+    const input = document.getElementById('roomName');
+    shuffleText(input, getUUID4());
 }
 
 function getUUID4() {

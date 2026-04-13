@@ -4388,3 +4388,9 @@ body {
         grid-template-columns: repeat(4, 1fr);
     }
 }
+
+/* Shuffle text effect */
+.shuffle-active {
+    opacity: 0.5;
+    transition: opacity 0.3s ease;
+}
