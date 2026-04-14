@@ -24,7 +24,7 @@
 <p align="center"><strong>MiroTalk P2P</strong> is a <strong>self-hosted, open-source video conferencing</strong> platform using direct <strong>peer-to-peer WebRTC connections</strong> for fast, secure, real-time communication. Deploy on your own server in minutes. Enjoy unlimited rooms, no time limits, end-to-end privacy, and a rich feature set - all under your control.</p>
 
 <p align="center">
-    <a href="https://p2p.mirotalk.com">Try Live Demo</a> · <a href="https://docs.mirotalk.com/mirotalk-p2p/self-hosting/">Documentation</a> · <a href="https://discord.gg/rgGYfeYW3N">Discord</a> · <a href="https://github.com/sponsors/miroslavpejic85">Sponsor</a>
+    <a href="https://p2p.mirotalk.com">Try Live Demo</a> · <a href="https://p2p.mirotalk.com/privacy">Privacy</a> · <a href="https://docs.mirotalk.com/mirotalk-p2p/self-hosting/">Documentation</a> · <a href="https://discord.gg/rgGYfeYW3N">Discord</a> · <a href="https://github.com/sponsors/miroslavpejic85">Sponsor</a>
 </p>
 
 <br />
