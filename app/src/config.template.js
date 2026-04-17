@@ -2,7 +2,7 @@
 
 /**
  * ==============================================
- * MiroTalk P2P v.1.8.04 - Configuration File
+ * MiroTalk P2P v.1.8.05 - Configuration File
  * ==============================================
  *
  * This file is the central configuration source.
@@ -450,7 +450,7 @@ module.exports = {
             showMaxBtn: true,
             showSaveMessageBtn: true,
             showMarkDownBtn: true,
-            showChatGPTBtn: true,
+            showChatGPTBtn: getEnvBoolean(process.env.CHATGPT_ENABLED, true),
             showFileShareBtn: true,
             showShareVideoAudioBtn: true,
             showParticipantsBtn: true,
