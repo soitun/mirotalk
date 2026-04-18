@@ -15,7 +15,7 @@
  * @license For commercial use or closed source, contact us at license.mirotalk@gmail.com or purchase directly from CodeCanyon
  * @license CodeCanyon: https://codecanyon.net/item/mirotalk-p2p-webrtc-realtime-video-conferences/38376661
  * @author  Miroslav Pejic - miroslav.pejic.85@gmail.com
- * @version 1.8.05
+ * @version 1.8.06
  *
  */
 
@@ -11559,12 +11559,46 @@ function emitMsg(from, fromAvatar, to, msg, privateMsg, id) {
 }
 
 /**
+ * Show AI typing indicator animation in the chat
+ * @param {string} aiName
+ */
+function showAITypingIndicator(aiName) {
+    const existing = getId(`ai-typing-${aiName}`);
+    if (existing) return;
+    const typingHTML = `
+        <div id="ai-typing-${aiName}" class="msg left-msg">
+            <div class="ai-typing-indicator">
+                <div class="typing-dots">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </div>
+    `;
+    msgerChat.insertAdjacentHTML('beforeend', typingHTML);
+    msgerChat.scrollTop = msgerChat.scrollHeight;
+}
+
+/**
+ * Hide AI typing indicator animation from the chat
+ * @param {string} aiName
+ */
+function hideAITypingIndicator(aiName) {
+    const indicator = getId(`ai-typing-${aiName}`);
+    if (indicator) indicator.remove();
+}
+
+/**
  * Read ChatGPT incoming message
  * https://platform.openai.com/docs/introduction
  * @param {string} msg
  */
 async function getChatGPTmessage(msg) {
     console.log('Send ChatGPT message:', msg);
+
+    showAITypingIndicator('ChatGPT');
+
     signalingSocket
         .request('data', {
             room_id: roomId,
@@ -11579,6 +11613,7 @@ async function getChatGPTmessage(msg) {
         })
         .then(
             function (completion) {
+                hideAITypingIndicator('ChatGPT');
                 if (!completion) return;
                 const { message, context } = completion;
                 chatGPTcontext = context ? context : [];
@@ -11590,6 +11625,7 @@ async function getChatGPTmessage(msg) {
             }.bind(this)
         )
         .catch((err) => {
+            hideAITypingIndicator('ChatGPT');
             console.log('ChatGPT error:', err);
         });
 }
@@ -14966,7 +15002,7 @@ function showAbout() {
     Swal.fire({
         background: swBg,
         position: 'center',
-        title: brand.about?.title && brand.about.title.trim() !== '' ? brand.about.title : 'WebRTC P2P v1.8.05',
+        title: brand.about?.title && brand.about.title.trim() !== '' ? brand.about.title : 'WebRTC P2P v1.8.06',
         imageUrl: brand.about?.imageUrl && brand.about.imageUrl.trim() !== '' ? brand.about.imageUrl : images.about,
         customClass: { image: 'img-about' },
         html: `
