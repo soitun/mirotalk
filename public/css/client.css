@@ -1604,11 +1604,12 @@ body {
 
 .private-msg-bubble,
 .msg-bubble {
+    position: relative;
     width: auto;
     max-width: min(78%, 720px);
     padding: 12px 14px;
     border-radius: 20px;
-    overflow: hidden;
+    overflow: visible;
 }
 
 .msg-caption-bubble {
@@ -1648,16 +1649,214 @@ body {
     border-top: 1px solid rgba(255, 255, 255, 0.12);
 }
 
-.msg-text button {
+.msg-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+}
+
+.msg-footer {
+    display: flex;
+    flex-direction: column;
+    margin-top: 6px;
+}
+
+.msg-actions button {
     display: inline-flex;
     align-items: center;
     justify-content: center;
     width: 30px;
     height: 30px;
     padding: 0;
-    margin-right: 6px;
     border-radius: 10px;
     background: var(--body-bg) !important;
+}
+
+.reaction-picker {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 8px;
+    padding: 6px;
+    border-radius: 12px;
+    border: var(--border);
+    background: rgba(18, 18, 20, 0.95);
+    box-shadow: 0 14px 24px rgba(0, 0, 0, 0.22);
+}
+
+.reaction-emoji-btn {
+    width: 32px;
+    height: 32px;
+    border: none;
+    border-radius: 10px;
+    padding: 0;
+    font-size: 18px;
+    line-height: 1;
+    background: rgba(255, 255, 255, 0.12);
+    cursor: pointer;
+}
+
+.reaction-emoji-btn:hover {
+    transform: translateY(-1px);
+    background: rgba(255, 255, 255, 0.22);
+}
+
+.reaction-emoji-btn:focus {
+    outline: 2px solid rgba(102, 170, 255, 0.6);
+    outline-offset: 2px;
+}
+
+.reaction-toggle-btn {
+    font-size: 16px;
+}
+
+.message-reactions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-top: 6px;
+}
+
+.reaction-badge {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 32px;
+    height: 24px;
+    padding: 1px 5px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    font-size: 11px;
+    line-height: 1.2;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    user-select: none;
+}
+
+.reaction-badge:hover {
+    background: rgba(255, 255, 255, 0.18);
+    border-color: rgba(255, 255, 255, 0.32);
+    transform: translateY(-1px);
+}
+
+.reaction-badge:active {
+    transform: translateY(1px) scale(0.97);
+}
+
+.reaction-badge.my-reaction {
+    background: rgba(53, 125, 255, 0.3);
+    border-color: rgba(102, 170, 255, 0.8);
+    font-weight: 500;
+}
+
+.reaction-badge.my-reaction:hover {
+    background: rgba(53, 125, 255, 0.4);
+    border-color: rgba(102, 170, 255, 1);
+}
+
+.reaction-badge::before {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    border-radius: 999px;
+    border: 1px solid rgba(102, 170, 255, 0.5);
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.reaction-badge.my-reaction::before {
+    opacity: 1;
+}
+
+.reaction-badge:hover::after {
+    content: attr(data-peers);
+    position: absolute;
+    left: 50%;
+    bottom: calc(100% + 8px);
+    transform: translateX(-50%);
+    max-width: 280px;
+    width: max-content;
+    padding: 6px 10px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 1.4;
+    color: #fff;
+    background: rgba(0, 0, 0, 0.95);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    pointer-events: none;
+    z-index: 1000;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+}
+
+/* Mobile optimizations for emoji reactions */
+@media (max-width: 768px) {
+    .reaction-emoji-btn {
+        width: 44px;
+        height: 44px;
+        font-size: 22px;
+    }
+
+    .msg-actions button {
+        width: 40px;
+        height: 40px;
+    }
+
+    .reaction-picker {
+        gap: 10px;
+        padding: 10px;
+    }
+
+    .reaction-badge {
+        min-width: 30px;
+        height: 22px;
+        padding: 1px 4px;
+        font-size: 11px;
+    }
+}
+
+@media (max-width: 768px) and (hover: none) {
+    .reaction-emoji-btn:hover {
+        transform: none;
+        background: rgba(255, 255, 255, 0.12);
+    }
+
+    .reaction-emoji-btn:active {
+        transform: scale(1.15) translateY(-3px);
+        background: rgba(255, 255, 255, 0.25);
+    }
+
+    .reaction-badge:hover {
+        transform: none;
+    }
+
+    .reaction-badge:active {
+        transform: scale(0.95);
+    }
+}
+
+@media (max-width: 600px) {
+    .reaction-emoji-btn {
+        width: 48px;
+        height: 48px;
+    }
+
+    .msg-actions {
+        gap: 8px;
+    }
+
+    .reaction-badge {
+        min-width: 28px;
+        height: 20px;
+        padding: 0px 3px;
+        font-size: 11px;
+    }
 }
 
 .msg-text iframe {
