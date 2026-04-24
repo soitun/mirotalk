@@ -2577,6 +2577,9 @@ async function whoAreYouJoin() {
     if (isScreenStreaming && useVideo) {
         await changeLocalCamera(videoSelect.value);
     }
+    if (useAudio && localAudioMediaStream) {
+        getMicrophoneVolumeIndicator(localAudioMediaStream);
+    }
 }
 
 /**
