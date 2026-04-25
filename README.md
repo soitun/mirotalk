@@ -4,8 +4,6 @@
     </a>
 </div>
 
-<br />
-
 <h1 align="center">MiroTalk P2P</h1>
 
 <h3 align="center">Open Source WebRTC P2P Video Conferencing You Can Self-Host in Minutes</h3>
