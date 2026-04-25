@@ -15,7 +15,7 @@
  * @license For commercial use or closed source, contact us at license.mirotalk@gmail.com or purchase directly from CodeCanyon
  * @license CodeCanyon: https://codecanyon.net/item/mirotalk-p2p-webrtc-realtime-video-conferences/38376661
  * @author  Miroslav Pejic - miroslav.pejic.85@gmail.com
- * @version 1.8.11
+ * @version 1.8.12
  *
  */
 
@@ -630,6 +630,8 @@ let myPrivacyBtn;
 let myVideoPinBtn;
 let myScreenPinBtn;
 let myPitchBar;
+let myVolumeTimer = null;
+const peerVolumeTimers = {};
 let myVideoPeerName;
 let myScreenPeerName;
 let myHandStatusIcon;
@@ -15268,7 +15270,7 @@ function showAbout() {
     Swal.fire({
         background: swBg,
         position: 'center',
-        title: brand.about?.title && brand.about.title.trim() !== '' ? brand.about.title : 'WebRTC P2P v1.8.11',
+        title: brand.about?.title && brand.about.title.trim() !== '' ? brand.about.title : 'WebRTC P2P v1.8.12',
         imageUrl: brand.about?.imageUrl && brand.about.imageUrl.trim() !== '' ? brand.about.imageUrl : images.about,
         customClass: { image: 'img-about' },
         html: `
@@ -15460,15 +15462,26 @@ function bytesToSize(bytes) {
 }
 
 /**
+ * Map volume level to a display color
+ * @param {number} volume 0-100
+ * @returns {string} hex color
+ */
+function getVolumeColor(volume) {
+    if (volume >= 80) return '#FF0000'; // Red
+    if (volume >= 50) return '#FFA500'; // Orange
+    return '#19bb5c'; // Green
+}
+
+/**
  * Handle peer audio volume
  * @param {object} data peer audio
  */
 function handlePeerVolume(data) {
     const { peer_id, volume } = data;
 
-    let audioColorTmp = '#19bb5c';
-    if ([50, 60, 70].includes(volume)) audioColorTmp = '#FFA500'; // Orange
-    if ([80, 90, 100].includes(volume)) audioColorTmp = '#FF0000'; // Red
+    if (volume === 0) return;
+
+    const audioColorTmp = getVolumeColor(volume);
 
     if (!isAudioPitchBar) {
         const remotePeerAvatarImg = getId(peer_id + '_avatar');
@@ -15488,7 +15501,8 @@ function handlePeerVolume(data) {
     remotePitchBar.style.backgroundColor = audioColorTmp;
     remotePitchBar.style.height = volume + '%';
     //remoteVideoWrap.classList.toggle('speaking');
-    setTimeout(function () {
+    clearTimeout(peerVolumeTimers[peer_id]);
+    peerVolumeTimers[peer_id] = setTimeout(function () {
         remotePitchBar.style.backgroundColor = '#19bb5c';
         remotePitchBar.style.height = '0%';
         //remoteVideoWrap.classList.toggle('speaking');
@@ -15502,9 +15516,9 @@ function handlePeerVolume(data) {
 function handleMyVolume(data) {
     const { volume } = data;
 
-    let audioColorTmp = '#19bb5c';
-    if ([50, 60, 70].includes(volume)) audioColorTmp = '#FFA500'; // Orange
-    if ([80, 90, 100].includes(volume)) audioColorTmp = '#FF0000'; // Red
+    if (volume === 0) return;
+
+    const audioColorTmp = getVolumeColor(volume);
 
     if (!isAudioPitchBar || !myPitchBar) {
         const localPeerAvatarImg = getId('myVideoAvatarImage');
@@ -15519,7 +15533,8 @@ function handleMyVolume(data) {
     myPitchBar.style.backgroundColor = audioColorTmp;
     myPitchBar.style.height = volume + '%';
     //myVideoWrap.classList.toggle('speaking');
-    setTimeout(function () {
+    clearTimeout(myVolumeTimer);
+    myVolumeTimer = setTimeout(function () {
         myPitchBar.style.backgroundColor = '#19bb5c';
         myPitchBar.style.height = '0%';
         //myVideoWrap.classList.toggle('speaking');
