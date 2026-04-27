@@ -2640,6 +2640,10 @@ async function handleAddPeer(config) {
         return;
     }
 
+    // Re-broadcast current profile to ensure late joiners receive latest avatar/name.
+    // This uses the existing peerName signaling path.
+    emitMyPeerProfile();
+
     console.log('iceServers', iceServers[0]);
 
     // https://developer.mozilla.org/en-US/docs/Web/API/RTCPeerConnection
@@ -2706,9 +2710,10 @@ async function handleAddPeer(config) {
  * Broadcast my current profile (name + avatar) to room peers
  */
 function emitMyPeerProfile() {
-    sendToDataChannel({
-        type: 'peerAvatar',
-        peer_name: myPeerName,
+    sendToServer('peerName', {
+        room_id: roomId,
+        peer_name_old: myPeerName,
+        peer_name_new: myPeerName,
         peer_avatar: myPeerAvatar,
     });
 }
@@ -2940,13 +2945,6 @@ async function handleRTCDataChannels(peer_id) {
                                 break;
                             case 'micVolume':
                                 handlePeerVolume(dataMessage);
-                                break;
-                            case 'peerAvatar':
-                                handlePeerName({
-                                    peer_id: peer_id,
-                                    peer_name: dataMessage.peer_name,
-                                    peer_avatar: dataMessage.peer_avatar,
-                                });
                                 break;
                             default:
                                 break;
@@ -9686,11 +9684,6 @@ function createChatDataChannel(peer_id) {
     chatDataChannels[peer_id] = peerConnections[peer_id].createDataChannel('mirotalk_chat_channel');
     chatDataChannels[peer_id].onopen = (event) => {
         console.log('chatDataChannels created', event);
-        if (hasTemporaryAvatar) {
-            chatDataChannels[peer_id].send(
-                JSON.stringify({ type: 'peerAvatar', peer_name: myPeerName, peer_avatar: myPeerAvatar }),
-            );
-        }
     };
 }
 
