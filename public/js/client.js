@@ -360,7 +360,6 @@ const tabLanguagesBtn = getId('tabLanguagesBtn');
 const mySettingsCloseBtn = getId('mySettingsCloseBtn');
 const myPeerNameSet = getId('myPeerNameSet');
 const myPeerNameSetBtn = getId('myPeerNameSetBtn');
-const myProfileAvatarFile = getId('myProfileAvatarFile');
 const myProfileAvatarUploadBtn = getId('myProfileAvatarUploadBtn');
 const myProfileAvatarResetBtn = getId('myProfileAvatarResetBtn');
 const switchSounds = getId('switchSounds');
@@ -566,7 +565,6 @@ let thisMaxRoomParticipants = 8;
 let swBg = 'rgba(0, 0, 0, 0.7)'; // swAlert background color
 let isDocumentOnFullScreen = false;
 let isToggleExtraBtnClicked = false;
-const maxAvatarFileSizeBytes = 1 * 1024 * 1024; // 1MB in-memory avatar limit
 let hasTemporaryAvatar = false;
 
 // peer
@@ -852,7 +850,7 @@ function setButtonsToolTip() {
     // Settings
     setTippy(mySettingsCloseBtn, 'Close', 'bottom');
     setTippy(myPeerNameSetBtn, 'Change name', 'top');
-    setTippy(myProfileAvatarUploadBtn, 'Upload temporary avatar', 'top');
+    setTippy(myProfileAvatarUploadBtn, 'Set temporary avatar URL', 'top');
     setTippy(myProfileAvatarResetBtn, 'Reset temporary avatar', 'top');
     setTippy(myRoomId, 'Room name (click to copy/share)', 'right');
     setTippy(mySessionTime, 'Session time', 'right');
@@ -1244,10 +1242,11 @@ function generateRandomName() {
 function getPeerAvatar() {
     const avatar = getQueryParam('avatar');
     const avatarDisabled = avatar === '0' || avatar === 'false';
+    const isBase64Avatar = typeof avatar === 'string' && avatar.startsWith('data:image/');
 
     console.log('Direct join', { avatar: avatar });
 
-    if (avatarDisabled || !isImageURL(avatar)) {
+    if (avatarDisabled || isBase64Avatar || !isImageURL(avatar)) {
         return false;
     }
     return avatar;
@@ -5282,6 +5281,7 @@ function genAvatarSvg(peerName, avatarImgSize) {
  */
 function setPeerAvatarImgName(videoAvatarImageId, peerName, peerAvatar) {
     const videoAvatarImageElement = getId(videoAvatarImageId);
+    if (!videoAvatarImageElement) return;
     videoAvatarImageElement.style.pointerEvents = 'none';
 
     // If a valid avatar image URL is provided
@@ -7144,11 +7144,8 @@ function setMySettingsBtn() {
     myPeerNameSetBtn.addEventListener('click', (e) => {
         updateMyPeerName();
     });
-    myProfileAvatarUploadBtn.addEventListener('click', () => {
-        myProfileAvatarFile?.click();
-    });
-    myProfileAvatarFile.addEventListener('change', async (e) => {
-        await updateMyPeerAvatarInMemory(e);
+    myProfileAvatarUploadBtn.addEventListener('click', async () => {
+        await updateMyPeerAvatarByUrl();
     });
     myProfileAvatarResetBtn.addEventListener('click', () => {
         resetMyPeerAvatarInMemory();
@@ -11667,7 +11664,7 @@ function isValidHttpURL(input) {
  */
 function isImageURL(input) {
     if (!input || typeof input !== 'string') return false;
-    // Allow in-memory avatars loaded from local file input.
+    // Data URLs can still be valid images for generic content handling.
     if (input.startsWith('data:image/')) return true;
     try {
         const url = new URL(input);
@@ -12111,26 +12108,31 @@ async function updateMyPeerName() {
 }
 
 /**
- * Update my avatar in-memory only (cleared on page refresh)
- * @param {Event} event input file change event
+ * Update my avatar from URL in-memory only (cleared on page refresh)
  */
-async function updateMyPeerAvatarInMemory(event) {
-    const file = event?.target?.files?.[0];
-    if (!file) return;
+async function updateMyPeerAvatarByUrl() {
+    const result = await Swal.fire({
+        background: swBg,
+        title: 'Set avatar URL',
+        input: 'url',
+        inputLabel: 'Public image URL',
+        inputPlaceholder: 'https://example.com/avatar.jpg',
+        confirmButtonText: 'Apply',
+        showCancelButton: true,
+        showClass: { popup: 'animate__animated animate__fadeInDown' },
+        hideClass: { popup: 'animate__animated animate__fadeOutUp' },
+        inputValidator: (value) => {
+            if (!value) return 'Please enter an image URL';
+            if (value.startsWith('data:image/')) return 'Base64 avatars are not supported';
+            if (!isImageURL(value)) return 'Please provide a valid image URL';
+            return null;
+        },
+    });
 
-    if (!file.type || !file.type.startsWith('image/')) {
-        myProfileAvatarFile.value = '';
-        return userLog('warning', 'Please select a valid image file');
-    }
-
-    if (file.size > maxAvatarFileSizeBytes) {
-        myProfileAvatarFile.value = '';
-        return userLog('warning', 'Avatar too large. Max allowed size is 1MB');
-    }
+    if (!result.isConfirmed || !result.value) return;
 
     try {
-        const avatarDataUrl = await readFileAsDataUrl(file);
-        myPeerAvatar = avatarDataUrl;
+        myPeerAvatar = result.value;
         hasTemporaryAvatar = true;
 
         setPeerAvatarImgName('myVideoAvatarImage', myPeerName, myPeerAvatar);
@@ -12142,10 +12144,8 @@ async function updateMyPeerAvatarInMemory(event) {
 
         userLog('toast', 'Temporary avatar applied (will reset on refresh)');
     } catch (err) {
-        console.error('Failed to read avatar file', err);
-        userLog('error', 'Unable to load avatar file');
-    } finally {
-        myProfileAvatarFile.value = '';
+        console.error('Failed to set avatar URL', err);
+        userLog('error', 'Unable to apply avatar URL');
     }
 }
 
@@ -12175,25 +12175,18 @@ function updateMyAvatarResetButtonVisibility() {
 }
 
 /**
- * Convert file to data URL
- * @param {File} file
- * @returns {Promise<string>}
- */
-function readFileAsDataUrl(file) {
-    return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.onload = () => resolve(reader.result);
-        reader.onerror = () => reject(reader.error);
-        reader.readAsDataURL(file);
-    });
-}
-
-/**
  * Append updated peer name to video player
  * @param {object} config data
  */
 function handlePeerName(config) {
     const { peer_id, peer_name, peer_avatar } = config;
+
+    // Keep the latest profile in memory so late DOM creation still uses updated data.
+    if (allPeers && allPeers[peer_id]) {
+        allPeers[peer_id]['peer_name'] = peer_name;
+        allPeers[peer_id]['peer_avatar'] = peer_avatar;
+    }
+
     const videoName = getId(peer_id + '_name');
     const screenName = getId(peer_id + '_screen_name');
     if (videoName) videoName.innerText = peer_name;
