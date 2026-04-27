@@ -1616,17 +1616,19 @@ io.sockets.on('connect', async (socket) => {
         let peer_id_to_update = null;
 
         for (let peer_id in peers[room_id]) {
-            if (peers[room_id][peer_id]['peer_name'] == peer_name_old && peer_id == socket.id) {
+            if (peer_id == socket.id) {
                 peers[room_id][peer_id]['peer_name'] = peer_name_new;
+                peers[room_id][peer_id]['peer_avatar'] = peer_avatar;
                 // presenter
                 if (presenters && presenters[room_id] && presenters[room_id][peer_id]) {
                     presenters[room_id][peer_id]['peer_name'] = peer_name_new;
                 }
                 peer_id_to_update = peer_id;
-                log.debug('[' + socket.id + '] Peer name changed', {
+                log.debug('[' + socket.id + '] Peer profile changed', {
                     peer_name_old: peer_name_old,
                     peer_name_new: peer_name_new,
                 });
+                break;
             }
         }
 

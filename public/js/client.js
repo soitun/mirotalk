@@ -360,6 +360,9 @@ const tabLanguagesBtn = getId('tabLanguagesBtn');
 const mySettingsCloseBtn = getId('mySettingsCloseBtn');
 const myPeerNameSet = getId('myPeerNameSet');
 const myPeerNameSetBtn = getId('myPeerNameSetBtn');
+const myProfileAvatarFile = getId('myProfileAvatarFile');
+const myProfileAvatarUploadBtn = getId('myProfileAvatarUploadBtn');
+const myProfileAvatarResetBtn = getId('myProfileAvatarResetBtn');
 const switchSounds = getId('switchSounds');
 const switchShare = getId('switchShare');
 const switchKeepButtonsVisible = getId('switchKeepButtonsVisible');
@@ -563,6 +566,8 @@ let thisMaxRoomParticipants = 8;
 let swBg = 'rgba(0, 0, 0, 0.7)'; // swAlert background color
 let isDocumentOnFullScreen = false;
 let isToggleExtraBtnClicked = false;
+const maxAvatarFileSizeBytes = 1 * 1024 * 1024; // 1MB in-memory avatar limit
+let hasTemporaryAvatar = false;
 
 // peer
 let myPeerId; // This socket.id
@@ -847,6 +852,8 @@ function setButtonsToolTip() {
     // Settings
     setTippy(mySettingsCloseBtn, 'Close', 'bottom');
     setTippy(myPeerNameSetBtn, 'Change name', 'top');
+    setTippy(myProfileAvatarUploadBtn, 'Upload temporary avatar', 'top');
+    setTippy(myProfileAvatarResetBtn, 'Reset temporary avatar', 'top');
     setTippy(myRoomId, 'Room name (click to copy/share)', 'right');
     setTippy(mySessionTime, 'Session time', 'right');
     setTippy(
@@ -2696,6 +2703,17 @@ async function handleAddPeer(config) {
 }
 
 /**
+ * Broadcast my current profile (name + avatar) to room peers
+ */
+function emitMyPeerProfile() {
+    sendToDataChannel({
+        type: 'peerAvatar',
+        peer_name: myPeerName,
+        peer_avatar: myPeerAvatar,
+    });
+}
+
+/**
  * Handle peers connection state
  * https://developer.mozilla.org/en-US/docs/Web/API/RTCPeerConnection/connectionstatechange_event
  * https://developer.mozilla.org/en-US/docs/Web/API/RTCPeerConnection/connectionState
@@ -2922,6 +2940,13 @@ async function handleRTCDataChannels(peer_id) {
                                 break;
                             case 'micVolume':
                                 handlePeerVolume(dataMessage);
+                                break;
+                            case 'peerAvatar':
+                                handlePeerName({
+                                    peer_id: peer_id,
+                                    peer_name: dataMessage.peer_name,
+                                    peer_avatar: dataMessage.peer_avatar,
+                                });
                                 break;
                             default:
                                 break;
@@ -7121,6 +7146,16 @@ function setMySettingsBtn() {
     myPeerNameSetBtn.addEventListener('click', (e) => {
         updateMyPeerName();
     });
+    myProfileAvatarUploadBtn.addEventListener('click', () => {
+        myProfileAvatarFile?.click();
+    });
+    myProfileAvatarFile.addEventListener('change', async (e) => {
+        await updateMyPeerAvatarInMemory(e);
+    });
+    myProfileAvatarResetBtn.addEventListener('click', () => {
+        resetMyPeerAvatarInMemory();
+    });
+    updateMyAvatarResetButtonVisibility();
     // Sounds
     switchSounds.addEventListener('change', (e) => {
         notifyBySound = e.currentTarget.checked;
@@ -9651,6 +9686,11 @@ function createChatDataChannel(peer_id) {
     chatDataChannels[peer_id] = peerConnections[peer_id].createDataChannel('mirotalk_chat_channel');
     chatDataChannels[peer_id].onopen = (event) => {
         console.log('chatDataChannels created', event);
+        if (hasTemporaryAvatar) {
+            chatDataChannels[peer_id].send(
+                JSON.stringify({ type: 'peerAvatar', peer_name: myPeerName, peer_avatar: myPeerAvatar }),
+            );
+        }
     };
 }
 
@@ -11634,6 +11674,8 @@ function isValidHttpURL(input) {
  */
 function isImageURL(input) {
     if (!input || typeof input !== 'string') return false;
+    // Allow in-memory avatars loaded from local file input.
+    if (input.startsWith('data:image/')) return true;
     try {
         const url = new URL(input);
         return ['.jpg', '.jpeg', '.png', '.gif', '.webp', '.bmp', '.tiff', '.svg'].some((ext) =>
@@ -12073,6 +12115,84 @@ async function updateMyPeerName() {
     setPeerAvatarImgName('myProfileAvatar', myPeerName, myPeerAvatar);
     setPeerChatAvatarImgName('right', myPeerName, myPeerAvatar);
     userLog('toast', 'My name changed to ' + myPeerName);
+}
+
+/**
+ * Update my avatar in-memory only (cleared on page refresh)
+ * @param {Event} event input file change event
+ */
+async function updateMyPeerAvatarInMemory(event) {
+    const file = event?.target?.files?.[0];
+    if (!file) return;
+
+    if (!file.type || !file.type.startsWith('image/')) {
+        myProfileAvatarFile.value = '';
+        return userLog('warning', 'Please select a valid image file');
+    }
+
+    if (file.size > maxAvatarFileSizeBytes) {
+        myProfileAvatarFile.value = '';
+        return userLog('warning', 'Avatar too large. Max allowed size is 1MB');
+    }
+
+    try {
+        const avatarDataUrl = await readFileAsDataUrl(file);
+        myPeerAvatar = avatarDataUrl;
+        hasTemporaryAvatar = true;
+
+        setPeerAvatarImgName('myVideoAvatarImage', myPeerName, myPeerAvatar);
+        setPeerAvatarImgName('myProfileAvatar', myPeerName, myPeerAvatar);
+        setPeerChatAvatarImgName('right', myPeerName, myPeerAvatar);
+        updateMyAvatarResetButtonVisibility();
+
+        emitMyPeerProfile();
+
+        userLog('toast', 'Temporary avatar applied (will reset on refresh)');
+    } catch (err) {
+        console.error('Failed to read avatar file', err);
+        userLog('error', 'Unable to load avatar file');
+    } finally {
+        myProfileAvatarFile.value = '';
+    }
+}
+
+/**
+ * Reset in-memory avatar to default generated/fallback avatar
+ */
+function resetMyPeerAvatarInMemory() {
+    myPeerAvatar = false;
+    hasTemporaryAvatar = false;
+    setPeerAvatarImgName('myVideoAvatarImage', myPeerName, myPeerAvatar);
+    setPeerAvatarImgName('myProfileAvatar', myPeerName, myPeerAvatar);
+    setPeerChatAvatarImgName('right', myPeerName, myPeerAvatar);
+    updateMyAvatarResetButtonVisibility();
+
+    emitMyPeerProfile();
+
+    userLog('toast', 'Temporary avatar reset');
+}
+
+/**
+ * Show reset avatar button only for uploaded temporary avatars
+ */
+function updateMyAvatarResetButtonVisibility() {
+    if (!myProfileAvatarResetBtn) return;
+    myProfileAvatarResetBtn.classList.toggle('hidden', !hasTemporaryAvatar);
+    if (myProfileAvatarUploadBtn) myProfileAvatarUploadBtn.classList.toggle('hidden', hasTemporaryAvatar);
+}
+
+/**
+ * Convert file to data URL
+ * @param {File} file
+ * @returns {Promise<string>}
+ */
+function readFileAsDataUrl(file) {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = () => reject(reader.error);
+        reader.readAsDataURL(file);
+    });
 }
 
 /**
