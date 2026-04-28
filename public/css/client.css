@@ -3161,6 +3161,8 @@ button {
 
 #activeRoomsBtn,
 #myPeerNameSetBtn,
+#myProfileAvatarUploadBtn,
+#myProfileAvatarResetBtn,
 #captionEveryoneBtn,
 #muteEveryoneBtn,
 #hideEveryoneBtn,
@@ -3177,6 +3179,8 @@ button {
 }
 
 #myPeerNameSetBtn:hover,
+#myProfileAvatarUploadBtn:hover,
+#myProfileAvatarResetBtn:hover,
 #roomSendEmailBtn:hover,
 #lockRoomBtn:hover,
 #unlockRoomBtn:hover {
@@ -3218,6 +3222,11 @@ button {
     color: green;
     transform: translateY(-3px);
     transition: all 0.3s ease-in-out;
+}
+
+#myProfileAvatarUploadBtn,
+#myProfileAvatarResetBtn {
+    margin-top: 6px;
 }
 
 /*--------------------------------------------------------------
