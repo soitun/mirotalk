@@ -15,7 +15,7 @@
  * @license For commercial use or closed source, contact us at license.mirotalk@gmail.com or purchase directly from CodeCanyon
  * @license CodeCanyon: https://codecanyon.net/item/mirotalk-p2p-webrtc-realtime-video-conferences/38376661
  * @author  Miroslav Pejic - miroslav.pejic.85@gmail.com
- * @version 1.8.15
+ * @version 1.8.16
  *
  */
 
@@ -107,6 +107,12 @@ const icons = {
     codecs: '<i class="fa-solid fa-film"></i>',
     theme: '<i class="fas fa-fill-drip"></i>',
     close: '<i class="fas fa-times"></i>',
+    infoBrowser: '<i class="fa-solid fa-globe"></i>',
+    infoCpu: '<i class="fa-solid fa-microchip"></i>',
+    infoDevice: '<i class="fa-solid fa-laptop"></i>',
+    infoEngine: '<i class="fa-solid fa-gear"></i>',
+    infoOs: '<i class="fa-solid fa-layer-group"></i>',
+    infoDefault: '<i class="fa-solid fa-circle-info"></i>',
 };
 
 // Whiteboard and fileSharing
@@ -1007,10 +1013,37 @@ function getInfo() {
             os: filterUnknown(parserResult.os),
         };
 
-        // Convert the filtered result to a readable JSON string
-        const resultString = JSON.stringify(filteredResult, null, 2);
+        const sectionMeta = {
+            browser: { iconMarkup: icons.infoBrowser, label: 'Browser' },
+            cpu: { iconMarkup: icons.infoCpu, label: 'CPU info' },
+            device: { iconMarkup: icons.infoDevice, label: 'Device' },
+            engine: { iconMarkup: icons.infoEngine, label: 'Engine' },
+            os: { iconMarkup: icons.infoOs, label: 'OS info' },
+        };
 
-        extraInfo.innerText = resultString;
+        const rows = Object.entries(filteredResult)
+            .filter(([, data]) => Object.keys(data).length > 0)
+            .map(([section, data]) => {
+                const { iconMarkup, label } = sectionMeta[section] || {
+                    iconMarkup: icons.infoDefault,
+                    label: section,
+                };
+                const badges = Object.entries(data)
+                    .filter(([key]) => key !== 'major')
+                    .map(([, val]) => `<span class="extra-info-badge">${val}</span>`)
+                    .join('');
+                return `
+                    <div class="extra-info-row extra-info-row--${section}">
+                        <div class="extra-info-label">
+                            ${iconMarkup}
+                            <span>${label}</span>
+                        </div>
+                        <div class="extra-info-values">${badges}</div>
+                    </div>`;
+            })
+            .join('');
+
+        extraInfo.innerHTML = `<div class="extra-info-grid">${rows}</div>`;
 
         return parserResult;
     } catch (error) {
@@ -15499,7 +15532,7 @@ function showAbout() {
     Swal.fire({
         background: swBg,
         position: 'center',
-        title: brand.about?.title && brand.about.title.trim() !== '' ? brand.about.title : 'WebRTC P2P v1.8.15',
+        title: brand.about?.title && brand.about.title.trim() !== '' ? brand.about.title : 'WebRTC P2P v1.8.16',
         imageUrl: brand.about?.imageUrl && brand.about.imageUrl.trim() !== '' ? brand.about.imageUrl : images.about,
         customClass: { image: 'img-about' },
         html: `
