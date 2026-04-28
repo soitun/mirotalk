@@ -865,8 +865,6 @@ function setButtonsToolTip() {
     // Settings
     setTippy(mySettingsCloseBtn, 'Close', 'bottom');
     setTippy(myPeerNameSetBtn, 'Change name', 'top');
-    setTippy(myProfileAvatarUploadBtn, 'Set temporary avatar URL', 'top');
-    setTippy(myProfileAvatarResetBtn, 'Reset temporary avatar', 'top');
     setTippy(myRoomId, 'Room name (click to copy/share)', 'right');
     setTippy(mySessionTime, 'Session time', 'right');
     setTippy(
