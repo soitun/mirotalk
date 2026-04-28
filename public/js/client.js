@@ -12111,6 +12111,8 @@ async function updateMyPeerName() {
  * Update my avatar from URL in-memory only (cleared on page refresh)
  */
 async function updateMyPeerAvatarByUrl() {
+    let selectedAvatarUrl = null;
+
     const result = await Swal.fire({
         background: swBg,
         title: 'Set avatar URL',
@@ -12126,6 +12128,66 @@ async function updateMyPeerAvatarByUrl() {
             if (value.startsWith('data:image/')) return 'Base64 avatars are not supported';
             if (!isImageURL(value)) return 'Please provide a valid image URL';
             return null;
+        },
+        didOpen: () => {
+            const input = document.querySelector('.swal2-input');
+            if (!input) return;
+
+            function makeAvatarImg(url, onClick) {
+                const img = document.createElement('img');
+                img.src = url;
+                img.title = 'Click to use this avatar';
+                img.style.cssText =
+                    'width:48px;height:48px;border-radius:50%;cursor:pointer;border:2px solid transparent;transition:border-color 0.2s;object-fit:cover;background:#222;flex-shrink:0;';
+                img.addEventListener('mouseover', () => (img.style.borderColor = '#4caf50'));
+                img.addEventListener('mouseout', () => (img.style.borderColor = 'transparent'));
+                img.addEventListener('click', onClick);
+                return img;
+            }
+
+            // Self-hosted avatars
+            const localLabel = document.createElement('p');
+            localLabel.textContent = 'Pick an avatar:';
+            localLabel.style.cssText = 'color:#aaa;font-size:12px;margin:10px 0 6px;text-align:center;';
+
+            const localGrid = document.createElement('div');
+            localGrid.style.cssText =
+                'display:flex;flex-wrap:wrap;justify-content:center;gap:8px;max-height:120px;overflow-y:auto;padding:4px 2px;margin-bottom:4px;';
+
+            for (let i = 1; i <= 25; i++) {
+                const url = `${window.location.origin}/images/avatars/avatar_${String(i).padStart(2, '0')}.png`;
+                localGrid.appendChild(
+                    makeAvatarImg(url, () => {
+                        selectedAvatarUrl = url;
+                        input.value = url;
+                    })
+                );
+            }
+
+            // Robohash random avatars
+            const roboLabel = document.createElement('p');
+            roboLabel.textContent = 'Or pick a random avatar:';
+            roboLabel.style.cssText = 'color:#aaa;font-size:12px;margin:10px 0 6px;text-align:center;';
+
+            const roboGrid = document.createElement('div');
+            roboGrid.style.cssText = 'display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-bottom:4px;';
+
+            for (let i = 0; i < 6; i++) {
+                const seed = Math.random().toString(36).substring(2, 10);
+                const url = `https://robohash.org/${seed}.png`;
+                roboGrid.appendChild(
+                    makeAvatarImg(url, () => {
+                        selectedAvatarUrl = url;
+                        input.value = url;
+                    })
+                );
+            }
+
+            let insertAfter = input;
+            for (const el of [localLabel, localGrid, roboLabel, roboGrid]) {
+                insertAfter.parentNode.insertBefore(el, insertAfter.nextSibling);
+                insertAfter = el;
+            }
         },
     });
 
