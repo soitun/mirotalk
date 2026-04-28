@@ -73,6 +73,23 @@
     <body>
         <noscript>You need to enable JavaScript to run this app.</noscript>
 
+        <!-- Disconnect banner -->
+
+        <div id="disconnectBanner" class="disconnect-banner" role="status" aria-live="assertive" aria-atomic="true">
+            <div class="disconnect-banner-inner">
+                <span class="disconnect-banner-icon-wrap">
+                    <i id="disconnectBannerIcon" class="fa-solid fa-wifi-exclamation"></i>
+                </span>
+                <div class="disconnect-banner-text">
+                    <span id="disconnectBannerTitle">Connection lost</span>
+                    <span id="disconnectBannerMsg">Reconnecting to signaling server&hellip;</span>
+                </div>
+                <span class="disconnect-banner-spinner" id="disconnectBannerSpinner">
+                    <i class="fa-solid fa-circle-notch fa-spin"></i>
+                </span>
+            </div>
+        </div>
+
         <!-- just 4SEO Optimization -->
 
         <div id="webRTCSeo">

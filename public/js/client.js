@@ -15,7 +15,7 @@
  * @license For commercial use or closed source, contact us at license.mirotalk@gmail.com or purchase directly from CodeCanyon
  * @license CodeCanyon: https://codecanyon.net/item/mirotalk-p2p-webrtc-realtime-video-conferences/38376661
  * @author  Miroslav Pejic - miroslav.pejic.85@gmail.com
- * @version 1.8.17
+ * @version 1.8.18
  *
  */
 
@@ -503,6 +503,13 @@ const speechRecognitionStop = getId('speechRecognitionStop');
 
 // Media
 const sinkId = 'sinkId' in HTMLMediaElement.prototype;
+
+// Disconnect banner
+const banner = getId('disconnectBanner');
+const icon = getId('disconnectBannerIcon');
+const title = getId('disconnectBannerTitle');
+const msg = getId('disconnectBannerMsg');
+const spinner = getId('disconnectBannerSpinner');
 
 //....
 
@@ -1483,6 +1490,7 @@ async function sendToDataChannel(config) {
 async function handleConnect() {
     console.log('03. Connected to signaling server');
 
+    hideDisconnectBanner();
     myPeerId = signalingSocket.id;
     console.log('04. My peer id [ ' + myPeerId + ' ]');
 
@@ -3148,6 +3156,7 @@ function handleIceCandidate(config) {
 function handleDisconnect(reason) {
     console.log('Disconnected from signaling server', { reason: reason });
 
+    showDisconnectBanner();
     checkRecording();
 
     for (const peer_id in peerConnections) {
@@ -15532,7 +15541,7 @@ function showAbout() {
     Swal.fire({
         background: swBg,
         position: 'center',
-        title: brand.about?.title && brand.about.title.trim() !== '' ? brand.about.title : 'WebRTC P2P v1.8.17',
+        title: brand.about?.title && brand.about.title.trim() !== '' ? brand.about.title : 'WebRTC P2P v1.8.18',
         imageUrl: brand.about?.imageUrl && brand.about.imageUrl.trim() !== '' ? brand.about.imageUrl : images.about,
         customClass: { image: 'img-about' },
         html: `
@@ -15816,6 +15825,35 @@ function applyBoxShadowEffect(element, color, delay = 200) {
             element.style.boxShadow = 'none';
         }, delay);
     }
+}
+
+/**
+ * Show a persistent banner indicating the signaling server connection was lost.
+ */
+function showDisconnectBanner() {
+    if (!banner) return;
+    banner.classList.remove('reconnected');
+    icon.className = 'fa-solid fa-wifi-exclamation';
+    title.textContent = 'Connection lost';
+    msg.innerHTML = 'Reconnecting to signaling server\u2026';
+    spinner.style.opacity = '1';
+    // Trigger transition
+    requestAnimationFrame(() => banner.classList.add('visible'));
+}
+
+/**
+ * Hide the disconnect banner (or briefly show a reconnected confirmation).
+ */
+function hideDisconnectBanner() {
+    if (!banner || !banner.classList.contains('visible')) return;
+    banner.classList.add('reconnected');
+    icon.className = 'fa-solid fa-circle-check';
+    title.textContent = 'Back online';
+    msg.textContent = 'Connection restored successfully';
+    setTimeout(() => {
+        banner.classList.remove('visible');
+        setTimeout(() => banner.classList.remove('reconnected'), 420);
+    }, 2800);
 }
 
 /**
