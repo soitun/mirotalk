@@ -35,7 +35,6 @@ async function getMicrophoneVolumeIndicator(stream) {
             workletNode = new AudioWorkletNode(audioContext, 'volume-processor', {
                 processorOptions: {
                     peerId: myPeerId, // Your peer ID
-                    myAudioStatus: myAudioStatus, // Your audio status
                     threshold: 10, // Volume threshold
                     silenceThreshold: 0.01, // Silence threshold
                 },
