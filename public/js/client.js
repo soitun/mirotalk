@@ -15,7 +15,7 @@
  * @license For commercial use or closed source, contact us at license.mirotalk@gmail.com or purchase directly from CodeCanyon
  * @license CodeCanyon: https://codecanyon.net/item/mirotalk-p2p-webrtc-realtime-video-conferences/38376661
  * @author  Miroslav Pejic - miroslav.pejic.85@gmail.com
- * @version 1.8.18
+ * @version 1.8.19
  *
  */
 
@@ -582,7 +582,7 @@ let thisMaxRoomParticipants = 8;
 let swBg = 'rgba(0, 0, 0, 0.7)'; // swAlert background color
 let isDocumentOnFullScreen = false;
 let isToggleExtraBtnClicked = false;
-let hasTemporaryAvatar = false;
+let hasTemporaryAvatar = !!(lsSettings.peer_avatar && isValidAvatarURL(lsSettings.peer_avatar));
 
 // peer
 let myPeerId; // This socket.id
@@ -1289,6 +1289,11 @@ function getPeerAvatar() {
     console.log('Direct join', { avatar: avatar });
 
     if (avatarDisabled || isBase64Avatar || !isValidAvatarURL(avatar)) {
+        const saved = lsSettings.peer_avatar;
+        if (saved && isValidAvatarURL(saved)) {
+            console.log('Restored avatar from localStorage', { avatar: saved });
+            return saved;
+        }
         return false;
     }
     return avatar;
@@ -12305,6 +12310,8 @@ async function updateMyPeerAvatarByUrl() {
     try {
         myPeerAvatar = result.value;
         hasTemporaryAvatar = true;
+        lsSettings.peer_avatar = myPeerAvatar;
+        lS.setSettings(lsSettings);
 
         setPeerAvatarImgName('myVideoAvatarImage', myPeerName, myPeerAvatar);
         setPeerAvatarImgName('myProfileAvatar', myPeerName, myPeerAvatar);
@@ -12313,7 +12320,7 @@ async function updateMyPeerAvatarByUrl() {
 
         emitMyPeerProfile();
 
-        userLog('toast', 'Temporary avatar applied (will reset on refresh)');
+        userLog('toast', 'Avatar saved and will persist across sessions');
     } catch (err) {
         console.error('Failed to set avatar URL', err);
         userLog('error', 'Unable to apply avatar URL');
@@ -12326,6 +12333,8 @@ async function updateMyPeerAvatarByUrl() {
 function resetMyPeerAvatarInMemory() {
     myPeerAvatar = false;
     hasTemporaryAvatar = false;
+    lsSettings.peer_avatar = '';
+    lS.setSettings(lsSettings);
     setPeerAvatarImgName('myVideoAvatarImage', myPeerName, myPeerAvatar);
     setPeerAvatarImgName('myProfileAvatar', myPeerName, myPeerAvatar);
     setPeerChatAvatarImgName('right', myPeerName, myPeerAvatar);
@@ -12333,7 +12342,7 @@ function resetMyPeerAvatarInMemory() {
 
     emitMyPeerProfile();
 
-    userLog('toast', 'Temporary avatar reset');
+    userLog('toast', 'Avatar reset and removed from storage');
 }
 
 /**
@@ -15549,7 +15558,7 @@ function showAbout() {
     Swal.fire({
         background: swBg,
         position: 'center',
-        title: brand.about?.title && brand.about.title.trim() !== '' ? brand.about.title : 'WebRTC P2P v1.8.18',
+        title: brand.about?.title && brand.about.title.trim() !== '' ? brand.about.title : 'WebRTC P2P v1.8.19',
         imageUrl: brand.about?.imageUrl && brand.about.imageUrl.trim() !== '' ? brand.about.imageUrl : images.about,
         customClass: { image: 'img-about' },
         html: `
