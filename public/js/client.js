@@ -12111,8 +12111,6 @@ async function updateMyPeerName() {
  * Update my avatar from URL in-memory only (cleared on page refresh)
  */
 async function updateMyPeerAvatarByUrl() {
-    let selectedAvatarUrl = null;
-
     const result = await Swal.fire({
         background: swBg,
         title: 'Set avatar URL',
@@ -12133,7 +12131,23 @@ async function updateMyPeerAvatarByUrl() {
             const input = document.querySelector('.swal2-input');
             if (!input) return;
 
-            function makeAvatarImg(url, onClick) {
+            const preview = document.createElement('img');
+            preview.style.cssText =
+                'display:none;width:72px;height:72px;border-radius:50%;object-fit:cover;border:2px solid #4caf50;margin:8px auto 4px;';
+            input.parentNode.insertBefore(preview, input);
+
+            function updatePreview(url) {
+                if (!url) {
+                    preview.style.display = 'none';
+                    return;
+                }
+                preview.src = url;
+                preview.style.display = 'block';
+            }
+
+            input.addEventListener('input', (e) => updatePreview(e.target.value.trim()));
+
+            function makeAvatarImg(url) {
                 const img = document.createElement('img');
                 img.src = url;
                 img.title = 'Click to use this avatar';
@@ -12141,7 +12155,11 @@ async function updateMyPeerAvatarByUrl() {
                     'width:48px;height:48px;border-radius:50%;cursor:pointer;border:2px solid transparent;transition:border-color 0.2s;object-fit:cover;background:#222;flex-shrink:0;';
                 img.addEventListener('mouseover', () => (img.style.borderColor = '#4caf50'));
                 img.addEventListener('mouseout', () => (img.style.borderColor = 'transparent'));
-                img.addEventListener('click', onClick);
+                img.addEventListener('click', () => {
+                    input.value = url;
+                    input.dispatchEvent(new Event('input'));
+                    updatePreview(url);
+                });
                 return img;
             }
 
@@ -12156,12 +12174,7 @@ async function updateMyPeerAvatarByUrl() {
 
             for (let i = 1; i <= 25; i++) {
                 const url = `${window.location.origin}/images/avatars/avatar_${String(i).padStart(2, '0')}.png`;
-                localGrid.appendChild(
-                    makeAvatarImg(url, () => {
-                        selectedAvatarUrl = url;
-                        input.value = url;
-                    })
-                );
+                localGrid.appendChild(makeAvatarImg(url));
             }
 
             // Robohash random avatars
@@ -12175,12 +12188,7 @@ async function updateMyPeerAvatarByUrl() {
             for (let i = 0; i < 6; i++) {
                 const seed = Math.random().toString(36).substring(2, 10);
                 const url = `https://robohash.org/${seed}.png`;
-                roboGrid.appendChild(
-                    makeAvatarImg(url, () => {
-                        selectedAvatarUrl = url;
-                        input.value = url;
-                    })
-                );
+                roboGrid.appendChild(makeAvatarImg(url));
             }
 
             let insertAfter = input;
