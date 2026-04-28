@@ -1246,7 +1246,7 @@ function getPeerAvatar() {
 
     console.log('Direct join', { avatar: avatar });
 
-    if (avatarDisabled || isBase64Avatar || !isImageURL(avatar)) {
+    if (avatarDisabled || isBase64Avatar || !isValidAvatarURL(avatar)) {
         return false;
     }
     return avatar;
@@ -5285,7 +5285,7 @@ function setPeerAvatarImgName(videoAvatarImageId, peerName, peerAvatar) {
     videoAvatarImageElement.style.pointerEvents = 'none';
 
     // If a valid avatar image URL is provided
-    if (peerAvatar && isImageURL(peerAvatar)) {
+    if (peerAvatar && isValidAvatarURL(peerAvatar)) {
         videoAvatarImageElement.setAttribute('src', peerAvatar);
     }
     // If not, use SVG based on the email validity
@@ -5308,7 +5308,7 @@ function setPeerAvatarImgName(videoAvatarImageId, peerName, peerAvatar) {
  */
 function setPeerChatAvatarImgName(avatar, peerName, peerAvatar) {
     const avatarImg =
-        peerAvatar && isImageURL(peerAvatar)
+        peerAvatar && isValidAvatarURL(peerAvatar)
             ? peerAvatar
             : isValidEmail(peerName)
               ? genGravatar(peerName)
@@ -10599,7 +10599,7 @@ function handleSpeechTranscript(config) {
     const time_stamp = getFormatDate(new Date());
 
     const avatar_image =
-        peer_avatar && isImageURL(peer_avatar)
+        peer_avatar && isValidAvatarURL(peer_avatar)
             ? peer_avatar
             : isValidEmail(peer_name)
               ? genGravatar(peer_name)
@@ -10607,9 +10607,14 @@ function handleSpeechTranscript(config) {
 
     if (!isCaptionBoxVisible && transcriptShowOnMsg) showCaptionDraggable();
 
+    // avatar_image is a user-controlled URL; do NOT interpolate it into
+    // insertAdjacentHTML — filterXSS encodes " to &quot; which the HTML
+    // parser decodes back to " in attribute context (double-decode XSS).
+    // Use a temporary id and setAttribute instead.
+    const captionAvatarTmpId = `capt-av-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`;
     const msgHTML = `
 	<div class="msg left-msg">
-        <img class="msg-img" src="${avatar_image}" />
+        <img class="msg-img" id="${captionAvatarTmpId}" />
 		<div class="msg-caption-bubble">
             <div class="msg-info">
                 <div class="msg-info-name">${peer_name} : ${time_stamp}</div>
@@ -10619,6 +10624,11 @@ function handleSpeechTranscript(config) {
 	</div>
     `;
     captionChat.insertAdjacentHTML('beforeend', msgHTML);
+    const captionAvatarEl = document.getElementById(captionAvatarTmpId);
+    if (captionAvatarEl) {
+        captionAvatarEl.setAttribute('src', avatar_image);
+        captionAvatarEl.removeAttribute('id');
+    }
     captionChat.scrollTop += 500;
     transcripts.push({
         time: time_stamp,
@@ -10682,11 +10692,14 @@ function appendMessage(from, img, side, msg, privateMsg, msgId = null, to = '') 
     // check if i receive a private message
     let msgBubble = getPrivateMsg ? 'private-msg-bubble' : 'msg-bubble';
 
+    // getImg is a user-controlled URL; use a temporary id and setAttribute
+    // after insertion to avoid double-decode XSS via insertAdjacentHTML.
+    const msgAvatarTmpId = `msg-av-${chatMessagesId}`;
     let msgHTML = `
 	<div id="msg-${chatMessagesId}" class="msg ${getSide}-msg" data-sender="${getFrom}" data-chat-type="${
         getPrivateMsg ? 'private' : 'public'
     }" data-chat-peer="${conversationPeer}" data-msg-id="${normalizedMsgId}">
-        <img class="msg-img" src="${getImg}" />
+        <img class="msg-img" id="${msgAvatarTmpId}" />
 		<div class=${msgBubble}>
             <div class="msg-info">
                 <div class="msg-info-name">${getFrom}</div>
@@ -10737,6 +10750,11 @@ function appendMessage(from, img, side, msg, privateMsg, msgId = null, to = '') 
     `;
 
     msgerChat.insertAdjacentHTML('beforeend', msgHTML);
+    const msgAvatarEl = document.getElementById(msgAvatarTmpId);
+    if (msgAvatarEl) {
+        msgAvatarEl.setAttribute('src', getImg);
+        msgAvatarEl.removeAttribute('id');
+    }
 
     const message = getId(`message-${chatMessagesId}`);
     if (message) {
@@ -11310,7 +11328,7 @@ async function msgerAddPeers(peers) {
             // if there isn't add it....
             if (!exsistMsgerPrivateDiv) {
                 const chatAvatar =
-                    peer_avatar && isImageURL(peer_avatar)
+                    peer_avatar && isValidAvatarURL(peer_avatar)
                         ? peer_avatar
                         : isValidEmail(peer_name)
                           ? genGravatar(peer_name)
@@ -11672,6 +11690,24 @@ function isImageURL(input) {
             url.pathname.toLowerCase().endsWith(ext)
         );
     } catch (e) {
+        return false;
+    }
+}
+
+/**
+ * Check if a URL is a valid HTTP/HTTPS avatar URL.
+ * Unlike isImageURL, this does NOT require a file extension,
+ * so it accepts dynamic avatar endpoints (e.g. GitHub, Gravatar, Robohash).
+ * @param {string} input
+ * @returns {boolean}
+ */
+function isValidAvatarURL(input) {
+    if (!input || typeof input !== 'string') return false;
+    if (input.startsWith('data:')) return false;
+    try {
+        const url = new URL(input);
+        return url.protocol === 'http:' || url.protocol === 'https:';
+    } catch {
         return false;
     }
 }
@@ -12123,10 +12159,22 @@ async function updateMyPeerAvatarByUrl() {
         hideClass: { popup: 'animate__animated animate__fadeOutUp' },
         inputValidator: (value) => {
             if (!value) return 'Please enter an image URL';
-            if (value.startsWith('data:image/')) return 'Base64 avatars are not supported';
-            if (!isImageURL(value)) return 'Please provide a valid image URL';
+            if (value.startsWith('data:')) return 'Base64 avatars are not supported';
+            if (!isValidAvatarURL(value)) return 'Only http/https URLs are supported';
             return null;
         },
+        preConfirm: (url) =>
+            new Promise((resolve) => {
+                const img = new Image();
+                img.onload = () => resolve(url);
+                img.onerror = () => {
+                    Swal.showValidationMessage(
+                        'Could not load the image — the URL may be invalid, restricted, or not an image'
+                    );
+                    resolve(false); // keep dialog open
+                };
+                img.src = url;
+            }),
         didOpen: () => {
             const input = document.querySelector('.swal2-input');
             if (!input) return;
@@ -12250,7 +12298,9 @@ function updateMyAvatarResetButtonVisibility() {
  * @param {object} config data
  */
 function handlePeerName(config) {
-    const { peer_id, peer_name, peer_avatar } = config;
+    const peer_id = config.peer_id;
+    const peer_name = filterXSS(config.peer_name);
+    const peer_avatar = filterXSS(config.peer_avatar);
 
     // Keep the latest profile in memory so late DOM creation still uses updated data.
     if (allPeers && allPeers[peer_id]) {
@@ -12269,7 +12319,7 @@ function handlePeerName(config) {
 
     if (msgerPeerAvatar) {
         msgerPeerAvatar.src =
-            peer_avatar && isImageURL(peer_avatar)
+            peer_avatar && isValidAvatarURL(peer_avatar)
                 ? peer_avatar
                 : isValidEmail(peer_name)
                   ? genGravatar(peer_name)
