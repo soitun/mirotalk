@@ -10717,7 +10717,15 @@ function appendMessage(from, img, side, msg, privateMsg, msgId = null, to = '') 
     const getFrom = filterXSS(from);
     const getTo = filterXSS(to);
     const getSide = filterXSS(side);
-    const getImg = getFrom === CHAT_GPT_NAME && getSide === 'left' ? images.chatgpt : filterXSS(img);
+    // img is always internally computed (isValidAvatarURL / genAvatarSvg / genGravatar) and is
+    // set via setAttribute — no XSS risk. filterXSS must NOT be applied here because it encodes
+    // '<', '>' and '&' which breaks SVG data URIs produced by genAvatarSvg.
+    const getImg =
+        getFrom === CHAT_GPT_NAME && getSide === 'left'
+            ? images.chatgpt
+            : isValidAvatarURL(img) || (typeof img === 'string' && img.startsWith('data:image/'))
+              ? img
+              : '';
     const getMsg = filterXSS(msg);
     const getPrivateMsg = filterXSS(privateMsg);
     const normalizedMsgId = normalizeChatMessageId(msgId);
