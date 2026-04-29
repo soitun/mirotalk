@@ -15,7 +15,7 @@
  * @license For commercial use or closed source, contact us at license.mirotalk@gmail.com or purchase directly from CodeCanyon
  * @license CodeCanyon: https://codecanyon.net/item/mirotalk-p2p-webrtc-realtime-video-conferences/38376661
  * @author  Miroslav Pejic - miroslav.pejic.85@gmail.com
- * @version 1.8.23
+ * @version 1.8.24
  *
  */
 
@@ -312,6 +312,13 @@ const chatInputEmoji = {
 const CHAT_REACTION_EMOJIS = ['👍', '❤️', '😂', '😮', '😢', '🔥'];
 const CHAT_GPT_PEER_ID = 'chatgpt';
 const CHAT_GPT_NAME = 'ChatGPT';
+
+const roomEmojiBurstState = {
+    startedAt: 0,
+    anchorX: 0,
+    anchorY: 0,
+    count: 0,
+};
 
 // Chat room emoji picker
 const msgerEmojiPicker = getId('msgerEmojiPicker');
@@ -12926,6 +12933,55 @@ document.addEventListener('click', (event) => {
     msgerChat?.querySelectorAll('.reaction-picker').forEach((picker) => picker.remove());
 });
 
+function getRoomEmojiPlacement() {
+    const viewportWidth = Math.max(window.innerWidth || 0, 320);
+    const viewportHeight = Math.max(window.innerHeight || 0, 320);
+    const isCompactViewport = viewportWidth < 640;
+    const now = Date.now();
+    const burstWindow = 900;
+    const maxBurstSize = isCompactViewport ? 4 : 6;
+    const marginX = isCompactViewport ? 18 : 34;
+    const marginY = isCompactViewport ? 96 : 124;
+    const minAnchorX = viewportWidth * 0.2;
+    const maxAnchorX = viewportWidth * 0.8;
+    const minAnchorY = viewportHeight * 0.42;
+    const maxAnchorY = viewportHeight * 0.76;
+
+    if (now - roomEmojiBurstState.startedAt > burstWindow || roomEmojiBurstState.count >= maxBurstSize) {
+        roomEmojiBurstState.startedAt = now;
+        roomEmojiBurstState.count = 0;
+        roomEmojiBurstState.anchorX = minAnchorX + Math.random() * Math.max(1, maxAnchorX - minAnchorX);
+        roomEmojiBurstState.anchorY = minAnchorY + Math.random() * Math.max(1, maxAnchorY - minAnchorY);
+    }
+
+    const burstIndex = roomEmojiBurstState.count;
+    roomEmojiBurstState.count += 1;
+
+    const baseAngle = -90 + (burstIndex - (maxBurstSize - 1) / 2) * (isCompactViewport ? 24 : 18);
+    const jitterAngle = Math.random() * 12 - 6;
+    const angle = ((baseAngle + jitterAngle) * Math.PI) / 180;
+    const radius = (isCompactViewport ? 18 : 24) + burstIndex * (isCompactViewport ? 14 : 18) + Math.random() * 14;
+    const left = Math.min(
+        viewportWidth - marginX,
+        Math.max(marginX, roomEmojiBurstState.anchorX + Math.cos(angle) * radius)
+    );
+    const top = Math.min(
+        viewportHeight - marginY,
+        Math.max(marginY, roomEmojiBurstState.anchorY + Math.sin(angle) * radius * 0.6)
+    );
+    const drift = `${(Math.cos(angle) * (radius * 0.95) + (Math.random() * 18 - 9)).toFixed(0)}px`;
+    const rise = `-${(Math.abs(Math.sin(angle)) * 70 + Math.random() * 70 + (isCompactViewport ? 120 : 165)).toFixed(0)}px`;
+    const rotation = `${(Math.random() * 16 - 8).toFixed(1)}deg`;
+
+    return {
+        left,
+        top,
+        drift,
+        rise,
+        rotation,
+    };
+}
+
 /**
  * Handle room emoji reaction
  * @param {object} message
@@ -12934,14 +12990,23 @@ document.addEventListener('click', (event) => {
 function handleEmoji(message, duration = 5000) {
     if (userEmoji) {
         const emojiDisplay = document.createElement('div');
-        emojiDisplay.className = 'animate__animated animate__backInUp';
-        emojiDisplay.style.padding = '10px';
-        emojiDisplay.style.fontSize = '2vh';
-        emojiDisplay.style.color = '#FFF';
-        emojiDisplay.style.backgroundColor = 'rgba(0, 0, 0, 0.2)';
-        emojiDisplay.style.borderRadius = '10px';
-        emojiDisplay.style.marginBottom = '5px';
-        emojiDisplay.innerText = `${message.emoji} ${message.peer_name}`;
+        const placement = getRoomEmojiPlacement();
+        const label = message.peer_name || 'Guest';
+        const emojiIcon = document.createElement('span');
+        const emojiName = document.createElement('span');
+
+        emojiDisplay.className = 'user-emoji-burst';
+        emojiDisplay.style.left = `${placement.left}px`;
+        emojiDisplay.style.top = `${placement.top}px`;
+        emojiDisplay.style.setProperty('--emoji-drift', placement.drift);
+        emojiDisplay.style.setProperty('--emoji-rise', placement.rise);
+        emojiDisplay.style.setProperty('--emoji-rotation', placement.rotation);
+        emojiIcon.className = 'user-emoji-burst__icon';
+        emojiIcon.textContent = message.emoji;
+        emojiName.className = 'user-emoji-burst__name';
+        emojiName.textContent = label;
+        emojiDisplay.appendChild(emojiIcon);
+        emojiDisplay.appendChild(emojiName);
         userEmoji.appendChild(emojiDisplay);
 
         setTimeout(() => {
@@ -15580,7 +15645,7 @@ function showAbout() {
     Swal.fire({
         background: swBg,
         position: 'center',
-        title: brand.about?.title && brand.about.title.trim() !== '' ? brand.about.title : 'WebRTC P2P v1.8.23',
+        title: brand.about?.title && brand.about.title.trim() !== '' ? brand.about.title : 'WebRTC P2P v1.8.24',
         imageUrl: brand.about?.imageUrl && brand.about.imageUrl.trim() !== '' ? brand.about.imageUrl : images.about,
         customClass: { image: 'img-about' },
         html: `
