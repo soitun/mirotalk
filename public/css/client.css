@@ -4725,6 +4725,25 @@ body {
     }
 }
 
+/*--------------------------------------------------------------
+# Slide-in from right — shared panel pin animation
+--------------------------------------------------------------*/
+@keyframes slideInFromRight {
+    from {
+        transform: translateX(110vw);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+.panel-slide-in {
+    animation: slideInFromRight 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards !important;
+    transition: none !important; /* suppress width/size transitions while slide is playing */
+}
+
 /*
 z-index
 6 theme custom picker

@@ -15,7 +15,7 @@
  * @license For commercial use or closed source, contact us at license.mirotalk@gmail.com or purchase directly from CodeCanyon
  * @license CodeCanyon: https://codecanyon.net/item/mirotalk-p2p-webrtc-realtime-video-conferences/38376661
  * @author  Miroslav Pejic - miroslav.pejic.85@gmail.com
- * @version 1.8.19
+ * @version 1.8.20
  *
  */
 
@@ -10035,6 +10035,9 @@ function chatPin() {
     if (!isMobileDevice) {
         undragElement(msgerDraggable, msgerHeader);
     }
+    msgerDraggable.classList.remove('panel-slide-in');
+    void msgerDraggable.offsetWidth; // force reflow so the animation always restarts
+    msgerDraggable.classList.add('panel-slide-in');
 }
 
 /**
@@ -10042,6 +10045,7 @@ function chatPin() {
  */
 function chatUnpin() {
     videoMediaContainerUnpin();
+    msgerDraggable.classList.remove('panel-slide-in');
     setSP('--msger-width', 'min(1120px, 92vw)');
     setSP('--msger-height', 'min(760px, 92vh)');
     elemDisplay(msgerMinBtn, false);
@@ -10150,6 +10154,9 @@ function captionPin() {
     setColor(captionTogglePin, 'lime');
     resizeVideoMedia();
     if (!isMobileDevice) undragElement(captionDraggable, captionHeader);
+    captionDraggable.classList.remove('panel-slide-in');
+    void captionDraggable.offsetWidth; // force reflow so the animation always restarts
+    captionDraggable.classList.add('panel-slide-in');
 }
 
 /**
@@ -10157,6 +10164,7 @@ function captionPin() {
  */
 function captionUnpin() {
     videoMediaContainerUnpin();
+    captionDraggable.classList.remove('panel-slide-in');
     setSP('--caption-width', '420px');
     setSP('--caption-height', '680px');
     elemDisplay(captionMinBtn, false);
@@ -15556,7 +15564,7 @@ function showAbout() {
     Swal.fire({
         background: swBg,
         position: 'center',
-        title: brand.about?.title && brand.about.title.trim() !== '' ? brand.about.title : 'WebRTC P2P v1.8.19',
+        title: brand.about?.title && brand.about.title.trim() !== '' ? brand.about.title : 'WebRTC P2P v1.8.20',
         imageUrl: brand.about?.imageUrl && brand.about.imageUrl.trim() !== '' ? brand.about.imageUrl : images.about,
         customClass: { image: 'img-about' },
         html: `
