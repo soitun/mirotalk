@@ -15,7 +15,7 @@
  * @license For commercial use or closed source, contact us at license.mirotalk@gmail.com or purchase directly from CodeCanyon
  * @license CodeCanyon: https://codecanyon.net/item/mirotalk-p2p-webrtc-realtime-video-conferences/38376661
  * @author  Miroslav Pejic - miroslav.pejic.85@gmail.com
- * @version 1.8.21
+ * @version 1.8.22
  *
  */
 
@@ -6464,9 +6464,6 @@ function setChatRoomBtn() {
 function setParticipantsBtn() {
     participantsBtn.addEventListener('click', async (e) => {
         e.preventDefault();
-        if (!isChatRoomVisible) {
-            showChatRoomDraggable();
-        }
 
         if (!isMobileDevice && canBePinned()) {
             if (isCaptionPinned) {
@@ -6474,12 +6471,27 @@ function setParticipantsBtn() {
                 return;
             }
 
+            msgerDraggable.classList.add('msger-pinned-sidebar-open');
+
+            if (!isChatRoomVisible) {
+                showChatRoomDraggable();
+            }
+
             if (!isChatPinned) {
                 chatPin();
             }
 
-            openPinnedParticipantsSidebar(true);
+            // Wait for the panel-slide-in animation to play before overlaying the participants sidebar.
+            await sleep(500);
+
+            msgerCPBtn.classList.add('active');
+            searchPeerBarName?.focus();
+            screenReaderAccessibility.announceMessage('Participants list opened');
             return;
+        }
+
+        if (!isChatRoomVisible) {
+            showChatRoomDraggable();
         }
 
         syncParticipantsPanelVisibility(true);
@@ -15568,7 +15580,7 @@ function showAbout() {
     Swal.fire({
         background: swBg,
         position: 'center',
-        title: brand.about?.title && brand.about.title.trim() !== '' ? brand.about.title : 'WebRTC P2P v1.8.21',
+        title: brand.about?.title && brand.about.title.trim() !== '' ? brand.about.title : 'WebRTC P2P v1.8.22',
         imageUrl: brand.about?.imageUrl && brand.about.imageUrl.trim() !== '' ? brand.about.imageUrl : images.about,
         customClass: { image: 'img-about' },
         html: `
