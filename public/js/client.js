@@ -14508,9 +14508,6 @@ function handleWhiteboardAction(config, logMe = true) {
         case 'close':
             if (wbIsOpen) toggleWhiteboard();
             break;
-        case 'toggle':
-            toggleWhiteboard();
-            break;
         case 'lock':
             if (!isPresenter) {
                 elemDisplay(whiteboardTitle, false);
