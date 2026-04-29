@@ -15,7 +15,7 @@
  * @license For commercial use or closed source, contact us at license.mirotalk@gmail.com or purchase directly from CodeCanyon
  * @license CodeCanyon: https://codecanyon.net/item/mirotalk-p2p-webrtc-realtime-video-conferences/38376661
  * @author  Miroslav Pejic - miroslav.pejic.85@gmail.com
- * @version 1.8.20
+ * @version 1.8.21
  *
  */
 
@@ -13453,10 +13453,11 @@ function handleUnlockTheRoom() {
 }
 
 /**
- * Handle whiteboard toogle
+ * Handle whiteboard toggle
  */
 function handleWhiteboardToggle() {
-    thereArePeerConnections() ? whiteboardAction(getWhiteboardAction('toggle')) : toggleWhiteboard();
+    const action = wbIsOpen ? 'close' : 'open';
+    thereArePeerConnections() ? whiteboardAction(getWhiteboardAction(action)) : toggleWhiteboard();
 }
 
 /**
@@ -14500,6 +14501,12 @@ function handleWhiteboardAction(config, logMe = true) {
         case 'clear':
             wbCanvasClear();
             removeCanvasGrid();
+            break;
+        case 'open':
+            if (!wbIsOpen) toggleWhiteboard();
+            break;
+        case 'close':
+            if (wbIsOpen) toggleWhiteboard();
             break;
         case 'toggle':
             toggleWhiteboard();
@@ -15564,7 +15571,7 @@ function showAbout() {
     Swal.fire({
         background: swBg,
         position: 'center',
-        title: brand.about?.title && brand.about.title.trim() !== '' ? brand.about.title : 'WebRTC P2P v1.8.20',
+        title: brand.about?.title && brand.about.title.trim() !== '' ? brand.about.title : 'WebRTC P2P v1.8.21',
         imageUrl: brand.about?.imageUrl && brand.about.imageUrl.trim() !== '' ? brand.about.imageUrl : images.about,
         customClass: { image: 'img-about' },
         html: `
