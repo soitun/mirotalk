@@ -1062,16 +1062,16 @@ access to use this app.
 
                     <div id="tabProfile" class="tabcontent">
                         <div id="tabRoomPeerName">
-                            <div>
+                            <div id="myProfileAvatarContainer">
                                 <img id="myProfileAvatar" />
-                            </div>
-                            <div>
-                                <button id="myProfileAvatarUploadBtn">
-                                    <i class="fas fa-image"></i>&nbsp;Set avatar
-                                </button>
-                                <button id="myProfileAvatarResetBtn" class="hidden">
-                                    <i class="fas fa-rotate-left"></i>&nbsp;Reset avatar
-                                </button>
+                                <div id="myProfileAvatarBtns">
+                                    <button id="myProfileAvatarUploadBtn">
+                                        <i class="fas fa-image"></i>&nbsp;Set avatar
+                                    </button>
+                                    <button id="myProfileAvatarResetBtn" class="hidden">
+                                        <i class="fas fa-rotate-left"></i>&nbsp;Reset avatar
+                                    </button>
+                                </div>
                             </div>
                             <br />
                             <div class="title">
@@ -1079,9 +1079,9 @@ access to use this app.
                                 <p>Name</p>
                             </div>
                             <br /><br />
-                            <div>
+                            <div id="myPeerNameSetContainer">
                                 <input id="myPeerNameSet" type="text" placeholder="Change name..." maxlength="254" />
-                                <button id="myPeerNameSetBtn"><i class="fas fa-user-edit"></i>&nbsp;Change name</button>
+                                <button id="myPeerNameSetBtn"><i class="fas fa-user-edit"></i>&nbsp;Change</button>
                             </div>
                         </div>
                         <br />

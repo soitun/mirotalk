@@ -3318,7 +3318,7 @@ button {
 --------------------------------------------------------------*/
 
 #myPeerNameSet {
-    width: 50%;
+    flex: 1;
     padding: 10px;
     border: var(--border);
     border-radius: 8px;
@@ -3329,6 +3329,19 @@ button {
 #tabRoomSecurity button {
     width: 100%;
     margin-bottom: 5px;
+}
+
+#myProfileAvatarContainer {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
+}
+
+#myProfileAvatarBtns {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
 }
 
 #myProfileAvatar {
@@ -3419,7 +3432,22 @@ button {
 
 #myProfileAvatarUploadBtn,
 #myProfileAvatarResetBtn {
-    margin-top: 6px;
+    margin-top: 0;
+}
+
+#myPeerNameSetContainer {
+    display: flex;
+    align-items: stretch;
+    gap: 8px;
+}
+
+#myPeerNameSetBtn {
+    padding: 10px 8px;
+    font-size: 0.75rem;
+    white-space: nowrap;
+    width: fit-content;
+    flex-shrink: 0;
+    box-sizing: border-box;
 }
 
 /*--------------------------------------------------------------
