@@ -3319,9 +3319,11 @@ button {
 
 #myPeerNameSet {
     flex: 1;
+    height: 46px;
     padding: 10px;
     border: var(--border);
     border-radius: 8px;
+    box-sizing: border-box;
     color: #fff;
     background-color: rgba(0, 0, 0, 0.2);
 }
@@ -3437,17 +3439,25 @@ button {
 
 #myPeerNameSetContainer {
     display: flex;
-    align-items: stretch;
+    align-items: center;
     gap: 8px;
 }
 
 #myPeerNameSetBtn {
-    padding: 10px 8px;
-    font-size: 0.75rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    height: 46px;
+    margin-top: 0;
     white-space: nowrap;
     width: fit-content;
     flex-shrink: 0;
     box-sizing: border-box;
+}
+
+#myPeerNameSetBtn:hover {
+    transform: none;
 }
 
 /*--------------------------------------------------------------
