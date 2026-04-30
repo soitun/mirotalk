@@ -15,7 +15,7 @@
  * @license For commercial use or closed source, contact us at license.mirotalk@gmail.com or purchase directly from CodeCanyon
  * @license CodeCanyon: https://codecanyon.net/item/mirotalk-p2p-webrtc-realtime-video-conferences/38376661
  * @author  Miroslav Pejic - miroslav.pejic.85@gmail.com
- * @version 1.8.24
+ * @version 1.8.25
  *
  */
 
@@ -685,6 +685,7 @@ let isChatPinned = false;
 let isCaptionPinned = false;
 let isChatRoomVisible = false;
 let isParticipantsVisible = false;
+let isChatOpenedByParticipantsBtn = false;
 let isCaptionBoxVisible = false;
 let isChatEmojiVisible = false;
 let isChatMarkdownOn = false;
@@ -6471,10 +6472,25 @@ function setChatRoomBtn() {
 function setParticipantsBtn() {
     participantsBtn.addEventListener('click', async (e) => {
         e.preventDefault();
+        const openedChatForParticipants = !isChatRoomVisible;
 
         if (!isMobileDevice && canBePinned()) {
             if (isCaptionPinned) {
                 userLog('toast', 'Please unpin the Caption that appears to be currently pinned');
+                return;
+            }
+
+            if (isChatRoomVisible && isChatPinned && msgerDraggable.classList.contains('msger-pinned-sidebar-open')) {
+                if (isChatOpenedByParticipantsBtn) {
+                    hideChatRoomAndEmojiPicker();
+                    isChatOpenedByParticipantsBtn = false;
+                    return;
+                }
+
+                msgerDraggable.classList.remove('msger-pinned-sidebar-open');
+                msgerCPBtn.classList.remove('active');
+                closeAllMsgerParticipantDropdownMenus();
+                screenReaderAccessibility.announceMessage('Participants list closed');
                 return;
             }
 
@@ -6483,6 +6499,8 @@ function setParticipantsBtn() {
             if (!isChatRoomVisible) {
                 showChatRoomDraggable();
             }
+
+            isChatOpenedByParticipantsBtn = openedChatForParticipants;
 
             if (!isChatPinned) {
                 chatPin();
@@ -6501,9 +6519,26 @@ function setParticipantsBtn() {
             showChatRoomDraggable();
         }
 
-        syncParticipantsPanelVisibility(true);
-        searchPeerBarName?.focus();
-        screenReaderAccessibility.announceMessage('Participants list opened');
+        const shouldShowParticipants = !isParticipantsVisible;
+        const shouldHideChatWithParticipants = !shouldShowParticipants && isChatOpenedByParticipantsBtn;
+
+        if (shouldHideChatWithParticipants) {
+            hideChatRoomAndEmojiPicker();
+            isChatOpenedByParticipantsBtn = false;
+            return;
+        }
+
+        isChatOpenedByParticipantsBtn = shouldShowParticipants ? openedChatForParticipants : false;
+
+        syncParticipantsPanelVisibility(shouldShowParticipants);
+
+        if (shouldShowParticipants) {
+            searchPeerBarName?.focus();
+            screenReaderAccessibility.announceMessage('Participants list opened');
+            return;
+        }
+
+        screenReaderAccessibility.announceMessage('Participants list closed');
     });
 }
 
@@ -10298,6 +10333,7 @@ function hideChatRoomAndEmojiPicker() {
     chatRoomBtn.className = className.chatOn;
     isChatRoomVisible = false;
     isParticipantsVisible = false;
+    isChatOpenedByParticipantsBtn = false;
     isChatEmojiVisible = false;
     setTippy(chatRoomBtn, 'Open the chat', bottomButtonsPlacement);
     screenReaderAccessibility.announceMessage('Chat closed');
@@ -15645,7 +15681,7 @@ function showAbout() {
     Swal.fire({
         background: swBg,
         position: 'center',
-        title: brand.about?.title && brand.about.title.trim() !== '' ? brand.about.title : 'WebRTC P2P v1.8.24',
+        title: brand.about?.title && brand.about.title.trim() !== '' ? brand.about.title : 'WebRTC P2P v1.8.25',
         imageUrl: brand.about?.imageUrl && brand.about.imageUrl.trim() !== '' ? brand.about.imageUrl : images.about,
         customClass: { image: 'img-about' },
         html: `
