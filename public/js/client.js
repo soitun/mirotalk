@@ -15,7 +15,7 @@
  * @license For commercial use or closed source, contact us at license.mirotalk@gmail.com or purchase directly from CodeCanyon
  * @license CodeCanyon: https://codecanyon.net/item/mirotalk-p2p-webrtc-realtime-video-conferences/38376661
  * @author  Miroslav Pejic - miroslav.pejic.85@gmail.com
- * @version 1.8.27
+ * @version 1.8.28
  *
  */
 
@@ -478,7 +478,7 @@ const unlockRoomBtn = getId('unlockRoomBtn');
 
 // File send progress
 const sendFileDiv = getId('sendFileDiv');
-const imgShareSend = getId('imgShareSend');
+const sendFileDragHandle = getId('sendFileDragHandle');
 const sendFilePercentage = getId('sendFilePercentage');
 const sendFileInfo = getId('sendFileInfo');
 const sendProgress = getId('sendProgress');
@@ -486,7 +486,7 @@ const sendAbortBtn = getId('sendAbortBtn');
 
 // File receive progress
 const receiveFileDiv = getId('receiveFileDiv');
-const imgShareReceive = getId('imgShareReceive');
+const receiveFileDragHandle = getId('receiveFileDragHandle');
 const receiveFilePercentage = getId('receiveFilePercentage');
 const receiveFileInfo = getId('receiveFileInfo');
 const receiveProgress = getId('receiveProgress');
@@ -921,10 +921,6 @@ function setButtonsToolTip() {
     setTippy(whiteboardEraserBtn, 'Eraser mode', 'bottom');
     setTippy(whiteboardUndoBtn, 'Undo', 'bottom');
     setTippy(whiteboardRedoBtn, 'Redo', 'bottom');
-    // Suspend/Hide File transfer buttons
-    setTippy(sendAbortBtn, 'Abort file transfer', 'bottom');
-    setTippy(receiveAbortBtn, 'Abort file transfer', 'bottom');
-    setTippy(receiveHideBtn, 'Hide file transfer', 'bottom');
     // Video/audio URL player
     setTippy(videoUrlCloseBtn, 'Close the video player', 'bottom');
     setTippy(videoAudioCloseBtn, 'Close the video player', 'bottom');
@@ -6975,8 +6971,8 @@ function setMyWhiteboardBtn() {
 function setMyFileShareBtn() {
     // make send-receive file div draggable
     if (!isMobileDevice) {
-        dragElement(sendFileDiv, imgShareSend);
-        dragElement(receiveFileDiv, imgShareReceive);
+        dragElement(sendFileDiv, sendFileDragHandle);
+        dragElement(receiveFileDiv, receiveFileDragHandle);
     }
 
     fileShareBtn.addEventListener('click', (e) => {
@@ -15783,7 +15779,7 @@ function showAbout() {
     Swal.fire({
         background: swBg,
         position: 'center',
-        title: brand.about?.title && brand.about.title.trim() !== '' ? brand.about.title : 'WebRTC P2P v1.8.27',
+        title: brand.about?.title && brand.about.title.trim() !== '' ? brand.about.title : 'WebRTC P2P v1.8.28',
         imageUrl: brand.about?.imageUrl && brand.about.imageUrl.trim() !== '' ? brand.about.imageUrl : images.about,
         customClass: { image: 'img-about' },
         html: `
