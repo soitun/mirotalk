@@ -1675,6 +1675,7 @@ function handleButtonsRule() {
     displayElements([
         { element: shareRoomBtn, display: buttons.main.showShareRoomBtn },
         { element: hideMeBtn, display: buttons.main.showHideMeBtn },
+        { element: fullScreenBtn, display: buttons.main.showFullScreenBtn },
         { element: settingsExtraDropdown, display: showExtraBtn },
         { element: audioBtn, display: buttons.main.showAudioBtn },
         { element: videoBtn, display: buttons.main.showVideoBtn },
