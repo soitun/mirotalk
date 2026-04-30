@@ -15,7 +15,7 @@
  * @license For commercial use or closed source, contact us at license.mirotalk@gmail.com or purchase directly from CodeCanyon
  * @license CodeCanyon: https://codecanyon.net/item/mirotalk-p2p-webrtc-realtime-video-conferences/38376661
  * @author  Miroslav Pejic - miroslav.pejic.85@gmail.com
- * @version 1.8.26
+ * @version 1.8.27
  *
  */
 
@@ -14159,80 +14159,230 @@ function createStickyNote() {
 }
 
 /**
- * Setup Canvas file selections
- * @param {string} title
+ * Format accepted file types for UI helper text
  * @param {string} accept
- * @param {object} renderToCanvas
+ * @returns {string}
  */
-function setupFileSelection(title, accept, renderToCanvas) {
-    Swal.fire({
+function formatAcceptedFileTypes(accept = '*') {
+    if (!accept || accept === '*') return 'any file type';
+
+    return accept
+        .split(',')
+        .map((type) => type.trim())
+        .filter(Boolean)
+        .map((type) => {
+            if (type.startsWith('.')) return type.slice(1).toUpperCase();
+            if (type.endsWith('/*')) return `${type.slice(0, -2).toUpperCase()} files`;
+            if (type.includes('/')) return type.split('/')[1].toUpperCase();
+            return type.toUpperCase();
+        })
+        .join(', ');
+}
+
+/**
+ * Open a styled file picker modal with drag-and-drop support
+ * @param {object} config
+ * @returns {Promise<File|null>}
+ */
+async function openFilePickerModal(config) {
+    const {
+        title,
+        accept = '*',
+        confirmButtonText = 'OK',
+        emptyStateTitle = 'Drop file here',
+        emptyStateSubtitle = 'or browse from your device',
+        helperText = `Supports ${formatAcceptedFileTypes(accept)}`,
+    } = config;
+
+    let selectedFile = null;
+
+    const result = await Swal.fire({
         allowOutsideClick: false,
         background: swBg,
         position: 'center',
         title: title,
         input: 'file',
         html: `
-        <div id="dropArea">
-            <p>Drag and drop your file here</p>
+        <div class="mirotalk-file-picker">
+            <button type="button" id="mirotalkFileDropzone" class="mirotalk-file-dropzone">
+                <span class="mirotalk-file-dropzone-icon"><i class="fas fa-cloud-upload-alt"></i></span>
+                <span id="mirotalkFileDropzoneTitle" class="mirotalk-file-dropzone-title">${emptyStateTitle}</span>
+                <span id="mirotalkFileDropzoneSubtitle" class="mirotalk-file-dropzone-subtitle">${emptyStateSubtitle}</span>
+                <span class="mirotalk-file-dropzone-helper">${helperText}</span>
+                <span id="mirotalkFileBrowseBtn" class="mirotalk-file-dropzone-cta">Browse files</span>
+            </button>
+            <div id="mirotalkFilePreview" class="mirotalk-file-preview" hidden>
+                <div class="mirotalk-file-preview-icon"><i class="fas fa-file-alt"></i></div>
+                <div class="mirotalk-file-preview-meta">
+                    <strong id="mirotalkFileName">No file selected</strong>
+                    <span id="mirotalkFileDetails"></span>
+                </div>
+                <button type="button" id="mirotalkFileRemoveBtn" class="mirotalk-file-preview-remove">Remove</button>
+            </div>
         </div>
         `,
         inputAttributes: {
             accept: accept,
             'aria-label': title,
         },
+        customClass: {
+            htmlContainer: 'mirotalk-file-picker-html',
+        },
         didOpen: () => {
-            const dropArea = document.getElementById('dropArea');
-            dropArea.addEventListener('dragenter', handleDragEnter);
-            dropArea.addEventListener('dragover', handleDragOver);
-            dropArea.addEventListener('dragleave', handleDragLeave);
-            dropArea.addEventListener('drop', handleDrop);
+            const input = Swal.getInput();
+            const confirmButton = Swal.getConfirmButton();
+            const dropzone = getId('mirotalkFileDropzone');
+            const dropzoneTitle = getId('mirotalkFileDropzoneTitle');
+            const dropzoneSubtitle = getId('mirotalkFileDropzoneSubtitle');
+            const preview = getId('mirotalkFilePreview');
+            const fileName = getId('mirotalkFileName');
+            const fileDetails = getId('mirotalkFileDetails');
+            const browseBtn = getId('mirotalkFileBrowseBtn');
+            const removeBtn = getId('mirotalkFileRemoveBtn');
+
+            if (
+                !input ||
+                !confirmButton ||
+                !dropzone ||
+                !preview ||
+                !fileName ||
+                !fileDetails ||
+                !browseBtn ||
+                !removeBtn
+            )
+                return;
+
+            input.classList.add('mirotalk-hidden-file-input');
+            input.setAttribute('tabindex', '-1');
+            confirmButton.disabled = true;
+
+            const resetSelection = () => {
+                selectedFile = null;
+                input.value = '';
+                preview.hidden = true;
+                dropzone.classList.remove('has-file', 'is-dragover');
+                dropzoneTitle.textContent = emptyStateTitle;
+                dropzoneSubtitle.textContent = emptyStateSubtitle;
+                browseBtn.textContent = 'Browse files';
+                confirmButton.disabled = true;
+                Swal.resetValidationMessage();
+            };
+
+            const applySelection = (file) => {
+                if (!file) return resetSelection();
+                if (file.size <= 0) {
+                    resetSelection();
+                    return Swal.showValidationMessage('The selected file is empty.');
+                }
+
+                selectedFile = file;
+                fileName.textContent = file.name;
+                fileDetails.textContent = `${bytesToSize(file.size)}${file.type ? ` • ${file.type}` : ''}`;
+                preview.hidden = false;
+                dropzone.classList.add('has-file');
+                dropzone.classList.remove('is-dragover');
+                dropzoneTitle.textContent = 'File ready';
+                dropzoneSubtitle.textContent = 'Drop another file here or browse to replace it';
+                browseBtn.textContent = 'Browse another file';
+                Swal.resetValidationMessage();
+                confirmButton.disabled = false;
+            };
+
+            const openSystemPicker = (event) => {
+                if (event) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+                input.click();
+            };
+
+            const handleDragState = (event, isActive) => {
+                event.preventDefault();
+                event.stopPropagation();
+                dropzone.classList.toggle('is-dragover', isActive);
+                if (event.dataTransfer) event.dataTransfer.dropEffect = 'copy';
+            };
+
+            browseBtn.addEventListener('click', openSystemPicker);
+            dropzone.addEventListener('click', openSystemPicker);
+            removeBtn.addEventListener('click', (event) => {
+                event.preventDefault();
+                event.stopPropagation();
+                resetSelection();
+            });
+
+            input.addEventListener('change', () => {
+                applySelection(input.files && input.files.length ? input.files[0] : null);
+            });
+
+            dropzone.addEventListener('dragenter', (event) => handleDragState(event, true));
+            dropzone.addEventListener('dragover', (event) => handleDragState(event, true));
+            dropzone.addEventListener('dragleave', (event) => handleDragState(event, false));
+            dropzone.addEventListener('drop', (event) => {
+                handleDragState(event, false);
+
+                const transfer = event.dataTransfer;
+                if (!transfer) return;
+
+                if (transfer.items && transfer.items.length > 1) {
+                    resetSelection();
+                    return Swal.showValidationMessage('Please choose a single file.');
+                }
+
+                const item = transfer.items && transfer.items.length ? transfer.items[0] : null;
+                const entry = item && typeof item.webkitGetAsEntry === 'function' ? item.webkitGetAsEntry() : null;
+
+                if (entry && entry.isDirectory) {
+                    resetSelection();
+                    return Swal.showValidationMessage('Folders are not supported.');
+                }
+
+                if (item && item.kind && item.kind !== 'file') {
+                    resetSelection();
+                    return Swal.showValidationMessage('Only files can be uploaded here.');
+                }
+
+                const file = item && typeof item.getAsFile === 'function' ? item.getAsFile() : transfer.files[0];
+
+                if (!file) {
+                    resetSelection();
+                    return Swal.showValidationMessage('Could not read the selected file.');
+                }
+
+                applySelection(file);
+            });
         },
         showDenyButton: true,
-        confirmButtonText: `OK`,
-        denyButtonText: `Cancel`,
+        confirmButtonText: confirmButtonText,
+        denyButtonText: 'Cancel',
+        preConfirm: () => {
+            if (!selectedFile) {
+                Swal.showValidationMessage('Choose a file to continue.');
+                return false;
+            }
+            return selectedFile;
+        },
         showClass: { popup: 'animate__animated animate__fadeInDown' },
         hideClass: { popup: 'animate__animated animate__fadeOutUp' },
-    }).then((result) => {
-        if (result.isConfirmed) {
-            renderToCanvas(result.value);
-        }
     });
 
-    function handleDragEnter(e) {
-        e.preventDefault();
-        e.stopPropagation();
-        e.target.style.background = 'var(--body-bg)';
-    }
+    return result.isConfirmed ? result.value || selectedFile : null;
+}
 
-    function handleDragOver(e) {
-        e.preventDefault();
-        e.stopPropagation();
-        e.dataTransfer.dropEffect = 'copy';
-    }
+/**
+ * Setup Canvas file selections
+ * @param {string} title
+ * @param {string} accept
+ * @param {object} renderToCanvas
+ */
+async function setupFileSelection(title, accept, renderToCanvas) {
+    const file = await openFilePickerModal({
+        title,
+        accept,
+        confirmButtonText: 'OK',
+    });
 
-    function handleDragLeave(e) {
-        e.preventDefault();
-        e.stopPropagation();
-        e.target.style.background = '';
-    }
-
-    function handleDrop(e) {
-        e.preventDefault();
-        e.stopPropagation();
-        const dt = e.dataTransfer;
-        const files = dt.files;
-        handleFiles(files);
-        e.target.style.background = '';
-    }
-
-    function handleFiles(files) {
-        if (files.length > 0) {
-            const file = files[0];
-            console.log('Selected file:', file);
-            Swal.close();
-            renderToCanvas(file);
-        }
-    }
+    if (file) renderToCanvas(file);
 }
 
 /**
@@ -15037,81 +15187,22 @@ function hideFileTransfer() {
  * @param {string} peer_id
  * @param {boolean} broadcast send to all (default false)
  */
-function selectFileToShare(peer_id, broadcast = false, peerName = '') {
+async function selectFileToShare(peer_id, broadcast = false, peerName = '') {
     playSound('newMessage');
 
     const targetLabel = !broadcast && peerName ? ` with ${peerName}` : '';
 
-    Swal.fire({
-        allowOutsideClick: false,
-        background: swBg,
-        imageAlt: 'mirotalk-file-sharing',
-        imageUrl: images.share,
-        position: 'center',
+    const file = await openFilePickerModal({
         title: `Share file${targetLabel}`,
-        input: 'file',
-        html: `
-        <div id="dropArea">
-            <p>Drag and drop your file here</p>
-        </div>
-        `,
-        inputAttributes: {
-            accept: fileSharingInput,
-            'aria-label': 'Select file',
-        },
-        didOpen: () => {
-            const dropArea = getId('dropArea');
-            dropArea.addEventListener('dragenter', handleDragEnter);
-            dropArea.addEventListener('dragover', handleDragOver);
-            dropArea.addEventListener('dragleave', handleDragLeave);
-            dropArea.addEventListener('drop', handleDrop);
-        },
-        showDenyButton: true,
-        confirmButtonText: `Send`,
-        denyButtonText: `Cancel`,
-        showClass: { popup: 'animate__animated animate__fadeInDown' },
-        hideClass: { popup: 'animate__animated animate__fadeOutUp' },
-    }).then((result) => {
-        if (result.isConfirmed) {
-            sendFileInformations(result.value, peer_id, broadcast, peerName);
-        }
+        accept: fileSharingInput,
+        confirmButtonText: 'Send',
+        helperText:
+            fileSharingInput === '*'
+                ? 'Any file type supported'
+                : `Supports ${formatAcceptedFileTypes(fileSharingInput)}`,
     });
 
-    function handleDragEnter(e) {
-        e.preventDefault();
-        e.stopPropagation();
-        e.target.style.background = 'var(--body-bg)';
-    }
-
-    function handleDragOver(e) {
-        e.preventDefault();
-        e.stopPropagation();
-        e.dataTransfer.dropEffect = 'copy';
-    }
-
-    function handleDragLeave(e) {
-        e.preventDefault();
-        e.stopPropagation();
-        e.target.style.background = '';
-    }
-
-    function handleDrop(e) {
-        e.preventDefault();
-        e.stopPropagation();
-        const dt = e.dataTransfer;
-        const files = dt.files;
-        handleFiles(files);
-        e.target.style.background = '';
-    }
-
-    function handleFiles(files) {
-        if (files.length > 0) {
-            const file = files[0];
-            console.log('Selected file:', file);
-            Swal.close();
-            sendFileInformations(file, peer_id, broadcast, peerName);
-        }
-    }
+    if (file) sendFileInformations(file, peer_id, broadcast, peerName);
 }
 
 /**
@@ -15692,7 +15783,7 @@ function showAbout() {
     Swal.fire({
         background: swBg,
         position: 'center',
-        title: brand.about?.title && brand.about.title.trim() !== '' ? brand.about.title : 'WebRTC P2P v1.8.26',
+        title: brand.about?.title && brand.about.title.trim() !== '' ? brand.about.title : 'WebRTC P2P v1.8.27',
         imageUrl: brand.about?.imageUrl && brand.about.imageUrl.trim() !== '' ? brand.about.imageUrl : images.about,
         customClass: { image: 'img-about' },
         html: `
