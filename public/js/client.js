@@ -15,7 +15,7 @@
  * @license For commercial use or closed source, contact us at license.mirotalk@gmail.com or purchase directly from CodeCanyon
  * @license CodeCanyon: https://codecanyon.net/item/mirotalk-p2p-webrtc-realtime-video-conferences/38376661
  * @author  Miroslav Pejic - miroslav.pejic.85@gmail.com
- * @version 1.8.25
+ * @version 1.8.26
  *
  */
 
@@ -11816,7 +11816,7 @@ function isImageURL(input) {
 /**
  * Check if a URL is a valid HTTP/HTTPS avatar URL.
  * Unlike isImageURL, this does NOT require a file extension,
- * so it accepts dynamic avatar endpoints (e.g. GitHub, Gravatar, Robohash).
+ * so it accepts dynamic avatar endpoints (e.g. GitHub, Gravatar, DiceBear).
  * @param {string} input
  * @returns {boolean}
  */
@@ -12345,22 +12345,32 @@ async function updateMyPeerAvatarByUrl() {
                 localGrid.appendChild(makeAvatarImg(url));
             }
 
-            // Robohash random avatars
-            const roboLabel = document.createElement('p');
-            roboLabel.textContent = 'Or pick a random avatar:';
-            roboLabel.style.cssText = 'color:#aaa;font-size:12px;margin:10px 0 6px;text-align:center;';
+            // DiceBear random avatars
+            const randomAvatarLabel = document.createElement('p');
+            randomAvatarLabel.textContent = 'Or pick a random avatar:';
+            randomAvatarLabel.style.cssText = 'color:#aaa;font-size:12px;margin:10px 0 6px;text-align:center;';
 
-            const roboGrid = document.createElement('div');
-            roboGrid.style.cssText = 'display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-bottom:4px;';
+            const randomAvatarGrid = document.createElement('div');
+            randomAvatarGrid.style.cssText =
+                'display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-bottom:4px;';
+            const dicebearStyles = [
+                'bottts-neutral',
+                'adventurer-neutral',
+                'thumbs',
+                'initials',
+                'identicon',
+                'shapes',
+            ];
 
             for (let i = 0; i < 6; i++) {
                 const seed = Math.random().toString(36).substring(2, 10);
-                const url = `https://robohash.org/${seed}.png`;
-                roboGrid.appendChild(makeAvatarImg(url));
+                const style = dicebearStyles[i % dicebearStyles.length];
+                const url = `https://api.dicebear.com/9.x/${style}/svg?seed=${encodeURIComponent(seed)}`;
+                randomAvatarGrid.appendChild(makeAvatarImg(url));
             }
 
             let insertAfter = input;
-            for (const el of [localLabel, localGrid, roboLabel, roboGrid]) {
+            for (const el of [localLabel, localGrid, randomAvatarLabel, randomAvatarGrid]) {
                 insertAfter.parentNode.insertBefore(el, insertAfter.nextSibling);
                 insertAfter = el;
             }
@@ -15682,7 +15692,7 @@ function showAbout() {
     Swal.fire({
         background: swBg,
         position: 'center',
-        title: brand.about?.title && brand.about.title.trim() !== '' ? brand.about.title : 'WebRTC P2P v1.8.25',
+        title: brand.about?.title && brand.about.title.trim() !== '' ? brand.about.title : 'WebRTC P2P v1.8.26',
         imageUrl: brand.about?.imageUrl && brand.about.imageUrl.trim() !== '' ? brand.about.imageUrl : images.about,
         customClass: { image: 'img-about' },
         html: `

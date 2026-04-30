@@ -180,7 +180,7 @@ To set up your own instance of `MiroTalk P2P` on a dedicated cloud server, pleas
 - ianramzy (html [template](https://cruip.com/demos/neon/))
 - vasanthv (webrtc-logic)
 - fabric.js (whiteboard)
-- [Robohash.org](https://robohash.org) (random avatars)
+- [DiceBear](https://www.dicebear.com/) (random avatars)
 - [Image by ddraw on Freepik](https://www.freepik.com/free-vector/collection-female-male-avatars_1105371.htm) (avatar illustrations)
 
 </details>
