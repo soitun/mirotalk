@@ -15,7 +15,7 @@
  * @license For commercial use or closed source, contact us at license.mirotalk@gmail.com or purchase directly from CodeCanyon
  * @license CodeCanyon: https://codecanyon.net/item/mirotalk-p2p-webrtc-realtime-video-conferences/38376661
  * @author  Miroslav Pejic - miroslav.pejic.85@gmail.com
- * @version 1.8.28
+ * @version 1.8.30
  *
  */
 
@@ -1052,7 +1052,11 @@ function getInfo() {
             })
             .join('');
 
-        extraInfo.innerHTML = `<div class="extra-info-grid">${rows}</div>`;
+        extraInfo.innerHTML = renderRoomTemplate('tpl-extra-info-grid', {
+            html: {
+                rows,
+            },
+        });
 
         return parserResult;
     } catch (error) {
@@ -1611,7 +1615,11 @@ function roomIsBusy() {
         imageUrl: images.forbidden,
         position: 'center',
         title: 'Room is busy',
-        html: `The room is limited to ${thisMaxRoomParticipants} users. <br/> Please try again later`,
+        html: renderRoomTemplate('tpl-room-busy-message', {
+            text: {
+                maxUsers: String(thisMaxRoomParticipants),
+            },
+        }),
         showDenyButton: false,
         confirmButtonText: `OK`,
         showClass: { popup: 'animate__animated animate__fadeInDown' },
@@ -1840,7 +1848,14 @@ function renderDynamicThemeCards() {
         card.className = 'theme-card';
         card.dataset.theme = name;
         card.dataset.index = index;
-        card.innerHTML = `<i class="${iconClass}"></i><span>${option.textContent}</span>`;
+        card.innerHTML = renderRoomTemplate('tpl-theme-card-content', {
+            text: {
+                label: option.textContent,
+            },
+            attrs: {
+                iconClass,
+            },
+        });
 
         // Apply dynamic icon color via inline style
         const icon = card.querySelector('i');
@@ -2118,7 +2133,7 @@ function userNameAlreadyInRoom() {
         imageUrl: images.forbidden,
         position: 'center',
         title: 'Username',
-        html: `The Username is already in use. <br/> Please try with another one`,
+        html: renderRoomTemplate('tpl-username-in-use-message'),
         showDenyButton: false,
         confirmButtonText: `OK`,
         showClass: { popup: 'animate__animated animate__fadeInDown' },
@@ -8370,14 +8385,11 @@ function shareRoomMeetingURL(checkScreen = false) {
         background: swBg,
         position: 'center',
         title: 'Share the room',
-        html: `
-        <div id="qrRoomContainer">
-            <canvas id="qrRoom"></canvas>
-        </div>
-        <br/>
-        <p style="color:rgb(8, 189, 89);">Join from your mobile device</p>
-        <p style="background:transparent; color:white; font-family: Arial, Helvetica, sans-serif;">No need for apps, simply capture the QR code with your mobile camera Or Invite someone else to join by sending them the following URL</p>
-        <p style="color:rgb(8, 189, 89);">${roomURL}</p>`,
+        html: renderRoomTemplate('tpl-share-room-modal', {
+            text: {
+                roomURL,
+            },
+        }),
         showDenyButton: true,
         showCancelButton: true,
         cancelButtonColor: 'red',
@@ -9731,7 +9743,11 @@ async function downloadRecordedStream() {
             </ul>
         <br/>
         `;
-        lastRecordingInfo.innerHTML = `<br/>Last recording info: ${recordingInfo}`;
+        lastRecordingInfo.innerHTML = renderRoomTemplate('tpl-last-recording-info', {
+            html: {
+                recordingInfo,
+            },
+        });
         recordingTime.innerText = '';
 
         msgHTML(
@@ -10719,17 +10735,15 @@ function handleSpeechTranscript(config) {
     // parser decodes back to " in attribute context (double-decode XSS).
     // Use a temporary id and setAttribute instead.
     const captionAvatarTmpId = `capt-av-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`;
-    const msgHTML = `
-	<div class="msg left-msg">
-        <img class="msg-img" id="${captionAvatarTmpId}" />
-		<div class="msg-caption-bubble">
-            <div class="msg-info">
-                <div class="msg-info-name">${peer_name} : ${time_stamp}</div>
-            </div>
-            <div class="msg-text">${text_data}</div>
-        </div>
-	</div>
-    `;
+    const msgHTML = renderRoomTemplate('tpl-caption-message', {
+        text: {
+            captionInfoText: `${peer_name} : ${time_stamp}`,
+            captionText: text_data,
+        },
+        attrs: {
+            captionAvatarTmpId,
+        },
+    });
     captionChat.insertAdjacentHTML('beforeend', msgHTML);
     const captionAvatarEl = document.getElementById(captionAvatarTmpId);
     if (captionAvatarEl) {
@@ -10810,23 +10824,7 @@ function appendMessage(from, img, side, msg, privateMsg, msgId = null, to = '') 
     // getImg is a user-controlled URL; use a temporary id and setAttribute
     // after insertion to avoid double-decode XSS via insertAdjacentHTML.
     const msgAvatarTmpId = `msg-av-${chatMessagesId}`;
-    let msgHTML = `
-	<div id="msg-${chatMessagesId}" class="msg ${getSide}-msg" data-sender="${getFrom}" data-chat-type="${
-        getPrivateMsg ? 'private' : 'public'
-    }" data-chat-peer="${conversationPeer}" data-msg-id="${normalizedMsgId}">
-        <img class="msg-img" id="${msgAvatarTmpId}" />
-		<div class=${msgBubble}>
-            <div class="msg-info">
-                <div class="msg-info-name">${getFrom}</div>
-                <div class="msg-info-time">${time}</div>
-            </div>
-            <div class="msg-text">
-            <span id="message-${chatMessagesId}"></span>
-                <hr/>
-                <div class="msg-footer">
-                    <div class="msg-actions">
-    `;
-    msgHTML += `
+    let messageActionsHTML = `
                 <button
                     id="msg-delete-${chatMessagesId}"
                     class="${className.trash}"
@@ -10839,7 +10837,7 @@ function appendMessage(from, img, side, msg, privateMsg, msgId = null, to = '') 
                     style="color:#fff; border:none; background:transparent;"
                     onclick="copyToClipboard('message-${chatMessagesId}')"
                 ></button>`;
-    msgHTML += `
+    messageActionsHTML += `
                 <button
                     id="msg-reaction-${chatMessagesId}"
                     class="reaction-toggle-btn"
@@ -10847,7 +10845,7 @@ function appendMessage(from, img, side, msg, privateMsg, msgId = null, to = '') 
                     onclick="toggleReactionPicker('${normalizedMsgId}', this)"
                 >😊</button>`;
     if (isSpeechSynthesisSupported) {
-        msgHTML += `
+        messageActionsHTML += `
                 <button
                     id="msg-speech-${chatMessagesId}"
                     class="${className.speech}" 
@@ -10855,14 +10853,26 @@ function appendMessage(from, img, side, msg, privateMsg, msgId = null, to = '') 
                     onclick="speechElementText(false, '${getFrom}', 'message-${chatMessagesId}')"
                 ></button>`;
     }
-    msgHTML += ` 
-                    </div>
-                    <div class="message-reactions"></div>
-                </div>
-            </div>
-        </div>
-    </div>
-    `;
+
+    const msgHTML = renderRoomTemplate('tpl-msger-chat-message', {
+        text: {
+            senderName: getFrom,
+            messageTime: time,
+        },
+        html: {
+            messageActions: messageActionsHTML,
+        },
+        attrs: {
+            messageContainerId: `msg-${chatMessagesId}`,
+            messageContainerClass: `msg ${getSide}-msg`,
+            chatType: getPrivateMsg ? 'private' : 'public',
+            chatPeer: conversationPeer,
+            messageId: normalizedMsgId,
+            messageAvatarTmpId: msgAvatarTmpId,
+            messageBubbleClass: msgBubble,
+            messageTextId: `message-${chatMessagesId}`,
+        },
+    });
 
     msgerChat.insertAdjacentHTML('beforeend', msgHTML);
     const msgAvatarEl = document.getElementById(msgAvatarTmpId);
@@ -11069,8 +11079,9 @@ function resolvePeerNameById(peerId = '') {
     if (peerId === CHAT_GPT_PEER_ID) return CHAT_GPT_NAME;
 
     const privateChatButton = getId(peerId + '_pMsgBtn');
-    if (privateChatButton?.value) {
-        return privateChatButton.value;
+    const privatePeerName = privateChatButton?.dataset?.value || privateChatButton?.getAttribute('data-value');
+    if (privatePeerName) {
+        return privatePeerName;
     }
 
     return allPeers[peerId]?.peer_name || '';
@@ -11104,31 +11115,22 @@ function ensureChatGPTConversationEntry() {
         return;
     }
 
-    const chatGPTEntry = `
-    <div id="${CHAT_GPT_PEER_ID}_pMsgDiv" class="msger-private-chat-entry" data-peer-name="${CHAT_GPT_NAME.toLowerCase()}">
-        <div
-            id="${CHAT_GPT_PEER_ID}_pMsgBtn"
-            class="msger-chat-item"
-            role="button"
-            tabindex="0"
-            data-value="${CHAT_GPT_NAME}"
-            data-peer-id="${CHAT_GPT_PEER_ID}"
-            title="${CHAT_GPT_NAME}"
-        >
-            <img
-                id="${CHAT_GPT_PEER_ID}_pMsgAvatar"
-                class="msger-chat-avatar"
-                src="${images.chatgpt}"
-                alt="${CHAT_GPT_NAME}"
-            />
-            <span class="msger-chat-item-copy">
-                <strong>${CHAT_GPT_NAME}</strong>
-                <small>Ask anything</small>
-            </span>
-            <span id="${CHAT_GPT_PEER_ID}_pMsgBadge" class="msger-chat-unread-badge hidden">0</span>
-        </div>
-    </div>
-    `;
+    const chatGPTEntry = renderRoomTemplate('tpl-chatgpt-participant-entry', {
+        text: {
+            participantName: CHAT_GPT_NAME,
+            participantSubtitle: 'Ask anything',
+        },
+        attrs: {
+            participantName: CHAT_GPT_NAME,
+            entryId: `${CHAT_GPT_PEER_ID}_pMsgDiv`,
+            entryPeerName: CHAT_GPT_NAME.toLowerCase(),
+            buttonId: `${CHAT_GPT_PEER_ID}_pMsgBtn`,
+            participantPeerId: CHAT_GPT_PEER_ID,
+            avatarId: `${CHAT_GPT_PEER_ID}_pMsgAvatar`,
+            avatarSrc: images.chatgpt,
+            badgeId: `${CHAT_GPT_PEER_ID}_pMsgBadge`,
+        },
+    });
 
     msgerCPList.insertAdjacentHTML('afterbegin', chatGPTEntry);
 
@@ -11471,28 +11473,33 @@ async function msgerAddPeers(peers) {
                     `;
                 }
 
-                const msgerPrivateDiv = `
-                <div id="${peer_id}_pMsgDiv" class="msger-private-chat-entry" data-peer-name="${peer_name.toLowerCase()}">
-                    <div id="${peer_id}_pMsgBtn" class="msger-chat-item" role="button" tabindex="0" data-value="${peer_name}" data-peer-id="${peer_id}" title="${peer_name}">
-                        <img id="${peer_id}_pMsgAvatar" class="msger-chat-avatar" src="${chatAvatar}" alt="${peer_name}" />
-                        <span class="msger-chat-item-copy">
-                            <strong>${peer_name}</strong>
-                            <small>Open private conversation</small>
-                        </span>
-                        <span id="${peer_id}_pMsgBadge" class="msger-chat-unread-badge hidden">0</span>
-                        <div id="${peer_id}_pDropdownMenu" class="dropdown-menu-custom msger-participant-dropdown">
-                            <button id="${peer_id}_pDropdownToggle" class="dropdown-toggle" type="button">
-                                <i class="fas fa-ellipsis-vertical"></i>
-                            </button>
-                            <ul id="${peer_id}_pDropdownMenuList" class="dropdown-menu-custom-list app-dropdown-menu msger-participant-dropdown-menu">
-                                ${dropdownOptions}
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                `;
+                const msgerPrivateDiv = renderRoomTemplate('tpl-msger-private-entry', {
+                    text: {
+                        participantName: peer_name,
+                        participantSubtitle: 'Open private conversation',
+                    },
+                    html: {
+                        dropdownOptions,
+                    },
+                    attrs: {
+                        participantName: peer_name,
+                        entryId: `${peer_id}_pMsgDiv`,
+                        entryPeerName: peer_name.toLowerCase(),
+                        buttonId: `${peer_id}_pMsgBtn`,
+                        participantPeerId: peer_id,
+                        avatarTmpId: `${peer_id}_pMsgAvatar`,
+                        badgeId: `${peer_id}_pMsgBadge`,
+                        dropdownMenuId: `${peer_id}_pDropdownMenu`,
+                        dropdownToggleId: `${peer_id}_pDropdownToggle`,
+                        dropdownListId: `${peer_id}_pDropdownMenuList`,
+                    },
+                });
 
                 msgerCPList.insertAdjacentHTML('beforeend', msgerPrivateDiv);
+                const participantAvatar = getId(`${peer_id}_pMsgAvatar`);
+                if (participantAvatar) {
+                    participantAvatar.setAttribute('src', chatAvatar);
+                }
                 msgerCPList.scrollTop += 500;
 
                 const msgerPrivateBtn = getId(peer_id + '_pMsgBtn');
@@ -11988,17 +11995,11 @@ function emitMsg(from, fromAvatar, to, msg, privateMsg, id, msgId = '') {
 function showAITypingIndicator(aiName) {
     const existing = getId(`ai-typing-${aiName}`);
     if (existing) return;
-    const typingHTML = `
-        <div id="ai-typing-${aiName}" class="msg left-msg">
-            <div class="ai-typing-indicator">
-                <div class="typing-dots">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </div>
-            </div>
-        </div>
-    `;
+    const typingHTML = renderRoomTemplate('tpl-ai-typing-indicator', {
+        attrs: {
+            typingIndicatorId: `ai-typing-${aiName}`,
+        },
+    });
     msgerChat.insertAdjacentHTML('beforeend', typingHTML);
     msgerChat.scrollTop = msgerChat.scrollHeight;
 }
@@ -14053,25 +14054,7 @@ function createStickyNote() {
     Swal.fire({
         background: swBg,
         title: 'Create Sticky Note',
-        html: `
-        <div class="sticky-note-form">
-            <textarea id="stickyNoteText" class="sticky-note-textarea" rows="4" placeholder="Type your note here...">Note</textarea>
-            <div class="sticky-note-colors-row">
-                <div class="sticky-note-color-group">
-                    <label for="stickyNoteColor" class="sticky-note-color-label">
-                        <i class="fas fa-palette"></i> Background
-                    </label>
-                    <input id="stickyNoteColor" type="color" value="#FFEB3B" class="sticky-note-color-input">
-                </div>
-                <div class="sticky-note-color-group">
-                    <label for="stickyNoteTextColor" class="sticky-note-color-label">
-                        <i class="fas fa-font"></i> Text
-                    </label>
-                    <input id="stickyNoteTextColor" type="color" value="#000000" class="sticky-note-color-input">
-                </div>
-            </div>
-        </div>
-        `,
+        html: renderRoomTemplate('tpl-sticky-note-form'),
         showCancelButton: true,
         confirmButtonText: 'Create',
         cancelButtonText: 'Cancel',
@@ -14198,25 +14181,13 @@ async function openFilePickerModal(config) {
         position: 'center',
         title: title,
         input: 'file',
-        html: `
-        <div class="mirotalk-file-picker">
-            <button type="button" id="mirotalkFileDropzone" class="mirotalk-file-dropzone">
-                <span class="mirotalk-file-dropzone-icon"><i class="fas fa-cloud-upload-alt"></i></span>
-                <span id="mirotalkFileDropzoneTitle" class="mirotalk-file-dropzone-title">${emptyStateTitle}</span>
-                <span id="mirotalkFileDropzoneSubtitle" class="mirotalk-file-dropzone-subtitle">${emptyStateSubtitle}</span>
-                <span class="mirotalk-file-dropzone-helper">${helperText}</span>
-                <span id="mirotalkFileBrowseBtn" class="mirotalk-file-dropzone-cta">Browse files</span>
-            </button>
-            <div id="mirotalkFilePreview" class="mirotalk-file-preview" hidden>
-                <div class="mirotalk-file-preview-icon"><i class="fas fa-file-alt"></i></div>
-                <div class="mirotalk-file-preview-meta">
-                    <strong id="mirotalkFileName">No file selected</strong>
-                    <span id="mirotalkFileDetails"></span>
-                </div>
-                <button type="button" id="mirotalkFileRemoveBtn" class="mirotalk-file-preview-remove">Remove</button>
-            </div>
-        </div>
-        `,
+        html: renderRoomTemplate('tpl-file-picker-modal', {
+            text: {
+                emptyStateTitle,
+                emptyStateSubtitle,
+                helperText,
+            },
+        }),
         inputAttributes: {
             accept: accept,
             'aria-label': title,
@@ -15742,11 +15713,11 @@ function handleKickedOut(config) {
         position: 'center',
         imageUrl: images.leave,
         title: 'Kicked out!',
-        html:
-            `<h2 style="color: #FF2D00;">` +
-            `User ` +
-            peer_name +
-            `</h2> will kick out you after <b style="color: #FF2D00;"></b> milliseconds.`,
+        html: renderRoomTemplate('tpl-kicked-out-modal', {
+            text: {
+                peerName: peer_name,
+            },
+        }),
         timer: 5000,
         timerProgressBar: true,
         didOpen: () => {
@@ -15776,50 +15747,19 @@ function handleKickedOut(config) {
 function showAbout() {
     playSound('newMessage');
 
+    const aboutHtml = brand.about.html;
+
     Swal.fire({
         background: swBg,
         position: 'center',
-        title: brand.about?.title && brand.about.title.trim() !== '' ? brand.about.title : 'WebRTC P2P v1.8.28',
+        title: brand.about?.title && brand.about.title.trim() !== '' ? brand.about.title : 'WebRTC P2P v1.8.30',
         imageUrl: brand.about?.imageUrl && brand.about.imageUrl.trim() !== '' ? brand.about.imageUrl : images.about,
         customClass: { image: 'img-about' },
-        html: `
-            <br/>
-            <div id="about">
-                ${
-                    brand.about?.html && brand.about.html.trim() !== ''
-                        ? brand.about.html
-                        : `
-                        <button 
-                            id="support-button" 
-                            data-umami-event="Support button" 
-                            onclick="window.open('https://codecanyon.net/user/miroslavpejic85', '_blank')">
-                            <i class="${className.heart}"></i>&nbsp;Support
-                        </button>
-                        <br /><br /><br />
-                        Author: 
-                        <a 
-                            id="linkedin-button" 
-                            data-umami-event="Linkedin button" 
-                            href="https://www.linkedin.com/in/miroslav-pejic-976a07101/" 
-                            target="_blank"> 
-                            Miroslav Pejic
-                        </a>
-                        <br /><br />
-                        Email: 
-                        <a 
-                            id="email-button" 
-                            data-umami-event="Email button" 
-                            href="mailto:miroslav.pejic.85@gmail.com?subject=MiroTalk P2P info"> 
-                            miroslav.pejic.85@gmail.com
-                        </a>
-                        <br /><br />
-                        <hr />
-                        <span>&copy; 2025 MiroTalk P2P, all rights reserved</span>
-                        <hr />
-                        `
-                }
-            </div>
-        `,
+        html: renderRoomTemplate('tpl-about-modal', {
+            html: {
+                aboutHtml,
+            },
+        }),
         showClass: { popup: 'animate__animated animate__fadeInDown' },
         hideClass: { popup: 'animate__animated animate__fadeOutUp' },
     });
@@ -16941,4 +16881,51 @@ function displayElements(elements) {
  */
 function sleep(ms) {
     return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+/**
+ * Render HTML template with provided data
+ * @param {string} templateId - ID of the <template> element
+ * @param {object} data - Data to populate the template
+ * @param {object} data.text - Key-value pairs for text content (data-template-text)
+ * @param {object} data.html - Key-value pairs for HTML content (data-template-html
+ * @param {object} data.attrs - Key-value pairs for attributes (data-template-attr-*)
+ * @returns {string} Rendered HTML string
+ */
+function renderRoomTemplate(templateId, { text = {}, html = {}, attrs = {} } = {}) {
+    const template = document.getElementById(templateId);
+    if (!template || !template.content) return '';
+
+    const wrapper = document.createElement('div');
+    wrapper.appendChild(template.content.cloneNode(true));
+
+    wrapper.querySelectorAll('*').forEach((element) => {
+        element.getAttributeNames().forEach((name) => {
+            if (!name.startsWith('data-template-attr-')) return;
+
+            const attrName = name.replace('data-template-attr-', '');
+            const key = element.getAttribute(name);
+            const value = attrs[key];
+
+            if (value === undefined || value === null) {
+                element.removeAttribute(attrName);
+            } else {
+                element.setAttribute(attrName, value);
+            }
+
+            element.removeAttribute(name);
+        });
+    });
+
+    wrapper.querySelectorAll('[data-template-text]').forEach((element) => {
+        const key = element.getAttribute('data-template-text');
+        element.textContent = text[key] ?? '';
+    });
+
+    wrapper.querySelectorAll('[data-template-html]').forEach((element) => {
+        const key = element.getAttribute('data-template-html');
+        element.innerHTML = html[key] ?? '';
+    });
+
+    return wrapper.innerHTML.trim();
 }

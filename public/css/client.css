@@ -1996,15 +1996,15 @@ body {
 }
 
 .msg-grouped .msg-img {
-    visibility: hidden;
+    visibility: visible;
 }
 
 .msg-grouped .msg-info-name {
-    display: none;
+    display: inline;
 }
 
 .msg-grouped .msg-info {
-    justify-content: flex-end;
+    justify-content: space-between;
 }
 
 .msger-copy-txt {
@@ -2902,6 +2902,16 @@ button {
     align-items: center;
 }
 
+.share-room-modal-highlight {
+    color: rgb(8, 189, 89);
+}
+
+.share-room-modal-description {
+    background: transparent;
+    color: #fff;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
 #qrRoomPopupContainer {
     z-index: 9999;
     position: fixed;
@@ -2928,6 +2938,11 @@ button {
 #qrRoomPopup {
     width: 256px;
     height: 256px;
+}
+
+.kicked-out-modal-alert-title,
+.kicked-out-modal-alert-time {
+    color: #ff2d00;
 }
 
 /*--------------------------------------------------------------
