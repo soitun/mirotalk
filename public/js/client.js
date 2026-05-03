@@ -15,7 +15,7 @@
  * @license For commercial use or closed source, contact us at license.mirotalk@gmail.com or purchase directly from CodeCanyon
  * @license CodeCanyon: https://codecanyon.net/item/mirotalk-p2p-webrtc-realtime-video-conferences/38376661
  * @author  Miroslav Pejic - miroslav.pejic.85@gmail.com
- * @version 1.8.30
+ * @version 1.8.31
  *
  */
 
@@ -15752,7 +15752,7 @@ function showAbout() {
     Swal.fire({
         background: swBg,
         position: 'center',
-        title: brand.about?.title && brand.about.title.trim() !== '' ? brand.about.title : 'WebRTC P2P v1.8.30',
+        title: brand.about?.title && brand.about.title.trim() !== '' ? brand.about.title : 'WebRTC P2P v1.8.31',
         imageUrl: brand.about?.imageUrl && brand.about.imageUrl.trim() !== '' ? brand.about.imageUrl : images.about,
         customClass: { image: 'img-about' },
         html: renderRoomTemplate('tpl-about-modal', {
@@ -16883,49 +16883,4 @@ function sleep(ms) {
     return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-/**
- * Render HTML template with provided data
- * @param {string} templateId - ID of the <template> element
- * @param {object} data - Data to populate the template
- * @param {object} data.text - Key-value pairs for text content (data-template-text)
- * @param {object} data.html - Key-value pairs for HTML content (data-template-html
- * @param {object} data.attrs - Key-value pairs for attributes (data-template-attr-*)
- * @returns {string} Rendered HTML string
- */
-function renderRoomTemplate(templateId, { text = {}, html = {}, attrs = {} } = {}) {
-    const template = document.getElementById(templateId);
-    if (!template || !template.content) return '';
-
-    const wrapper = document.createElement('div');
-    wrapper.appendChild(template.content.cloneNode(true));
-
-    wrapper.querySelectorAll('*').forEach((element) => {
-        element.getAttributeNames().forEach((name) => {
-            if (!name.startsWith('data-template-attr-')) return;
-
-            const attrName = name.replace('data-template-attr-', '');
-            const key = element.getAttribute(name);
-            const value = attrs[key];
-
-            if (value === undefined || value === null) {
-                element.removeAttribute(attrName);
-            } else {
-                element.setAttribute(attrName, value);
-            }
-
-            element.removeAttribute(name);
-        });
-    });
-
-    wrapper.querySelectorAll('[data-template-text]').forEach((element) => {
-        const key = element.getAttribute('data-template-text');
-        element.textContent = text[key] ?? '';
-    });
-
-    wrapper.querySelectorAll('[data-template-html]').forEach((element) => {
-        const key = element.getAttribute('data-template-html');
-        element.innerHTML = html[key] ?? '';
-    });
-
-    return wrapper.innerHTML.trim();
-}
+// renderRoomTemplate is defined in roomTemplate.js
