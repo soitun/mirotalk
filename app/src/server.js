@@ -45,7 +45,7 @@ dependencies: {
  * @license For commercial use or closed source, contact us at license.mirotalk@gmail.com or purchase directly from CodeCanyon
  * @license CodeCanyon: https://codecanyon.net/item/mirotalk-p2p-webrtc-realtime-video-conferences/38376661
  * @author  Miroslav Pejic - miroslav.pejic.85@gmail.com
- * @version 1.8.64
+ * @version 1.8.65
  *
  */
 
@@ -1072,9 +1072,11 @@ app.get(`${apiBasePath}/activeRooms`, (req, res) => {
             error: 'This endpoint has been disabled. Please contact the administrator for further information.',
         });
     }
-    // check if user was authorized for the api call
-    const { host, authorization = api_key_secret } = req.headers;
-    const api = new ServerApi(host, authorization, api_key_secret);
+    // Public endpoint gated only by config.ui.rooms.showActive: when enabled it
+    // intentionally returns the active rooms list without authorization so the
+    // event-zone dashboard (/activeRooms) can display it.
+    const { host } = req.headers;
+    const api = new ServerApi(host);
 
     // Get active rooms
     const activeRooms = api.getActiveRooms(peers);
