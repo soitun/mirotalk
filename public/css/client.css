@@ -402,6 +402,11 @@ body {
     box-shadow: 0 0 0 2px rgba(70, 120, 249, 0.15);
 }
 
+.init-user select option {
+    background: var(--select-bg);
+    color: white;
+}
+
 .init-user button {
     width: 50px;
     padding: 10px;
