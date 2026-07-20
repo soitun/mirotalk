@@ -435,6 +435,8 @@ const shareMediaAudioVideoBtn = getId('shareMediaAudioVideoBtn');
 // My whiteboard
 const whiteboard = getId('whiteboard');
 const whiteboardHeader = getId('whiteboardHeader');
+const whiteboardBottomDragHandle = getId('whiteboardBottomDragHandle');
+const whiteboardBottomLeftDragHandle = getId('whiteboardBottomLeftDragHandle');
 const whiteboardTitle = getId('whiteboardTitle');
 const whiteboardOptions = getId('whiteboardOptions');
 const wbDrawingColorEl = getId('wbDrawingColorEl');
@@ -6949,6 +6951,8 @@ function setMyHandBtn() {
  */
 function setMyWhiteboardBtn() {
     dragElement(whiteboard, whiteboardHeader);
+    dragElement(whiteboard, whiteboardBottomDragHandle);
+    dragElement(whiteboard, whiteboardBottomLeftDragHandle);
 
     setupWhiteboard();
 
@@ -16070,8 +16074,10 @@ function dragElement(elmnt, dragObj) {
         pos2 = pos4 - e.clientY;
         pos3 = e.clientX;
         pos4 = e.clientY;
-        // set the element's new position:
-        elmnt.style.top = elmnt.offsetTop - pos2 + 'px';
+        // set the element's new position with top boundary check (min 0px):
+        let newTop = elmnt.offsetTop - pos2;
+        if (newTop < 0) newTop = 0;
+        elmnt.style.top = newTop + 'px';
         elmnt.style.left = elmnt.offsetLeft - pos1 + 'px';
     }
 
