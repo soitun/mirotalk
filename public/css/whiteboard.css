@@ -423,7 +423,9 @@
     cursor: move;
     z-index: 100;
     opacity: 0;
-    transition: background-color 0.2s ease, opacity 0.3s ease-in-out;
+    transition:
+        background-color 0.2s ease,
+        opacity 0.3s ease-in-out;
 }
 
 .whiteboard-bottom-handle:hover {
@@ -448,7 +450,9 @@
     cursor: move;
     z-index: 100;
     opacity: 0;
-    transition: background-color 0.2s ease, opacity 0.3s ease-in-out;
+    transition:
+        background-color 0.2s ease,
+        opacity 0.3s ease-in-out;
 }
 
 .whiteboard-bottom-left-handle:hover {
@@ -459,4 +463,12 @@
 #drag-handle-bottom-right:hover,
 #drag-handle-bottom-left:hover {
     opacity: 1;
+}
+
+/* Hide secondary drag handles on touch/mobile devices (no hover, dragElement is mouse-only) */
+@media (hover: none), (pointer: coarse) {
+    .whiteboard-bottom-handle,
+    .whiteboard-bottom-left-handle {
+        display: none;
+    }
 }
